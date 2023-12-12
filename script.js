@@ -6,7 +6,7 @@ class Game {
         this.des = this.genereDes(5);
         this.desSelec = [];
         this.genereButton();
-        this.afficherDes(this.des, this.desSelec);
+        this.afficherDes(this.des);
         this.essai = 0
     }
 
@@ -19,6 +19,7 @@ class Game {
     }
     genereButton() {
         const button = document.createElement("button");
+        button.className = "submit";
         button.innerHTML = "Lancer les dés";
         button.onclick = () => {
             this.relancerDes();
@@ -26,76 +27,85 @@ class Game {
         document.body.appendChild(button);
     }
 
-    afficherDes(desAfficher, desSelec) {
-        // let diceContainer = document.getElementById("diceContainer");
-
-        let diceContainerSelect = document.getElementById("diceContainerSelected");
-        let diceContainer = document.getElementById("diceContainerPending");
-
+    creerBoutonDe(valeur, index, isSelected, onclick = true) {
+        const diceButton = document.createElement("button");
+        diceButton.className = "dice" + (isSelected ? " selected" : "");
+        diceButton.textContent = valeur;
+        if(onclick){
+            diceButton.onclick = () => {
+                isSelected ? this.selectionDeSelected(diceButton, index) : this.selectionDe(diceButton, index);
+            };
+        }
+        return diceButton;
+    }
+    afficherDesSelec(desAfficher, onclick) {
+        let diceContainer = document.getElementById("diceContainerSelected");
         diceContainer.innerHTML = "";
         desAfficher.forEach((valeur, index) => {
-            const diceButton = document.createElement("button");
-            diceButton.className = "dice";
-            diceButton.textContent = valeur;
-            diceButton.onclick = () => {
-                this.selectionDe(diceButton, index);
-            };
+            const diceButton = this.creerBoutonDe(valeur, index, true, onclick);
             diceContainer.appendChild(diceButton);
-        });
-
-        desSelec.forEach((valeur, index) => {
-            const diceButton = document.createElement("button");
-            diceButton.className = "dice";
-            diceButton.textContent = valeur;
-            diceButton.onclick = () => {
-                this.selectionDe(diceButton, index);
-            };
-            diceContainerSelect.appendChild(diceButton);
         });
     }
+
+    afficherDes(desAfficher) {
+        if(desAfficher) {
+            let diceContainer = document.getElementById("diceContainerPending");
+            diceContainer.innerHTML = "";
+            desAfficher.forEach((valeur, index) => {
+                const diceButton = this.creerBoutonDe(valeur, index, false);
+                diceContainer.appendChild(diceButton);
+            });
+        }
+    }
+
     selectionDe(diceButton, index) {
         const diceContainerSelected = document.getElementById("diceContainerSelected");
-        const diceContainer = document.getElementById("diceContainerPending");
-        const parentContainer = diceButton.parentElement;
-        console.log(parentContainer.id)
-        if (parentContainer.id === "diceContainerPending") {
-            diceContainerSelected.appendChild(diceButton);
-            this.desSelec.push(this.des[index]); // Ajoute la valeur dans desSelec
-            this.des.splice(index, 1); // Supprime la valeur de des
-        } else {
-            diceContainer.appendChild(diceButton);
-            console.log(index)
-            this.des.push(this.desSelec[index]); // Ajoute la valeur dans des
-            
-            this.desSelec.splice(index, 1); 
-            // this.desSelec.push(this.des[index]);
-            // const value = this.desSelec.splice(index, 1)[0]; // Récupère la valeur de desSelec
-            // this.des.push(value);
-        }
-
-        diceButton.classList.toggle("selected");
+        diceButton.classList.add("selected");
+        this.desSelec.push(this.des[index]);
+        this.des.splice(index, 1);
+        diceContainerSelected.appendChild(diceButton);
+        this.afficherDes(this.des);
+        this.afficherDesSelec(this.desSelec);
         console.log("Des:", this.des);
         console.log("Des sélectionnés:", this.desSelec);
     }
 
+    selectionDeSelected(diceButton, index) {
+        const diceContainerPending = document.getElementById("diceContainerPending");
+        diceButton.classList.remove("selected");
+        this.des.push(this.desSelec[index]);
+        this.desSelec.splice(index, 1);
+        diceContainerPending.appendChild(diceButton);
+        this.afficherDes(this.des);
+        this.afficherDesSelec(this.desSelec);
 
-
+        console.log("Des:", this.des);
+        console.log("Des sélectionnés:", this.desSelec);
+    }
+    removeButton() {
+        const button = document.querySelector(".submit");
+        document.body.removeChild(button);
+    }
     relancerDes() {
-
-        // const diceButtons = document.getElementsByClassName("dice");
-        // for (let i = 0; i < diceButtons.length; i++) {
-        //     if (diceButtons[i].classList.contains("selected")) {
-        //         this.desSelec.push(i);
-        //     }
-        // }
-        console.log("____________")
-        console.log(this.des)
-
-        console.log("____________")
-        console.log(this.desSelec)
-
+        const diceContainerPending = document.getElementById("diceContainerPending");
+        const diceContainerSelected = document.getElementById("diceContainerSelected");
+        
+        diceContainerPending.innerHTML = "";
+        diceContainerSelected.innerHTML = "";
+        if(this.essai < 2) {
+            this.des = this.genereDes(this.des.length);
+            this.afficherDes(this.des);
+            this.afficherDesSelec(this.desSelec);
+            this.essai++;
+        } else {
+            console.log("Plus de 3 essais")
+            this.removeButton();
+            const finaldices = this.desSelec.concat(this.des);
+            console.log(finaldices)
+            this.afficherDes();
+            this.afficherDesSelec(finaldices, false);
+        }
 
     }
-
 
 }

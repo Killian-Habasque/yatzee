@@ -1,121 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Yams</title>
-  <style>
-    .dice,
-    .dice2 {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      margin: 5px;
-      font-size: 24px;
-      text-align: center;
-      cursor: pointer;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-    .selected {
-      opacity: 0.2;
-    }
-  </style>
 </head>
 
 <body>
-  <div id="diceContainerSelected" class="valide">
-    <!-- Les boutons pour les dés seront ajoutés ici -->
-  </div>
-  <div id="diceContainer" class="pending">
-    <!-- Les boutons pour les dés seront ajoutés ici -->
-  </div>
-  <button onclick="lancer()">Lancer les dés</button>
-
-  <script>
-    let des = [];
-    let desSelectionnesIndex = [];
-    let desSelectionnes = [];
-    function lancerDes(nbrDes) {
-      let desLancer = [];
-      for (let i = 0; i < nbrDes; i++) {
-        desLancer.push(Math.floor(Math.random() * 6) + 1);
-      }
-      return desLancer;
-    }
-
-    function afficherDes(desAfficher) {
-      const diceContainer = document.getElementById("diceContainer");
-      diceContainer.innerHTML = "";
-      desAfficher.forEach((valeur, index) => {
-        const diceButton = document.createElement("button");
-        diceButton.className = "dee dice";
-        diceButton.textContent = valeur;
-        diceButton.onclick = function () {
-          toggleSelection(index);
-        };
-        diceContainer.appendChild(diceButton);
-      });
-    }
-    function afficherDesSelec(desAfficher) {
-      const diceContainer = document.getElementById("diceContainerSelected");
-      diceContainer.innerHTML = "";
-      desAfficher.forEach((valeur, index) => {
-        const diceButton = document.createElement("button");
-        diceButton.className = "dee dice2 selected";
-        diceButton.textContent = valeur;
-        diceButton.onclick = function () {
-          toggleSelection2(index);
-        };
-        diceContainer.appendChild(diceButton);
-      });
-    }
-    function toggleSelection(index) {
-      // Pour simplifier, on peut juste changer la couleur du dé sélectionné
-      var diceContainer = document.getElementById('diceContainerSelected');
-      const diceButtons = document.getElementsByClassName("dice");
-      diceButtons[index].classList.toggle("selected");
-      diceContainer.appendChild(diceButtons[index]);
-    }
-    function toggleSelection2(index) {
-      // Pour simplifier, on peut juste changer la couleur du dé sélectionné
-      const diceButtons = document.getElementsByClassName("dice2");
-      diceButtons[index].classList.toggle("selected");
-    }
-    function lancer() {
-      let desSelectionnesIndex = [];
-      let nouveauxDes = [];
-      const diceButtons = document.getElementsByClassName("dee");
-      for (let i = 0; i < diceButtons.length; i++) {
-        if (diceButtons[i].classList.contains("selected")) {
-          desSelectionnesIndex.push(i);
-          desSelectionnes.push(des[i]);
-        }
-      }
-      console.log("-------------------------")
-      console.log("----------- Dé index")
-      console.log(desSelectionnesIndex)
-      console.log("----------- Dé Sélectionné")
-      console.log(desSelectionnes)
-      console.log("----------- test")
-      // console.log(nouveauxDes)
-      const desARelancer = des.filter((des, index) => !desSelectionnesIndex.includes(index));
-      console.log("----------- Dé à relancer")
-      console.log(desARelancer)
-      des = lancerDes(desARelancer.length);
-      console.log("----------- Nouveau dé")
-      console.log(des)
-
-      // let indexNouveauxDes = 0;
-      // desSelectionnesIndex.forEach(index => {
-      //   des[index] = nouveauxDes[indexNouveauxDes++];
-      // });
-
-      afficherDesSelec(desSelectionnes);
-      afficherDes(des);
-    }
-
-    des = lancerDes(5); // Lancer initial
-    afficherDes(des);
-  </script>
+    <div id="diceContainer">
+        <div id="diceContainerSelected"></div>
+        <div id="diceContainerPending"></div>
+    </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
+<style>
+    .dice {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .selected {
+        opacity: 0.4;
+    }
+</style>
+<script>
+    let dees = new Game()
+
+</script>
