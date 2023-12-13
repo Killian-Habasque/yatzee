@@ -104,6 +104,69 @@
 // }
 
 
+class Sheet {
+    constructor() {
+        this.sheet = {
+            1: null,
+            2: null,
+            3: null,
+            4: null,
+            5: null,
+            6: null,
+            "Bonus": null,
+            "Chance": null,
+            "Petite suite": null,
+            "Grande suite": null,
+            "Full": null,
+            "Carré": null,
+            "Yam's": null
+        };
+        this.score = null;
+
+        this.initialize();
+    }
+    initialize() {
+        console.log(this.sheet)
+    }
+    displaySheet() {
+        
+    }
+    compare(dice) {
+        console.log(dice)
+        dice.sort((a, b) => a - b);
+        console.log(dice)
+
+        const counts = {};
+        dice.forEach((die) => {
+            counts[die] = (counts[die] || 0) + 1;
+        });
+        switch (true) {
+            case (Object.values(counts).includes(5)):
+                // Yam's
+                this.sheet["Yam's"] = dice.reduce((acc, curr) => acc + curr, 0); // Score = somme de tous les dés
+                break;
+            case (Object.values(counts).includes(4)):
+                // Carré
+                const fourOfAKindValue = Object.keys(counts).find(key => counts[key] === 4);
+                this.sheet["Carré"] = dice.reduce((acc, curr) => curr === parseInt(fourOfAKindValue) ? acc + curr : acc, 0); // Score = somme des dés du Carré
+                break;
+            case (Object.values(counts).includes(3) && Object.values(counts).includes(2)):
+                // Full
+                this.sheet["Full"] = 25; // Score standard pour un Full
+                break;
+            case (Object.values(counts).includes(1)):
+                for (let i = 1; i <= 6; i++) {
+                    const count = dice.filter(die => die === i).length;
+                    this.sheet[i] = count * i;
+                }
+                break;
+        }
+
+        console.log(this.sheet);
+        // calcul  des dés
+        // comparaison 
+    }
+}
 
 
 class Button {
@@ -116,7 +179,7 @@ class Button {
     }
     remove() {
         this.button.parentNode.removeChild(this.button);
-        this.button.onclick = null; 
+        this.button.onclick = null;
     }
 }
 
@@ -138,6 +201,8 @@ class Game {
         this.dice = this.generateDice(5);
         this.afficherDes(this.dice);
         this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
+
+        this.sheet = new Sheet()
     }
 
     generateDice(nbrDice) {
@@ -153,7 +218,7 @@ class Game {
         const diceButton = document.createElement("button");
         diceButton.className = "dice" + (isSelected ? " selected" : "");
         diceButton.textContent = valeur;
-        if(onclick){
+        if (onclick) {
             diceButton.onclick = () => {
                 isSelected ? this.selectionDeSelected(diceButton, index) : this.selectionDe(diceButton, index);
             };
@@ -176,7 +241,7 @@ class Game {
     }
 
     afficherDes(desAfficher) {
-        if(desAfficher) {
+        if (desAfficher) {
             let diceContainer = document.getElementById("diceContainerPending");
             diceContainer.innerHTML = "";
             desAfficher.forEach((valeur, index) => {
@@ -215,10 +280,12 @@ class Game {
     rollDice() {
         const diceContainerPending = document.getElementById("diceContainerPending");
         const diceContainerSelected = document.getElementById("diceContainerSelected");
-        
+
         diceContainerPending.innerHTML = "";
         diceContainerSelected.innerHTML = "";
-        if(this.attempts < 2) {
+        const finaldices = this.selectedDice.concat(this.dice);
+        
+        if (this.attempts < 2) {
             this.dice = this.generateDice(this.dice.length);
             this.afficherDes(this.dice);
             this.afficherDesSelec(this.selectedDice);
@@ -226,17 +293,18 @@ class Game {
         } else {
             console.log("Plus de 3 essais")
             this.button.remove();
-            const finaldices = this.selectedDice.concat(this.dice);
-            console.log(finaldices)
+            
+
             this.afficherDes();
             this.afficherDesSelec(finaldices, false);
         }
-
+      
+        this.sheet.compare(finaldices)
     }
 
 }
 
 
 window.onload = function () {
-    let dees = new Game()
+    new Game()
 };
