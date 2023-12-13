@@ -129,12 +129,10 @@ class Sheet {
         console.log(this.sheet)
     }
     displaySheet() {
-        
+
     }
     compare(dice) {
-        console.log(dice)
         dice.sort((a, b) => a - b);
-        console.log(dice)
 
         const counts = {};
         dice.forEach((die) => {
@@ -152,12 +150,34 @@ class Sheet {
                 break;
             case (Object.values(counts).includes(3) && Object.values(counts).includes(2)):
                 // Full
-                this.sheet["Full"] = 25; // Score standard pour un Full
+                this.sheet["Full"] = 25;
                 break;
             case (Object.values(counts).includes(1)):
+
+                // Chiffres
                 for (let i = 1; i <= 6; i++) {
                     const count = dice.filter(die => die === i).length;
                     this.sheet[i] = count * i;
+                }
+
+                const isSmallStraight = (arr) => {
+                    const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
+                    return uniqueValues.length >= 4 && (uniqueValues[3] - uniqueValues[0] === 3);
+                };
+
+                const isLargeStraight = (arr) => {
+                    const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
+                    return uniqueValues.length === 5 && (uniqueValues[4] - uniqueValues[0] === 4);
+                };
+
+                // Petite suite
+                if (isSmallStraight(dice)) {
+                    this.sheet["Petite suite"] = 30;
+                }
+
+                // Grande suite
+                if (isLargeStraight(dice)) {
+                    this.sheet["Grande suite"] = 40; // Score pour une grande suite
                 }
                 break;
         }
@@ -183,6 +203,17 @@ class Button {
     }
 }
 
+
+class Die {
+    constructor(value, index) {
+        this.value = value;
+        this.index = index;
+        this.selected = false;
+    }
+    toggleSelection() {
+        this.selected = !this.selected;
+    }
+}
 
 
 class Game {
@@ -284,7 +315,7 @@ class Game {
         diceContainerPending.innerHTML = "";
         diceContainerSelected.innerHTML = "";
         const finaldices = this.selectedDice.concat(this.dice);
-        
+
         if (this.attempts < 2) {
             this.dice = this.generateDice(this.dice.length);
             this.afficherDes(this.dice);
@@ -293,12 +324,12 @@ class Game {
         } else {
             console.log("Plus de 3 essais")
             this.button.remove();
-            
+
 
             this.afficherDes();
             this.afficherDesSelec(finaldices, false);
         }
-      
+
         this.sheet.compare(finaldices)
     }
 
