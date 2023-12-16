@@ -142,33 +142,27 @@ class Die {
         this.index = index;
         this.selected = false;
     }
-    displayDice() { 
+    createDie() {
+        const dieButton = document.createElement("button");
+        dieButton.className = "dice" + (this.selected ? " selected" : "");
+        dieButton.textContent = this.value;
+        dieButton.onclick = () => {
+            this.selected = !this.selected;
+            this.displayDice(this.selected, dieButton)
+            game.toggleDice(this);
+        };
+
+        this.displayDice(this.selected, dieButton)
+    }
+    displayDice(selected, dieButton) {
         const diceContainerPending = document.getElementById("diceContainerPending");
         const diceContainerSelected = document.getElementById("diceContainerSelected");
-        const diceButton = document.createElement("button");
-        diceButton.className = "dice" + (this.selected ? " selected" : "");
-        diceButton.textContent = this.value;
-        diceButton.onclick = () => {
-            this.selected = !this.selected;
-            console.log(this.selected)
-            // game.displayAllDice();
-            if(this.selected ) {
-                // this.selectedDice.push(die);
-                diceContainerSelected.appendChild(diceButton); 
-            } else {
-                diceContainerPending.appendChild(diceButton);  
-            } 
-        };
-        // return diceButton;
-        if(this.selected ) {
-            // this.selectedDice.push(die);
-            diceContainerSelected.appendChild(diceButton); 
+        if (selected) {
+            diceContainerSelected.appendChild(dieButton);
         } else {
-
-            diceContainerPending.appendChild(diceButton);  
-        } 
+            diceContainerPending.appendChild(dieButton);
+        }
     }
-    
 }
 
 
@@ -194,128 +188,53 @@ class Game {
     generateDice(numDice) {
         return Array.from({ length: numDice }, (value, index) => new Die(Math.floor(Math.random() * 6) + 1, index));
     }
+    toggleDice(die) {
+        this.dice.push(die);
+        this.dice = this.dice.filter(die => !die.selected);
+        this.selectedDice.push(die);
+        this.selectedDice = this.selectedDice.filter(die => die.selected);
 
-    displayAllDice() {
-        // const diceContainerPending = document.getElementById("diceContainerPending");
-        // const diceContainerSelected = document.getElementById("diceContainerSelected");
-        // diceContainerPending.innerHTML = ""; 
-        // diceContainerSelected.innerHTML = "";
-        // this.selectedDice = [];
-
-        this.dice.forEach(die => {
-            console.log(die)
-            die.displayDice();
-            // if(die.selected) {
-            //     this.selectedDice.push(die);
-            //     diceContainerSelected.appendChild(diceButton); 
-            // } else {
-
-            //     diceContainerPending.appendChild(diceButton);  
-            // } 
-        });
-        // const deselectedDice = this.dice.filter(die => !die.selected);
-        // this.dice = [...deselectedDice, ...this.selectedDice];
-        // console.log(this.selectedDice)
-        // console.log(this.dice)
+        console.log(this.selectedDice)
+        console.log(this.dice)
     }
-    
-    // displayDice(dice) {
-    //     let diceContainer = document.getElementById("diceContainerPending");
-    //     diceContainer.innerHTML = "";
-    //     if (dice) {
-    //         dice.forEach((die) => {
-    //             const diceButton = this.createDice(die.value, die.index, false);
-    //             diceContainer.appendChild(diceButton);
-    //         });
-    //     }
-    // }
-    // displayDiceSelected(dice) {
-    //     let diceContainer = document.getElementById("diceContainerSelected");
-    //     diceContainer.innerHTML = "";
-    //     dice.forEach((die) => {
-    //         const diceButton = this.createDice(die.value, die.index, true);
-    //         diceContainer.appendChild(diceButton);
-    //     });
-    // }
-
-    // createDice(valeur, index, isSelected) {
-    //     const diceButton = document.createElement("button");
-    //     diceButton.className = "dice" + (isSelected ? " selected" : "");
-    //     diceButton.textContent = valeur;
-    //     diceButton.onclick = () => {
-    //         isSelected ? this.toggleDieSelected(diceButton, index) : this.toggleDie(diceButton, index);
-    //     };
-    //     return diceButton;
-    // }
-
-    // toggleDie(diceButton, index) {
-    //     const diceContainerSelected = document.getElementById("diceContainerSelected");
-    //     diceButton.classList.toggle("selected");
-    //     this.dice[index].selected = !this.dice[index].selected;
-
-    //     const selectedDie = this.dice.splice(index, 1)[0];
-    //     selectedDie.index = this.selectedDice.length;
-    //     this.selectedDice.push(selectedDie);
-
-    //     this.dice.forEach((die, idx) => {
-    //         die.index = idx;
-    //     });
-
-    //     diceContainerSelected.appendChild(diceButton);
-    //     this.displayDice(this.dice);
-    //     this.displayDiceSelected(this.selectedDice);
-
-    //     console.log("Des:", this.dice);
-    //     console.log("Des sélectionnés:", this.selectedDice);
-    // }
-
-    // toggleDieSelected(diceButton, index) {
-    //     const diceContainerPending = document.getElementById("diceContainerPending");
-    //     diceButton.classList.toggle("selected");
-    //     this.dice[index].selected = !this.dice[index].selected;
-
-    //     const unselectedDie = this.selectedDice.splice(index, 1)[0];
-    //     unselectedDie.index = this.dice.length;
-    //     this.dice.push(unselectedDie);
-
-    //     this.selectedDice.forEach((die, idx) => {
-    //         die.index = idx;
-    //     });
-
-    //     diceContainerPending.appendChild(diceButton);
-    //     this.displayDice(this.dice);
-    //     this.displayDiceSelected(this.selectedDice);
-
-    //     console.log("Des:", this.dice);
-    //     console.log("Des sélectionnés:", this.selectedDice);
-    // }
-
+    displayAllDice() {
+        this.dice.forEach(die => {
+            die.createDie();
+        });
+    }
 
 
     rollDice() {
         const diceContainerPending = document.getElementById("diceContainerPending");
-        const diceContainerSelected = document.getElementById("diceContainerSelected");
-
+        // const diceContainerSelected = document.getElementById("diceContainerSelected");
+    
+        // // Réinitialisation des conteneurs de dés
         diceContainerPending.innerHTML = "";
-        diceContainerSelected.innerHTML = "";
-        const finaldices = this.selectedDice.concat(this.dice);
-
-        if (this.attempts < 2) {
-            this.dice = this.generateDice(this.dice.length);
-            this.displayDice(this.dice);
-            this.displayDiceSelected(this.selectedDice);
-            this.attempts++;
-        } else {
-            console.log("Plus de 3 essais")
+        // diceContainerSelected.innerHTML = "";
+    
+        // Filtrer les dés sélectionnés et générer de nouvelles valeurs pour les dés non sélectionnés
+        const nonSelectedDice = this.dice.filter(die => !die.selected);
+        console.log(nonSelectedDice)
+        nonSelectedDice.forEach(die => {
+            die.value = Math.floor(Math.random() * 6) + 1; // Générer une nouvelle valeur pour le dé non sélectionné
+            die.createDie(); // Mettre à jour l'affichage du dé avec sa nouvelle valeur
+        });
+    
+        // Incrémentation du compteur d'essais
+        this.attempts++;
+    
+        // Vérification du nombre d'essais restants
+        if (this.attempts >= this.maxAttempts) {
+            console.log("Plus de 3 essais");
             this.button.remove();
-
-
-            this.displayDice();
-            this.displayDiceSelected(finaldices);
         }
-
-        this.sheet.compare(finaldices)
+    
+        // Création du tableau final avec tous les dés
+        // const finalDice = [...this.selectedDice, ...nonSelectedDice];
+    
+        // Appel à la méthode compare de la feuille de score avec les dés finaux
+        // this.sheet.compare(finalDice);
     }
-
+    
 }
 const game = new Game();
