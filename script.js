@@ -19,13 +19,12 @@ class Sheet {
         this.score = null;
 
         this.initialize();
+        this.displaySheet();
     }
     initialize() {
         console.log(this.sheet)
     }
-    displaySheet() {
 
-    }
     compare(dice) {
         dice.sort((a, b) => a.value - b.value);
         const counts = {};
@@ -75,12 +74,50 @@ class Sheet {
                     this.sheet["Grande suite"] = 40; // Score pour une grande suite
                 }
                 break;
-        }
 
+
+        }
         console.log(this.sheet);
         // calcul  des dés
         // comparaison 
     }
+    displaySheet() {
+        const table = document.createElement('table');
+        const tbody = document.createElement('tbody');
+
+        for (const key in this.sheet) {
+            const row = document.createElement('tr');
+            const cellKey = document.createElement('td');
+            cellKey.textContent = key;
+
+            const cellValue = document.createElement('td');
+            cellValue.textContent = this.sheet[key] !== null ? this.sheet[key] : '-'; // Affiche le score ou '-' si null
+
+            cellValue.dataset.key = key; // Ajoute une propriété dataset pour identifier la cellule
+
+            cellValue.addEventListener('click', () => {
+                if (this.sheet[key] === null) {
+                    // Si la case est cliquée et est null, tu peux ajouter ici la logique pour affecter un score à cette catégorie.
+                    // Par exemple, tu peux ouvrir une fenêtre modale pour saisir le score.
+                    const score = prompt(`Entrez le score pour ${key}:`);
+                    this.sheet[key] = parseInt(score); // Convertis en nombre si nécessaire
+                    cellValue.textContent = this.sheet[key];
+                } else {
+                    // Logique supplémentaire si tu veux gérer le clic sur une case déjà remplie
+                    console.log(`La case ${key} est déjà remplie avec le score ${this.sheet[key]}`);
+                }
+            });
+
+            row.appendChild(cellKey);
+            row.appendChild(cellValue);
+            tbody.appendChild(row);
+        }
+
+        table.appendChild(tbody);
+        document.body.appendChild(table);
+    }
+
+
 }
 
 
@@ -105,12 +142,33 @@ class Die {
         this.index = index;
         this.selected = false;
     }
-    toggleSelection() {
-        this.selected = !this.selected;
+    displayDice() { 
+        const diceContainerPending = document.getElementById("diceContainerPending");
+        const diceContainerSelected = document.getElementById("diceContainerSelected");
+        const diceButton = document.createElement("button");
+        diceButton.className = "dice" + (this.selected ? " selected" : "");
+        diceButton.textContent = this.value;
+        diceButton.onclick = () => {
+            this.selected = !this.selected;
+            console.log(this.selected)
+            // game.displayAllDice();
+            if(this.selected ) {
+                // this.selectedDice.push(die);
+                diceContainerSelected.appendChild(diceButton); 
+            } else {
+                diceContainerPending.appendChild(diceButton);  
+            } 
+        };
+        // return diceButton;
+        if(this.selected ) {
+            // this.selectedDice.push(die);
+            diceContainerSelected.appendChild(diceButton); 
+        } else {
+
+            diceContainerPending.appendChild(diceButton);  
+        } 
     }
-    displayDice() {
-        
-    }
+    
 }
 
 
@@ -127,85 +185,110 @@ class Game {
 
     initialize() {
         this.dice = this.generateDice(5);
-        this.displayDice(this.dice);
+        this.displayAllDice();
         this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
         this.sheet = new Sheet()
+
     }
 
     generateDice(numDice) {
         return Array.from({ length: numDice }, (value, index) => new Die(Math.floor(Math.random() * 6) + 1, index));
     }
 
-    displayDice(dice) {
-        let diceContainer = document.getElementById("diceContainerPending");
-        diceContainer.innerHTML = "";
-        if (dice) {
-            dice.forEach((die) => {
-                const diceButton = this.createDice(die.value, die.index, false);
-                diceContainer.appendChild(diceButton);
-            });
-        }
-    }
-    displayDiceSelected(dice) {
-        let diceContainer = document.getElementById("diceContainerSelected");
-        diceContainer.innerHTML = "";
-        dice.forEach((die) => {
-            const diceButton = this.createDice(die.value, die.index, true);
-            diceContainer.appendChild(diceButton);
+    displayAllDice() {
+        // const diceContainerPending = document.getElementById("diceContainerPending");
+        // const diceContainerSelected = document.getElementById("diceContainerSelected");
+        // diceContainerPending.innerHTML = ""; 
+        // diceContainerSelected.innerHTML = "";
+        // this.selectedDice = [];
+
+        this.dice.forEach(die => {
+            console.log(die)
+            die.displayDice();
+            // if(die.selected) {
+            //     this.selectedDice.push(die);
+            //     diceContainerSelected.appendChild(diceButton); 
+            // } else {
+
+            //     diceContainerPending.appendChild(diceButton);  
+            // } 
         });
+        // const deselectedDice = this.dice.filter(die => !die.selected);
+        // this.dice = [...deselectedDice, ...this.selectedDice];
+        // console.log(this.selectedDice)
+        // console.log(this.dice)
     }
+    
+    // displayDice(dice) {
+    //     let diceContainer = document.getElementById("diceContainerPending");
+    //     diceContainer.innerHTML = "";
+    //     if (dice) {
+    //         dice.forEach((die) => {
+    //             const diceButton = this.createDice(die.value, die.index, false);
+    //             diceContainer.appendChild(diceButton);
+    //         });
+    //     }
+    // }
+    // displayDiceSelected(dice) {
+    //     let diceContainer = document.getElementById("diceContainerSelected");
+    //     diceContainer.innerHTML = "";
+    //     dice.forEach((die) => {
+    //         const diceButton = this.createDice(die.value, die.index, true);
+    //         diceContainer.appendChild(diceButton);
+    //     });
+    // }
 
-    createDice(valeur, index, isSelected) {
-        const diceButton = document.createElement("button");
-        diceButton.className = "dice" + (isSelected ? " selected" : "");
-        diceButton.textContent = valeur;
-        diceButton.onclick = () => {
-            isSelected ? this.toggleDieSelected(diceButton, index) : this.toggleDie(diceButton, index);
-        };
-        return diceButton;
-    }
+    // createDice(valeur, index, isSelected) {
+    //     const diceButton = document.createElement("button");
+    //     diceButton.className = "dice" + (isSelected ? " selected" : "");
+    //     diceButton.textContent = valeur;
+    //     diceButton.onclick = () => {
+    //         isSelected ? this.toggleDieSelected(diceButton, index) : this.toggleDie(diceButton, index);
+    //     };
+    //     return diceButton;
+    // }
 
-    toggleDie(diceButton, index) {
-        const diceContainerSelected = document.getElementById("diceContainerSelected");
-        diceButton.classList.toggle("selected");
-        this.dice[index].selected = !this.dice[index].selected;
+    // toggleDie(diceButton, index) {
+    //     const diceContainerSelected = document.getElementById("diceContainerSelected");
+    //     diceButton.classList.toggle("selected");
+    //     this.dice[index].selected = !this.dice[index].selected;
 
-        const selectedDie = this.dice.splice(index, 1)[0];
-        selectedDie.index = this.selectedDice.length;
-        this.selectedDice.push(selectedDie);
+    //     const selectedDie = this.dice.splice(index, 1)[0];
+    //     selectedDie.index = this.selectedDice.length;
+    //     this.selectedDice.push(selectedDie);
 
-        this.dice.forEach((die, idx) => {
-            die.index = idx;
-        });
+    //     this.dice.forEach((die, idx) => {
+    //         die.index = idx;
+    //     });
 
-        diceContainerSelected.appendChild(diceButton);
-        this.displayDice(this.dice);
-        this.displayDiceSelected(this.selectedDice);
+    //     diceContainerSelected.appendChild(diceButton);
+    //     this.displayDice(this.dice);
+    //     this.displayDiceSelected(this.selectedDice);
 
-        console.log("Des:", this.dice);
-        console.log("Des sélectionnés:", this.selectedDice);
-    }
+    //     console.log("Des:", this.dice);
+    //     console.log("Des sélectionnés:", this.selectedDice);
+    // }
 
-    toggleDieSelected(diceButton, index) {
-        const diceContainerPending = document.getElementById("diceContainerPending");
-        diceButton.classList.toggle("selected");
-        this.dice[index].selected = !this.dice[index].selected;
+    // toggleDieSelected(diceButton, index) {
+    //     const diceContainerPending = document.getElementById("diceContainerPending");
+    //     diceButton.classList.toggle("selected");
+    //     this.dice[index].selected = !this.dice[index].selected;
 
-        const unselectedDie = this.selectedDice.splice(index, 1)[0];
-        unselectedDie.index = this.dice.length;
-        this.dice.push(unselectedDie);
+    //     const unselectedDie = this.selectedDice.splice(index, 1)[0];
+    //     unselectedDie.index = this.dice.length;
+    //     this.dice.push(unselectedDie);
 
-        this.selectedDice.forEach((die, idx) => {
-            die.index = idx;
-        });
+    //     this.selectedDice.forEach((die, idx) => {
+    //         die.index = idx;
+    //     });
 
-        diceContainerPending.appendChild(diceButton);
-        this.displayDice(this.dice);
-        this.displayDiceSelected(this.selectedDice);
+    //     diceContainerPending.appendChild(diceButton);
+    //     this.displayDice(this.dice);
+    //     this.displayDiceSelected(this.selectedDice);
 
-        console.log("Des:", this.dice);
-        console.log("Des sélectionnés:", this.selectedDice);
-    }
+    //     console.log("Des:", this.dice);
+    //     console.log("Des sélectionnés:", this.selectedDice);
+    // }
 
 
 
@@ -235,8 +318,4 @@ class Game {
     }
 
 }
-
-
-window.onload = function () {
-    new Game()
-};
+const game = new Game();
