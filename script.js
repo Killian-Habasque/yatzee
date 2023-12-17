@@ -146,11 +146,13 @@ class Die {
         const dieButton = document.createElement("button");
         dieButton.className = "dice" + (this.selected ? " selected" : "");
         dieButton.textContent = this.value;
-        dieButton.onclick = () => {
-            this.selected = !this.selected;
-            this.displayDice(this.selected, dieButton)
-            game.toggleDice(this);
-        };
+        if(!this.selected) {
+            dieButton.onclick = () => {
+                this.selected = !this.selected;
+                this.displayDice(this.selected, dieButton)
+                game.toggleDice(this);
+            };
+        }
 
         this.displayDice(this.selected, dieButton)
     }
@@ -162,6 +164,9 @@ class Die {
         } else {
             diceContainerPending.appendChild(dieButton);
         }
+    }
+    changeSelectedDie() {
+        this.selected = true;
     }
 }
 
@@ -179,7 +184,7 @@ class Game {
 
     initialize() {
         this.dice = this.generateDice(5);
-        this.displayAllDice();
+        this.displayAllDice(this.dice);
         this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
         this.sheet = new Sheet()
 
@@ -197,8 +202,8 @@ class Game {
         console.log(this.selectedDice)
         console.log(this.dice)
     }
-    displayAllDice() {
-        this.dice.forEach(die => {
+    displayAllDice(dice) {
+        dice.forEach(die => {
             die.createDie();
         });
     }
@@ -206,35 +211,36 @@ class Game {
 
     rollDice() {
         const diceContainerPending = document.getElementById("diceContainerPending");
-        // const diceContainerSelected = document.getElementById("diceContainerSelected");
-    
-        // // Réinitialisation des conteneurs de dés
-        diceContainerPending.innerHTML = "";
-        // diceContainerSelected.innerHTML = "";
-    
-        // Filtrer les dés sélectionnés et générer de nouvelles valeurs pour les dés non sélectionnés
-        const nonSelectedDice = this.dice.filter(die => !die.selected);
-        console.log(nonSelectedDice)
-        nonSelectedDice.forEach(die => {
-            die.value = Math.floor(Math.random() * 6) + 1; // Générer une nouvelle valeur pour le dé non sélectionné
-            die.createDie(); // Mettre à jour l'affichage du dé avec sa nouvelle valeur
-        });
-    
-        // Incrémentation du compteur d'essais
+        const diceContainerSelected = document.getElementById("diceContainerSelected");
+
+
         this.attempts++;
-    
-        // Vérification du nombre d'essais restants
+
+
         if (this.attempts >= this.maxAttempts) {
+            diceContainerPending.innerHTML = "";
+            diceContainerSelected.innerHTML = "";
+
+            this.dice = [...this.selectedDice, ...this.dice];
+            this.dice.forEach(die => {
+                die.changeSelectedDie();
+                die.createDie()
+            });
             console.log("Plus de 3 essais");
             this.button.remove();
+        } else {
+
+            diceContainerPending.innerHTML = "";
+            const nonSelectedDice = this.dice.filter(die => !die.selected);
+            console.log(nonSelectedDice)
+            nonSelectedDice.forEach(die => {
+                die.value = Math.floor(Math.random() * 6) + 1;
+                die.createDie();
+            });
         }
-    
-        // Création du tableau final avec tous les dés
-        // const finalDice = [...this.selectedDice, ...nonSelectedDice];
-    
-        // Appel à la méthode compare de la feuille de score avec les dés finaux
+
         // this.sheet.compare(finalDice);
     }
-    
+
 }
 const game = new Game();
