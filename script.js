@@ -16,13 +16,15 @@ class Sheet {
             "Carré": null,
             "Yam's": null
         };
+        this.FinalSheet = this.sheet;
         this.score = null;
 
         this.initialize();
-        this.displaySheet();
+        
     }
     initialize() {
         console.log(this.sheet)
+        console.log(this.FinalSheet)
     }
 
     compare(dice) {
@@ -78,46 +80,85 @@ class Sheet {
 
         }
         console.log(this.sheet);
+        console.log(this.FinalSheet);
         // calcul  des dés
         // comparaison 
     }
-    displaySheet() {
-        const table = document.createElement('table');
-        const tbody = document.createElement('tbody');
+    // displaySheet() {
+    //     const table = document.createElement('table');
+    //     const tbody = document.createElement('tbody');
 
+    //     for (const key in this.sheet) {
+    //         const row = document.createElement('tr');
+    //         const cellKey = document.createElement('td');
+    //         cellKey.textContent = key;
+
+    //         const cellValue = document.createElement('td');
+    //         cellValue.textContent = this.sheet[key] !== null ? this.sheet[key] : '-'; // Affiche le score ou '-' si null
+
+    //         cellValue.dataset.key = key; // Ajoute une propriété dataset pour identifier la cellule
+
+    //         cellValue.addEventListener('click', () => {
+    //             if (this.sheet[key] === null) {
+    //                 // Si la case est cliquée et est null, tu peux ajouter ici la logique pour affecter un score à cette catégorie.
+    //                 // Par exemple, tu peux ouvrir une fenêtre modale pour saisir le score.
+    //                 const score = prompt(`Entrez le score pour ${key}:`);
+    //                 this.sheet[key] = parseInt(score); // Convertis en nombre si nécessaire
+    //                 cellValue.textContent = this.sheet[key];
+    //             } else {
+    //                 // Logique supplémentaire si tu veux gérer le clic sur une case déjà remplie
+    //                 console.log(`La case ${key} est déjà remplie avec le score ${this.sheet[key]}`);
+    //             }
+    //         });
+
+    //         row.appendChild(cellKey);
+    //         row.appendChild(cellValue);
+    //         tbody.appendChild(row);
+    //     }
+
+    //     table.appendChild(tbody);
+    //     document.body.appendChild(table);
+    // }
+
+    displaySheet() {
+        const table = document.getElementById('sheetTable');
+        const tbody = document.createElement('tbody');
         for (const key in this.sheet) {
             const row = document.createElement('tr');
             const cellKey = document.createElement('td');
             cellKey.textContent = key;
 
             const cellValue = document.createElement('td');
+
             cellValue.textContent = this.sheet[key] !== null ? this.sheet[key] : '-'; // Affiche le score ou '-' si null
 
             cellValue.dataset.key = key; // Ajoute une propriété dataset pour identifier la cellule
 
-            cellValue.addEventListener('click', () => {
-                if (this.sheet[key] === null) {
-                    // Si la case est cliquée et est null, tu peux ajouter ici la logique pour affecter un score à cette catégorie.
-                    // Par exemple, tu peux ouvrir une fenêtre modale pour saisir le score.
-                    const score = prompt(`Entrez le score pour ${key}:`);
-                    this.sheet[key] = parseInt(score); // Convertis en nombre si nécessaire
-                    cellValue.textContent = this.sheet[key];
-                } else {
-                    // Logique supplémentaire si tu veux gérer le clic sur une case déjà remplie
-                    console.log(`La case ${key} est déjà remplie avec le score ${this.sheet[key]}`);
-                }
-            });
+
+            cellValue.onclick = () => {
+                this.FinalSheet[key] = this.sheet[key];
+                console.log("--------")
+                console.log(this.FinalSheet)
+                console.log("--------")
+            };
+
+            
+            // cellValue.addEventListener('click', () => {
+            //     if (this.sheet[key] === null) {
+            //         const score = prompt(`Entrez le score pour ${key}:`);
+            //         this.sheet[key] = parseInt(score);
+            //         cellValue.textContent = this.sheet[key];
+            //     } else {
+            //         console.log(`La case ${key} est déjà remplie avec le score ${this.sheet[key]}`);
+            //     }
+            // });
 
             row.appendChild(cellKey);
             row.appendChild(cellValue);
             tbody.appendChild(row);
         }
-
         table.appendChild(tbody);
-        document.body.appendChild(table);
     }
-
-
 }
 
 
@@ -146,7 +187,7 @@ class Die {
         const dieButton = document.createElement("button");
         dieButton.className = "dice" + (this.selected ? " selected" : "");
         dieButton.textContent = this.value;
-        if(!this.selected) {
+        if (!this.selected) {
             dieButton.onclick = () => {
                 this.selected = !this.selected;
                 this.displayDice(this.selected, dieButton)
@@ -178,7 +219,7 @@ class Game {
         this.selectedDice = [];
         this.maxAttempts = 3;
         this.attempts = 0;
-
+        this.sheet = [];
         this.initialize();
     }
 
@@ -228,6 +269,8 @@ class Game {
             });
             console.log("Plus de 3 essais");
             this.button.remove();
+            this.sheet.compare(this.dice);
+            this.sheet.displaySheet();
         } else {
 
             diceContainerPending.innerHTML = "";
@@ -239,7 +282,7 @@ class Game {
             });
         }
 
-        // this.sheet.compare(finalDice);
+
     }
 
 }
