@@ -1,22 +1,22 @@
 
 class Sheet {
     constructor() {
-        this.sheet = {
-            1: null,
-            2: null,
-            3: null,
-            4: null,
-            5: null,
-            6: null,
-            "Bonus": null,
-            "Chance": null,
-            "Petite suite": null,
-            "Grande suite": null,
-            "Full": null,
-            "Carré": null,
-            "Yam's": null
-        };
-        this.FinalSheet = this.sheet;
+        this.sheet = [
+            { label: 1, value: null, checked: false },
+            { label: 2, value: null, checked: false },
+            { label: 3, value: null, checked: false },
+            { label: 4, value: null, checked: false },
+            { label: 5, value: null, checked: false },
+            { label: 6, value: null, checked: false },
+            { label: "Bonus", value: null, checked: false },
+            { label: "Chance", value: null, checked: false },
+            { label: "Petite suite", value: null, checked: false },
+            { label: "Grande suite", value: null, checked: false },
+            { label: "Full", value: null, checked: false },
+            { label: "Carré", value: null, checked: false },
+            { label: "Yam's", value: null, checked: false }
+        ];
+        
         this.score = null;
 
         this.initialize();
@@ -24,7 +24,6 @@ class Sheet {
     }
     initialize() {
         console.log(this.sheet)
-        console.log(this.FinalSheet)
     }
 
     compare(dice) {
@@ -34,91 +33,64 @@ class Sheet {
             counts[die.value] = (counts[die.value] || 0) + 1;
         });
         console.log(dice)
+
         switch (true) {
-            case (Object.values(counts).includes(5)):
+            case Object.values(counts).includes(5):
                 // Yam's
-                this.sheet["Yam's"] = dice.reduce((acc, curr) => acc + curr, 0); // Score = somme de tous les dés
+                // this.sheet.find(item => item.label === "Yam's").checked = true;
+                const yamsScore = dice.reduce((acc, curr) => acc + curr, 0);
+                this.sheet.find(item => item.label === "Yam's").value = yamsScore;
                 break;
-            case (Object.values(counts).includes(4)):
+            case Object.values(counts).includes(4):
                 // Carré
                 const fourOfAKindValue = Object.keys(counts).find(key => counts[key] === 4);
-                this.sheet["Carré"] = dice.reduce((acc, curr) => curr === parseInt(fourOfAKindValue) ? acc + curr : acc, 0); // Score = somme des dés du Carré
+                // this.sheet.find(item => item.label === "Carré").checked = true;
+                const fourOfAKindScore = dice.reduce((acc, curr) => curr === parseInt(fourOfAKindValue) ? acc + curr : acc, 0);
+                this.sheet.find(item => item.label === "Carré").value = fourOfAKindScore;
                 break;
-            case (Object.values(counts).includes(3) && Object.values(counts).includes(2)):
+            case Object.values(counts).includes(3) && Object.values(counts).includes(2):
                 // Full
-                this.sheet["Full"] = 25;
+                // this.sheet.find(item => item.label === "Full").checked = true;
+                this.sheet.find(item => item.label === "Full").value = 25;
                 break;
-            case (Object.values(counts).includes(1)):
-                console.log(Object.values(counts).includes(1))
+            case Object.values(counts).includes(1):
                 // Chiffres
                 for (let i = 1; i <= 6; i++) {
                     const count = dice.filter(die => die.value === i).length;
-                    this.sheet[i] = count * i;
-                }
+                    if(!this.sheet.find(item => item.label === i).checked) {
+                        this.sheet.find(item => item.label == i).value = count * i;
+                    }
 
+                }
+        
                 const isSmallStraight = (arr) => {
                     const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
                     return uniqueValues.length >= 4 && (uniqueValues[3] - uniqueValues[0] === 3);
                 };
-
+        
                 const isLargeStraight = (arr) => {
                     const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
                     return uniqueValues.length === 5 && (uniqueValues[4] - uniqueValues[0] === 4);
                 };
-
+        
                 // Petite suite
                 if (isSmallStraight(dice)) {
-                    this.sheet["Petite suite"] = 30;
+                    // this.sheet.find(item => item.label === "Petite suite").checked = true;
+                    this.sheet.find(item => item.label === "Petite suite").value = 30;
                 }
-
+        
                 // Grande suite
                 if (isLargeStraight(dice)) {
-                    this.sheet["Grande suite"] = 40; // Score pour une grande suite
+                    // this.sheet.find(item => item.label === "Grande suite").checked = true;
+                    this.sheet.find(item => item.label === "Grande suite").value = 40;
                 }
                 break;
-
-
         }
+        
+
         console.log(this.sheet);
-        console.log(this.FinalSheet);
-        // calcul  des dés
-        // comparaison 
     }
-    // displaySheet() {
-    //     const table = document.createElement('table');
-    //     const tbody = document.createElement('tbody');
-
-    //     for (const key in this.sheet) {
-    //         const row = document.createElement('tr');
-    //         const cellKey = document.createElement('td');
-    //         cellKey.textContent = key;
-
-    //         const cellValue = document.createElement('td');
-    //         cellValue.textContent = this.sheet[key] !== null ? this.sheet[key] : '-'; // Affiche le score ou '-' si null
-
-    //         cellValue.dataset.key = key; // Ajoute une propriété dataset pour identifier la cellule
-
-    //         cellValue.addEventListener('click', () => {
-    //             if (this.sheet[key] === null) {
-    //                 // Si la case est cliquée et est null, tu peux ajouter ici la logique pour affecter un score à cette catégorie.
-    //                 // Par exemple, tu peux ouvrir une fenêtre modale pour saisir le score.
-    //                 const score = prompt(`Entrez le score pour ${key}:`);
-    //                 this.sheet[key] = parseInt(score); // Convertis en nombre si nécessaire
-    //                 cellValue.textContent = this.sheet[key];
-    //             } else {
-    //                 // Logique supplémentaire si tu veux gérer le clic sur une case déjà remplie
-    //                 console.log(`La case ${key} est déjà remplie avec le score ${this.sheet[key]}`);
-    //             }
-    //         });
-
-    //         row.appendChild(cellKey);
-    //         row.appendChild(cellValue);
-    //         tbody.appendChild(row);
-    //     }
-
-    //     table.appendChild(tbody);
-    //     document.body.appendChild(table);
-    // }
+ 
 
     displaySheet() {
         const table = document.getElementById('sheetTable');
@@ -126,32 +98,22 @@ class Sheet {
         for (const key in this.sheet) {
             const row = document.createElement('tr');
             const cellKey = document.createElement('td');
-            cellKey.textContent = key;
+            cellKey.textContent = this.sheet[key].label;
 
             const cellValue = document.createElement('td');
 
-            cellValue.textContent = this.sheet[key] !== null ? this.sheet[key] : '-'; // Affiche le score ou '-' si null
+            cellValue.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-'; 
 
-            cellValue.dataset.key = key; // Ajoute une propriété dataset pour identifier la cellule
+            cellValue.dataset.key = key; 
 
 
             cellValue.onclick = () => {
-                this.FinalSheet[key] = this.sheet[key];
+                this.sheet[key].checked = true;
                 console.log("--------")
-                console.log(this.FinalSheet)
+                console.log(this.sheet[key].value)
                 console.log("--------")
+                console.log(this.sheet)
             };
-
-            
-            // cellValue.addEventListener('click', () => {
-            //     if (this.sheet[key] === null) {
-            //         const score = prompt(`Entrez le score pour ${key}:`);
-            //         this.sheet[key] = parseInt(score);
-            //         cellValue.textContent = this.sheet[key];
-            //     } else {
-            //         console.log(`La case ${key} est déjà remplie avec le score ${this.sheet[key]}`);
-            //     }
-            // });
 
             row.appendChild(cellKey);
             row.appendChild(cellValue);
