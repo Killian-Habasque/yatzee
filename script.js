@@ -16,11 +16,11 @@ class Sheet {
             { label: "Carré", value: null, checked: false },
             { label: "Yam's", value: null, checked: false }
         ];
-        
+
         this.score = null;
 
         this.initialize();
-        
+
     }
     initialize() {
         console.log(this.sheet)
@@ -54,28 +54,28 @@ class Sheet {
                 // Chiffres
                 for (let i = 1; i <= 6; i++) {
                     const count = dice.filter(die => die.value === i).length;
-                    if(!this.sheet.find(item => item.label === i).checked) {
+                    if (!this.sheet.find(item => item.label === i).checked) {
                         this.sheet.find(item => item.label == i).value = count * i;
                     }
 
                 }
-        
+
                 const isSmallStraight = (arr) => {
                     const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
                     return uniqueValues.length >= 4 && (uniqueValues[3] - uniqueValues[0] === 3);
                 };
-        
+
                 const isLargeStraight = (arr) => {
                     const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
                     return uniqueValues.length === 5 && (uniqueValues[4] - uniqueValues[0] === 4);
                 };
-        
+
                 // Petite suite
                 if (isSmallStraight(dice)) {
                     // this.sheet.find(item => item.label === "Petite suite").checked = true;
                     this.sheet.find(item => item.label === "Petite suite").value = 30;
                 }
-        
+
                 // Grande suite
                 if (isLargeStraight(dice)) {
                     // this.sheet.find(item => item.label === "Grande suite").checked = true;
@@ -83,14 +83,16 @@ class Sheet {
                 }
                 break;
         }
-        
+
 
         console.log(this.sheet);
     }
- 
+
 
     displaySheet() {
         const table = document.getElementById('sheetTable');
+        table.innerHTML = '';
+
         const tbody = document.createElement('tbody');
         for (const key in this.sheet) {
             const row = document.createElement('tr');
@@ -99,37 +101,43 @@ class Sheet {
 
             const cellValue = document.createElement('td');
 
-            cellValue.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-'; 
+            cellValue.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
 
-            cellValue.dataset.key = key; 
+            cellValue.dataset.key = key;
 
-            if(!this.sheet[key].checked) {
+            if (!this.sheet[key].checked) {
                 cellValue.onclick = () => {
                     this.sheet[key].checked = true;
                     console.log("--------")
                     console.log(this.sheet[key].value)
                     console.log("--------")
                     console.log(this.sheet)
+                    cellValue.className = "selected";
+                    game.reinitialize();
                 };
             }
 
-
+            if (this.sheet[key].checked) {
+                cellValue.className = "selected";
+            }
             row.appendChild(cellKey);
             row.appendChild(cellValue);
             tbody.appendChild(row);
         }
         table.appendChild(tbody);
     }
+
 }
 
 
 class Button {
     constructor(className, innerHTML, callback) {
+        const diceContainer = document.getElementById("diceContainer");
         this.button = document.createElement("button");
         this.button.className = className;
         this.button.innerHTML = innerHTML;
         this.button.onclick = callback;
-        document.body.appendChild(this.button);
+        diceContainer.appendChild(this.button);
     }
     remove() {
         this.button.parentNode.removeChild(this.button);
@@ -189,9 +197,19 @@ class Game {
         this.displayAllDice(this.dice);
         this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
         this.sheet = new Sheet()
-
     }
-
+    reinitialize() {
+        const diceContainerPending = document.getElementById("diceContainerPending");
+        const diceContainerSelected = document.getElementById("diceContainerSelected");
+        diceContainerPending.innerHTML = "";
+        diceContainerSelected.innerHTML = "";
+        this.dice = this.generateDice(5);
+        this.displayAllDice(this.dice);
+        this.attempts = 0;
+        this.selectedDice = [];
+        this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
+        this.sheet = this.sheet;
+    }
     generateDice(numDice) {
         return Array.from({ length: numDice }, (value, index) => new Die(Math.floor(Math.random() * 6) + 1, index));
     }
@@ -215,9 +233,9 @@ class Game {
         const diceContainerPending = document.getElementById("diceContainerPending");
         const diceContainerSelected = document.getElementById("diceContainerSelected");
 
-
         this.attempts++;
-
+        console.log(this.attempts)
+        console.log(this.maxAttempts)
 
         if (this.attempts >= this.maxAttempts) {
             diceContainerPending.innerHTML = "";
