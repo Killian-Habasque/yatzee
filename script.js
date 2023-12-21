@@ -40,19 +40,16 @@ class Sheet {
                 // this.sheet.find(item => item.label === "Yam's").checked = true;
                 const yamsScore = dice.reduce((acc, curr) => acc + curr, 0);
                 this.sheet.find(item => item.label === "Yam's").value = yamsScore;
-                break;
             case Object.values(counts).includes(4):
                 // Carré
                 const fourOfAKindValue = Object.keys(counts).find(key => counts[key] === 4);
                 // this.sheet.find(item => item.label === "Carré").checked = true;
                 const fourOfAKindScore = dice.reduce((acc, curr) => curr === parseInt(fourOfAKindValue) ? acc + curr : acc, 0);
                 this.sheet.find(item => item.label === "Carré").value = fourOfAKindScore;
-                break;
             case Object.values(counts).includes(3) && Object.values(counts).includes(2):
                 // Full
                 // this.sheet.find(item => item.label === "Full").checked = true;
                 this.sheet.find(item => item.label === "Full").value = 25;
-                break;
             case Object.values(counts).includes(1):
                 // Chiffres
                 for (let i = 1; i <= 6; i++) {
@@ -106,14 +103,16 @@ class Sheet {
 
             cellValue.dataset.key = key; 
 
+            if(!this.sheet[key].checked) {
+                cellValue.onclick = () => {
+                    this.sheet[key].checked = true;
+                    console.log("--------")
+                    console.log(this.sheet[key].value)
+                    console.log("--------")
+                    console.log(this.sheet)
+                };
+            }
 
-            cellValue.onclick = () => {
-                this.sheet[key].checked = true;
-                console.log("--------")
-                console.log(this.sheet[key].value)
-                console.log("--------")
-                console.log(this.sheet)
-            };
 
             row.appendChild(cellKey);
             row.appendChild(cellValue);
@@ -246,6 +245,7 @@ class Game {
 
 
     }
+
 
 }
 const game = new Game();
