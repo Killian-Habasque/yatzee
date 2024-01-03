@@ -32,24 +32,31 @@ class Sheet {
         dice.forEach((die) => {
             counts[die.value] = (counts[die.value] || 0) + 1;
         });
+        console.log("-------")
         console.log(dice)
 
         switch (true) {
             case Object.values(counts).includes(5):
                 // Yam's
                 // this.sheet.find(item => item.label === "Yam's").checked = true;
-                const yamsScore = dice.reduce((acc, curr) => acc + curr, 0);
-                this.sheet.find(item => item.label === "Yam's").value = yamsScore;
+                if (!this.sheet.find(item => item.label === "Yam's").checked) {
+                    const yamsScore = dice.reduce((acc, curr) => acc + curr, 0);
+                    this.sheet.find(item => item.label === "Yam's").value = yamsScore;
+                }
             case Object.values(counts).includes(4):
                 // Carré
-                const fourOfAKindValue = Object.keys(counts).find(key => counts[key] === 4);
-                // this.sheet.find(item => item.label === "Carré").checked = true;
-                const fourOfAKindScore = dice.reduce((acc, curr) => curr === parseInt(fourOfAKindValue) ? acc + curr : acc, 0);
-                this.sheet.find(item => item.label === "Carré").value = fourOfAKindScore;
+                if (!this.sheet.find(item => item.label === "Carré").checked) {
+                    const fourOfAKindValue = Object.keys(counts).find(key => counts[key] === 4);
+                    // this.sheet.find(item => item.label === "Carré").checked = true;
+                    const fourOfAKindScore = dice.reduce((acc, curr) => curr === parseInt(fourOfAKindValue) ? acc + curr : acc, 0);
+                    this.sheet.find(item => item.label === "Carré").value = fourOfAKindScore;
+                }
             case Object.values(counts).includes(3) && Object.values(counts).includes(2):
                 // Full
                 // this.sheet.find(item => item.label === "Full").checked = true;
-                this.sheet.find(item => item.label === "Full").value = 25;
+                if (!this.sheet.find(item => item.label === "Full").checked) {
+                    this.sheet.find(item => item.label === "Full").value = 25;
+                }
             case Object.values(counts).includes(1):
                 // Chiffres
                 for (let i = 1; i <= 6; i++) {
@@ -60,28 +67,45 @@ class Sheet {
 
                 }
 
-                const isSmallStraight = (arr) => {
-                    const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
-                    return uniqueValues.length >= 4 && (uniqueValues[3] - uniqueValues[0] === 3);
+                const isSmallStraight = () => {
+                    let diceValue = [];
+                    dice.forEach((die) => {
+                        diceValue.push(die.value);
+                    });
+                    const diceSort = [...new Set(diceValue)];
+                    return diceSort.length >= 4 && (diceSort[3] - diceSort[0] === 3);
                 };
 
-                const isLargeStraight = (arr) => {
-                    const uniqueValues = [...new Set(arr)]; // Récupère les valeurs uniques des dés
-                    return uniqueValues.length === 5 && (uniqueValues[4] - uniqueValues[0] === 4);
+                const isLargeStraight = () => {
+                    let diceValue = [];
+                    dice.forEach((die) => {
+                        diceValue.push(die.value);
+                    });
+                    const diceSort = [...new Set(diceValue)];
+                    return diceSort.length === 5 && (diceSort[4] - diceSort[0] === 4);
                 };
 
                 // Petite suite
-                if (isSmallStraight(dice)) {
-                    // this.sheet.find(item => item.label === "Petite suite").checked = true;
-                    this.sheet.find(item => item.label === "Petite suite").value = 30;
+                if (!this.sheet.find(item => item.label === "Petite suite").checked) {
+                    if (isSmallStraight()) {
+                        // this.sheet.find(item => item.label === "Petite suite").checked = true;
+                        this.sheet.find(item => item.label === "Petite suite").value = 30;
+                    } else {
+                        this.sheet.find(item => item.label === "Petite suite").value = null;
+                    }
                 }
 
+
                 // Grande suite
-                if (isLargeStraight(dice)) {
-                    // this.sheet.find(item => item.label === "Grande suite").checked = true;
-                    this.sheet.find(item => item.label === "Grande suite").value = 40;
+                if (!this.sheet.find(item => item.label === "Grande suite").checked) {
+                    if (isLargeStraight()) {
+                        // this.sheet.find(item => item.label === "Grande suite").checked = true;
+                        this.sheet.find(item => item.label === "Grande suite").value = 40;
+                    } else {
+                        this.sheet.find(item => item.label === "Grande suite").value = null;
+                    }
                 }
-                break;
+
         }
 
 
@@ -113,6 +137,12 @@ class Sheet {
                     console.log("--------")
                     console.log(this.sheet)
                     cellValue.className = "selected";
+
+
+                    const allCells = document.querySelectorAll('td');
+                    allCells.forEach(cell => {
+                        cell.onclick = null;
+                    });
                     game.reinitialize();
                 };
             }
@@ -193,8 +223,8 @@ class Game {
     }
 
     initialize() {
-        this.dice = this.generateDice(5);
-        this.displayAllDice(this.dice);
+        // this.dice = this.generateDice(5);
+        // this.displayAllDice(this.dice);
         this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
         this.sheet = new Sheet()
     }
@@ -205,10 +235,16 @@ class Game {
         diceContainerSelected.innerHTML = "";
         this.dice = this.generateDice(5);
         this.displayAllDice(this.dice);
+
+        if (this.attempts >= this.maxAttempts) {
+            this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
+        }
         this.attempts = 0;
         this.selectedDice = [];
-        this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
+
         this.sheet = this.sheet;
+        this.sheet.compare([...this.selectedDice, ...this.dice]);
+        this.sheet.displaySheet();
     }
     generateDice(numDice) {
         return Array.from({ length: numDice }, (value, index) => new Die(Math.floor(Math.random() * 6) + 1, index));
@@ -232,7 +268,10 @@ class Game {
     rollDice() {
         const diceContainerPending = document.getElementById("diceContainerPending");
         const diceContainerSelected = document.getElementById("diceContainerSelected");
-
+        if (this.attempts == 0) {
+            this.dice = this.generateDice(5);
+            this.displayAllDice(this.dice);
+        }
         this.attempts++;
         console.log(this.attempts)
         console.log(this.maxAttempts)
@@ -254,11 +293,17 @@ class Game {
 
             diceContainerPending.innerHTML = "";
             const nonSelectedDice = this.dice.filter(die => !die.selected);
-            console.log(nonSelectedDice)
+
             nonSelectedDice.forEach(die => {
                 die.value = Math.floor(Math.random() * 6) + 1;
                 die.createDie();
             });
+            // console.log("___________________________dice")
+            // console.log(this.dice)
+            // console.log("___________________________selected")
+            // console.log([...this.selectedDice, ...this.dice])
+            this.sheet.compare([...this.selectedDice, ...this.dice]);
+            this.sheet.displaySheet();
         }
 
 
