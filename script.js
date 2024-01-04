@@ -8,7 +8,6 @@ class Sheet {
             { label: 4, value: null, checked: false },
             { label: 5, value: null, checked: false },
             { label: 6, value: null, checked: false },
-            { label: "Bonus", value: null, checked: false },
             { label: "Chance", value: null, checked: false },
             { label: "Petite suite", value: null, checked: false },
             { label: "Grande suite", value: null, checked: false },
@@ -218,6 +217,7 @@ class Game {
         this.selectedDice = [];
         this.maxAttempts = 3;
         this.attempts = 0;
+        this.turn = 0;
         this.sheet = [];
         this.initialize();
     }
@@ -229,13 +229,17 @@ class Game {
         this.sheet = new Sheet()
     }
     reinitialize() {
+        this.turn++;
         const diceContainerPending = document.getElementById("diceContainerPending");
         const diceContainerSelected = document.getElementById("diceContainerSelected");
         diceContainerPending.innerHTML = "";
         diceContainerSelected.innerHTML = "";
-        this.dice = this.generateDice(5);
-        this.displayAllDice(this.dice);
-
+        if (this.sheet.sheet.length > this.turn) {
+            this.dice = this.generateDice(5);
+            this.displayAllDice(this.dice);
+        } else {
+            this.button.remove();
+        }
         if (this.attempts >= this.maxAttempts) {
             this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
         }
@@ -276,35 +280,51 @@ class Game {
         console.log(this.attempts)
         console.log(this.maxAttempts)
 
-        if (this.attempts >= this.maxAttempts) {
-            diceContainerPending.innerHTML = "";
-            diceContainerSelected.innerHTML = "";
+        // if (this.attempts >= this.maxAttempts) {
+        //     diceContainerPending.innerHTML = "";
+        //     diceContainerSelected.innerHTML = "";
 
+        //     this.dice = [...this.selectedDice, ...this.dice];
+        //     this.dice.forEach(die => {
+        //         die.changeSelectedDie();
+        //         die.createDie()
+        //     });
+        //     console.log("Plus de 3 essais");
+        //     this.button.remove();
+        //     this.sheet.compare(this.dice);
+        //     this.sheet.displaySheet();
+        // } else {
+
+        diceContainerPending.innerHTML = "";
+        const nonSelectedDice = this.dice.filter(die => !die.selected);
+
+        nonSelectedDice.forEach(die => {
+            die.value = Math.floor(Math.random() * 6) + 1;
+            if (this.attempts != this.maxAttempts) {
+            die.createDie();
+            }
+        });
+
+        if (this.attempts >= this.maxAttempts) {
+            console.log("Plus de 3 essais");
+            diceContainerSelected.innerHTML = "";
             this.dice = [...this.selectedDice, ...this.dice];
             this.dice.forEach(die => {
                 die.changeSelectedDie();
                 die.createDie()
             });
-            console.log("Plus de 3 essais");
             this.button.remove();
             this.sheet.compare(this.dice);
-            this.sheet.displaySheet();
         } else {
-
-            diceContainerPending.innerHTML = "";
-            const nonSelectedDice = this.dice.filter(die => !die.selected);
-
-            nonSelectedDice.forEach(die => {
-                die.value = Math.floor(Math.random() * 6) + 1;
-                die.createDie();
-            });
-            // console.log("___________________________dice")
-            // console.log(this.dice)
-            // console.log("___________________________selected")
-            // console.log([...this.selectedDice, ...this.dice])
             this.sheet.compare([...this.selectedDice, ...this.dice]);
-            this.sheet.displaySheet();
         }
+        // console.log("___________________________dice")
+        // console.log(this.dice)
+        // console.log("___________________________selected")
+        // console.log([...this.selectedDice, ...this.dice])
+        
+        this.sheet.displaySheet();
+        // }
 
 
     }
