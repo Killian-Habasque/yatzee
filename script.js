@@ -223,8 +223,8 @@ class Game {
     }
 
     initialize() {
-        // this.dice = this.generateDice(5);
-        // this.displayAllDice(this.dice);
+        this.dice = this.generateDice(5);
+        this.displayAllDice(this.dice);
         this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
         this.sheet = new Sheet()
     }
@@ -272,28 +272,13 @@ class Game {
     rollDice() {
         const diceContainerPending = document.getElementById("diceContainerPending");
         const diceContainerSelected = document.getElementById("diceContainerSelected");
-        if (this.attempts == 0) {
-            this.dice = this.generateDice(5);
-            this.displayAllDice(this.dice);
-        }
+        // if (this.attempts == 0 && this.turn == 0) {
+        //     this.dice = this.generateDice(5);
+        //     this.displayAllDice(this.dice);
+        // }
         this.attempts++;
         console.log(this.attempts)
         console.log(this.maxAttempts)
-
-        // if (this.attempts >= this.maxAttempts) {
-        //     diceContainerPending.innerHTML = "";
-        //     diceContainerSelected.innerHTML = "";
-
-        //     this.dice = [...this.selectedDice, ...this.dice];
-        //     this.dice.forEach(die => {
-        //         die.changeSelectedDie();
-        //         die.createDie()
-        //     });
-        //     console.log("Plus de 3 essais");
-        //     this.button.remove();
-        //     this.sheet.compare(this.dice);
-        //     this.sheet.displaySheet();
-        // } else {
 
         diceContainerPending.innerHTML = "";
         const nonSelectedDice = this.dice.filter(die => !die.selected);
@@ -318,15 +303,8 @@ class Game {
         } else {
             this.sheet.compare([...this.selectedDice, ...this.dice]);
         }
-        // console.log("___________________________dice")
-        // console.log(this.dice)
-        // console.log("___________________________selected")
-        // console.log([...this.selectedDice, ...this.dice])
         
         this.sheet.displaySheet();
-        // }
-
-
     }
 
 
