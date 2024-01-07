@@ -1,7 +1,7 @@
 
 
 export default class Sheet {
-    constructor(game) {
+    constructor(callback) {
         this.sheet = [
             { label: 1, value: null, checked: false },
             { label: 2, value: null, checked: false },
@@ -16,10 +16,13 @@ export default class Sheet {
             { label: "Carré", value: null, checked: false },
             { label: "Yam's", value: null, checked: false }
         ];
-        this.game = game;
+        this.callback = callback;
         this.score = null;
     }
 
+    /*
+    Comparer les valeurs du tableau de score à partir des dés
+    */
     compare(dice) {
         dice.sort((a, b) => a.value - b.value);
         const counts = {};
@@ -41,14 +44,14 @@ export default class Sheet {
                 if (!this.sheet.find(item => item.label === "Carré").checked) {
                     const fourOfAKindValue = Object.keys(counts).find(key => counts[key] === 4);
                     console.log(fourOfAKindValue)
-                    if(fourOfAKindValue) {
+                    if (fourOfAKindValue) {
                         const sumOfDice = dice.reduce((acc, curr) => acc + curr.value, 0);
                         this.sheet.find(item => item.label === "Carré").value = parseInt(fourOfAKindValue) * 4 + sumOfDice;
                     } else {
                         this.sheet.find(item => item.label === "Carré").value = null;
                     }
                     // this.sheet.find(item => item.label === "Carré").checked = true;                   
-                } 
+                }
             case Object.values(counts).includes(3) && Object.values(counts).includes(2):
                 // Full
                 if (!this.sheet.find(item => item.label === "Full").checked) {
@@ -112,7 +115,9 @@ export default class Sheet {
         }
     }
 
-
+    /*
+    Afficher le tableau des scores
+    */
     displaySheet() {
         const table = document.getElementById('sheetTable');
         table.innerHTML = '';
@@ -143,7 +148,7 @@ export default class Sheet {
                     allCells.forEach(cell => {
                         cell.onclick = null;
                     });
-                    this.game.reinitialize();
+                    this.callback();
                 };
             }
 

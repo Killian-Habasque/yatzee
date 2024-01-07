@@ -7,6 +7,10 @@ export default class Button {
         this.button.onclick = callback;
         diceContainer.appendChild(this.button);
     }
+
+    /*
+    Supprimer le bouton
+    */
     remove() {
         this.button.parentNode.removeChild(this.button);
         this.button.onclick = null;

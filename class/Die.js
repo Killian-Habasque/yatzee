@@ -1,10 +1,14 @@
 export default class Die {
-    constructor(value, index, game) {
+    constructor(value, index, callback) {
         this.value = value;
         this.index = index;
         this.selected = false;
-        this.game = game;
+        this.callback = callback;
     }
+
+    /*
+    Créer un dé
+    */
     createDie() {
         const dieButton = document.createElement("button");
         dieButton.className = "dice" + (this.selected ? " selected" : "");
@@ -13,12 +17,16 @@ export default class Die {
             dieButton.onclick = () => {
                 this.selected = !this.selected;
                 this.displayDice(this.selected, dieButton)
-                this.game.toggleDice(this);
+                this.callback(this);
             };
         }
 
         this.displayDice(this.selected, dieButton)
     }
+
+    /*
+    Afficher un dé en fonction de son état
+    */
     displayDice(selected, dieButton) {
         const diceContainerPending = document.getElementById("diceContainerPending");
         const diceContainerSelected = document.getElementById("diceContainerSelected");
@@ -28,6 +36,10 @@ export default class Die {
             diceContainerPending.appendChild(dieButton);
         }
     }
+
+    /*
+    Changer l'état d'un dé
+    */
     changeSelectedDie() {
         this.selected = true;
     }
