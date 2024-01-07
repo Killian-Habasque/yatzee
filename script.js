@@ -17,12 +17,6 @@ class Sheet {
         ];
 
         this.score = null;
-
-        this.initialize();
-
-    }
-    initialize() {
-        console.log(this.sheet)
     }
 
     compare(dice) {
@@ -31,30 +25,39 @@ class Sheet {
         dice.forEach((die) => {
             counts[die.value] = (counts[die.value] || 0) + 1;
         });
-        console.log("-------")
-        console.log(dice)
-
+        console.log(counts)
         switch (true) {
             case Object.values(counts).includes(5):
                 // Yam's
                 // this.sheet.find(item => item.label === "Yam's").checked = true;
                 if (!this.sheet.find(item => item.label === "Yam's").checked) {
-                    const yamsScore = dice.reduce((acc, curr) => acc + curr, 0);
-                    this.sheet.find(item => item.label === "Yam's").value = yamsScore;
+                    this.sheet.find(item => item.label === "Yam's").value = 50;
+                } else {
+                    this.sheet.find(item => item.label === "Yam's").value = null;
                 }
             case Object.values(counts).includes(4):
                 // Carré
                 if (!this.sheet.find(item => item.label === "Carré").checked) {
                     const fourOfAKindValue = Object.keys(counts).find(key => counts[key] === 4);
-                    // this.sheet.find(item => item.label === "Carré").checked = true;
-                    const fourOfAKindScore = dice.reduce((acc, curr) => curr === parseInt(fourOfAKindValue) ? acc + curr : acc, 0);
-                    this.sheet.find(item => item.label === "Carré").value = fourOfAKindScore;
-                }
+                    console.log(fourOfAKindValue)
+                    if(fourOfAKindValue) {
+                        const sumOfDice = dice.reduce((acc, curr) => acc + curr.value, 0);
+                        this.sheet.find(item => item.label === "Carré").value = parseInt(fourOfAKindValue) * 4 + sumOfDice;
+                    } else {
+                        this.sheet.find(item => item.label === "Carré").value = null;
+                    }
+                    // this.sheet.find(item => item.label === "Carré").checked = true;                   
+                } 
             case Object.values(counts).includes(3) && Object.values(counts).includes(2):
                 // Full
-                // this.sheet.find(item => item.label === "Full").checked = true;
                 if (!this.sheet.find(item => item.label === "Full").checked) {
-                    this.sheet.find(item => item.label === "Full").value = 25;
+                    const threeOfAKindValue = Object.keys(counts).find(key => counts[key] === 3);
+                    const twoOfAKindValue = Object.keys(counts).find(key => counts[key] === 2);
+                    if (threeOfAKindValue !== twoOfAKindValue) {
+                        this.sheet.find(item => item.label === "Full").value = 25;
+                    } else {
+                        this.sheet.find(item => item.label === "Full").value = null;
+                    }
                 }
             case Object.values(counts).includes(1):
                 // Chiffres
@@ -106,9 +109,6 @@ class Sheet {
                 }
 
         }
-
-
-        console.log(this.sheet);
     }
 
 
@@ -299,6 +299,7 @@ class Game {
                 die.createDie()
             });
             this.button.remove();
+            console.log(this.dice)
             this.sheet.compare(this.dice);
         } else {
             this.sheet.compare([...this.selectedDice, ...this.dice]);
