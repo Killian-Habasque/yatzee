@@ -37,8 +37,11 @@ export default class Sheet {
         this.updateStraightScore(dice, "sm-straight");
         // Grande suite
         this.updateStraightScore(dice, "lg-straight");
+        // Chance
+        this.updateChanceScore(dice);
         // Chiffres
         this.updateNumberScore(dice);
+
     }
 
     countDiceValues(dice) {
@@ -129,12 +132,19 @@ export default class Sheet {
         }
     }
 
+    updateChanceScore(dice) {
+
+    }
+
     updateBonus() {
         let sum = 0;
         for (let i = 1; i <= 6; i++) {
-            const value = this.sheet.find(item => item.slug === i).value;
-            if (value !== null) {
-                sum += value;
+            if (this.sheet.find(item => item.slug === i).checked) {
+                const value = this.sheet.find(item => item.slug === i).value;
+                if (value !== null) {
+                    console.log(sum)
+                    sum += value;
+                }
             }
         }
         if (sum >= 63) {

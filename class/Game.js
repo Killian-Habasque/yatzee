@@ -52,6 +52,7 @@ export default class Game {
         this.sheet = this.sheet;
         this.sheet.compare([...this.selectedDice, ...this.dice]);
         this.sheet.displaySheet();
+        this.sheet.updateBonus();
     }
 
     /*
