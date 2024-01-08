@@ -53,6 +53,7 @@ export default class Game {
         this.sheet.compare([...this.selectedDice, ...this.dice]);
         this.sheet.displaySheet();
         this.sheet.updateBonus();
+        this.sheet.updateScore();
     }
 
     /*
@@ -71,8 +72,6 @@ export default class Game {
         this.selectedDice.push(die);
         this.selectedDice = this.selectedDice.filter(die => die.selected);
 
-        console.log(this.selectedDice)
-        console.log(this.dice)
     }
 
     /*
@@ -92,8 +91,6 @@ export default class Game {
         const diceContainerSelected = document.getElementById("diceContainerSelected");
 
         this.attempts++;
-        console.log(this.attempts)
-        console.log(this.maxAttempts)
 
         diceContainerPending.innerHTML = "";
         const nonSelectedDice = this.dice.filter(die => !die.selected);
@@ -106,7 +103,7 @@ export default class Game {
         });
 
         if (this.attempts >= this.maxAttempts) {
-            console.log("Plus de 3 essais");
+
             diceContainerSelected.innerHTML = "";
             this.dice = [...this.selectedDice, ...this.dice];
             this.dice.forEach(die => {
@@ -114,7 +111,7 @@ export default class Game {
                 die.createDie()
             });
             this.button.remove();
-            console.log(this.dice)
+
             this.sheet.compare(this.dice);
         } else {
             this.sheet.compare([...this.selectedDice, ...this.dice]);
@@ -122,5 +119,6 @@ export default class Game {
         
         this.sheet.displaySheet();
         this.sheet.updateBonus();
+        this.sheet.updateScore();
     }
 }

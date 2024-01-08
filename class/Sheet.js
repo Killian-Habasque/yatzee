@@ -18,6 +18,7 @@ export default class Sheet {
         ];
         this.callback = callback;
         this.bonus = false;
+        this.score = 0;
     }
 
     /*
@@ -54,10 +55,12 @@ export default class Sheet {
 
     updateYamsScore(counts) {
         const item = this.sheet.find(item => item.slug === "yams");
-        if (!item.checked && Object.values(counts).includes(5)) {
-            item.value = 50;
-        } else {
-            item.value = null;
+        if (!item.checked) {
+            if (Object.values(counts).includes(5)) {
+                item.value = 50;
+            } else {
+                item.value = null;
+            }
         }
     }
 
@@ -97,7 +100,7 @@ export default class Sheet {
                 break;
         }
         const straight = diceSort.length >= maxNumber && (diceSort[maxNumber - 1] - diceSort[0] === maxNumber - 1)
-        console.log(straight)
+
         const item = this.sheet.find(item => item.slug === slug);
         if (!item.checked) {
             if (straight) {
@@ -162,9 +165,18 @@ export default class Sheet {
     }
 
     updateScore() {
-        // update score
+        let sum = 0;
+        for (const item of this.sheet) {
+            if (item.value !== null && item.checked) {
+                sum += item.value;
+            }
+        }
+        if (this.bonus) {
+            sum += 35;
+        }
+        this.score = sum
+        console.log(this.score)
     }
-
 
     /*
     Afficher le tableau des scores
