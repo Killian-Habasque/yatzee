@@ -133,7 +133,14 @@ export default class Sheet {
     }
 
     updateChanceScore(dice) {
-
+        const item = this.sheet.find(item => item.slug === "chance");
+        if (!item.checked) {
+            let sum = 0;
+            dice.forEach((die) => {
+                sum += die.value;
+            });
+            item.value = sum;
+        }
     }
 
     updateBonus() {
@@ -154,7 +161,9 @@ export default class Sheet {
         }
     }
 
-
+    updateScore() {
+        // update score
+    }
 
 
     /*
