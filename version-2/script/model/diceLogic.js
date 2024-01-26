@@ -8,10 +8,18 @@ import { gameData } from '../main.js';
 import { showRollResults } from '../gameLogic.js';
 
 
-let isRealignmentInProgress = false;
-let isRealignmentInProgress2 = false;
 let canSelect = false;
 
+let diceParams = {
+    positionX: 0,
+    positionY: 0,
+    positionZ: 0,
+    selected: {
+        positionX: 0,
+        positionY: 0,
+        positionZ: -5,
+    },
+}
 /*
 Maillage du dés en regroupement Plane et Box geometry
 */
@@ -247,12 +255,7 @@ export function selectedDice(dice) {
                 dice.body.position.copy(dice.mesh.position);
             })
             .onComplete(() => {
-                if (!isRealignmentInProgress) {
-                    isRealignmentInProgress = true;
-                    realignDice(() => {
-                        isRealignmentInProgress = false;
-                    });
-                }
+                    realignDice();
             })
             .start();
 
@@ -292,12 +295,7 @@ export function unselectedDice(dice) {
                 dice.body.position.copy(dice.mesh.position);
             })
             .onComplete(() => {
-                if (!isRealignmentInProgress2) {
-                    isRealignmentInProgress2 = true;
-                    realignDiceSelected(() => {
-                        isRealignmentInProgress2 = false;
-                    });
-                }
+                    realignDiceSelected();
             })
             .start();
 
@@ -312,7 +310,6 @@ export function unselectedDice(dice) {
 export function realignDiceSelected(callback) {
     const alignmentDuration = 0.3;
     const delayBetweenDice = 0.1;
-    let completedCount = 0;
 
     gameData.diceArraySelected.forEach((dice, index) => {
         console.log(gameData.diceArraySelected)
@@ -325,12 +322,6 @@ export function realignDiceSelected(callback) {
             }, alignmentDuration * 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .delay(index * delayBetweenDice * 1000)
-            .onComplete(() => {
-                completedCount++;
-                if (completedCount === gameData.diceArraySelected.length) {
-                    callback();
-                }
-            })
             .start();
 
         new TWEEN.Tween({ y: dice.mesh.rotation.y })
@@ -346,41 +337,7 @@ export function realignDiceSelected(callback) {
     });
 }
 
-export function realignDice(callback) {
-    const alignmentDuration = 0.3;
-    const delayBetweenDice = 0.1;
-    let completedCount = 0;
-    console.log(isRealignmentInProgress)
-    gameData.diceArray.forEach((dice, index) => {
-        const targetPosition = new CANNON.Vec3(index * 2, 0, 0);
-        new TWEEN.Tween(dice.body.position)
-            .to({
-                x: targetPosition.x,
-                y: targetPosition.y,
-                z: targetPosition.z
-            }, alignmentDuration * 1000)
-            .easing(TWEEN.Easing.Quadratic.Out)
-            .delay(index * delayBetweenDice * 1000)
-            .onComplete(() => {
-                completedCount++;
-                if (completedCount === gameData.diceArray.length) {
-                    callback();
-                }
-            })
-            .start();
 
-        new TWEEN.Tween({ y: dice.mesh.rotation.y })
-            .to({ y: 0 }, alignmentDuration * 1000)
-            .easing(TWEEN.Easing.Quadratic.Out)
-            .delay(index * delayBetweenDice * 1000)
-            .onUpdate((obj) => {
-                dice.mesh.rotation.y = obj.y;
-                dice.mesh.rotation.reorder('YXZ');
-                dice.body.quaternion.copy(dice.mesh.quaternion);
-            })
-            .start();
-    });
-}
 
 
 
@@ -393,8 +350,6 @@ export function throwDice() {
     gameData.scoreGlobal = [];
 
     gameData.canSelect = false;
-    isRealignmentInProgress = false;
-    isRealignmentInProgress2 = false;
 
     gameData.diceArray.forEach((d, dIdx) => {
 
@@ -455,4 +410,32 @@ export function alignDiceInLine() {
 
     });
 
+}
+export function realignDice(callback) {
+    const alignmentDuration = 0.3;
+    const delayBetweenDice = 0.1;
+
+    gameData.diceArray.forEach((dice, index) => {
+        const targetPosition = new CANNON.Vec3(index * 2, 0, 0);
+        new TWEEN.Tween(dice.body.position)
+            .to({
+                x: targetPosition.x,
+                y: targetPosition.y,
+                z: targetPosition.z
+            }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .start();
+
+        new TWEEN.Tween({ y: dice.mesh.rotation.y })
+            .to({ y: 0 }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .onUpdate((obj) => {
+                dice.mesh.rotation.y = obj.y;
+                dice.mesh.rotation.reorder('YXZ');
+                dice.body.quaternion.copy(dice.mesh.quaternion);
+            })
+            .start();
+    });
 }

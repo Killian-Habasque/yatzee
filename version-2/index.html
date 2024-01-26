@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-	<head>
-		<link rel="stylesheet" type="text/css" href="css/base.css" />
-	</head>
-	<body>
-		<main>
-			<div class="content">
-				<canvas id="canvas"></canvas>
-				<div class="ui-controls">
-					<div class="score">Score: <span id="score-result"></span></div>
-					<button id="roll-btn">Throw the dice</button>
-				</div>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="css/base.css" />
+</head>
+
+<body>
+	<main>
+		<div class="content">
+			<div id="sheetContainer">
+				<table id="sheetTable"></table>
 			</div>
-		</main>
-		<script type="importmap">
+			<canvas id="canvas"></canvas>
+			<div class="ui-controls">
+				<div class="score">Score: <span id="score-result"></span></div>
+				<button id="roll-btn">Throw the dice</button>
+			</div>
+		</div>
+	</main>
+	<script type="importmap">
 		  {
 			"imports": {
 			  "three": "https://unpkg.com/three@0.138.0/build/three.module.js",
@@ -22,6 +27,7 @@
 			}
 		  }
 		</script>
-		<script type="module" src="./script/main.js"></script>
-	</body>
+	<script type="module" src="./script/main.js"></script>
+</body>
+
 </html>
