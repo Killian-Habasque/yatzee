@@ -227,63 +227,116 @@ export function addDiceEvents(dice) {
 
 // Modifiez la fonction selectedDice
 export function selectedDice(dice) {
-    console.log(dice);
+        console.log(dice);
 
-    if (!gameData.canSelect) {
-        return;
-    }
-    const targetPosition = new CANNON.Vec3(gameData.diceArraySelected.length * 2, 0, -5);
-    const selectedDiceIndex = gameData.diceArray.indexOf(dice);
+        if (!gameData.canSelect) {
+            return;
+        }
 
-    gameData.diceArray.splice(selectedDiceIndex, 1);
-    gameData.diceArraySelected.push(dice);
+        const targetPosition = new CANNON.Vec3(gameData.diceArraySelected.length * 2, 0, -5);
 
-    moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
-        realignDice();
-    })
+        new TWEEN.Tween(dice.mesh.position)
+            .to({
+                x: targetPosition.x,
+                y: targetPosition.y,
+                z: targetPosition.z
+            }, 500)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onStart(() => {
+                const selectedDiceIndex = gameData.diceArray.indexOf(dice);
+                gameData.diceArray.splice(selectedDiceIndex, 1);
+                gameData.diceArraySelected.push(dice);
+                console.log("______Dés_______");
+                console.log(gameData.diceArray);
+                console.log("______Dés Sélectionnés_______");
+                console.log(gameData.diceArraySelected);
+            })
+            .onUpdate(() => {
+                dice.body.position.copy(dice.mesh.position);
+            })
+            .onComplete(() => {
+                    realignDice();
+            })
+            .start();
 
-    gameData.canSelect = false;
-    setTimeout(() => {
-        gameData.canSelect = true;
-    }, 1000);
+            gameData.canSelect = false;
+        setTimeout(() => {
+            gameData.canSelect = true;
+        }, 1000);
 
-    dice.mesh.callback = function () { unselectedDice(dice); }
+        dice.mesh.callback = function () { unselectedDice(dice); }
 }
 
 export function unselectedDice(dice) {
 
-    if (!gameData.canSelect) {
-        return;
-    }
+        if (!gameData.canSelect) {
+            return;
+        }
 
-    const targetPosition = new CANNON.Vec3((gameData.diceArray.length) * 2, 0, 0);
-    const selectedDiceIndex = gameData.diceArraySelected.indexOf(dice);
-    gameData.diceArraySelected.splice(selectedDiceIndex, 1);
-    gameData.diceArray.push(dice);
+        const targetPosition = new CANNON.Vec3((gameData.diceArray.length) * 2, 0, 0);
 
-    moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
-        realignDiceSelected();
-    })
+        new TWEEN.Tween(dice.mesh.position)
+            .to({
+                x: targetPosition.x,
+                y: targetPosition.y,
+                z: targetPosition.z
+            }, 500)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onStart(() => {
+                const selectedDiceIndex = gameData.diceArraySelected.indexOf(dice);
+                gameData.diceArraySelected.splice(selectedDiceIndex, 1);
+                gameData.diceArray.push(dice);
+                console.log("______Dés_______");
+                console.log(gameData.diceArray);
+                console.log("______Dés Sélectionnés_______");
+                console.log(gameData.diceArraySelected);
+            })
+            .onUpdate(() => {
+                dice.body.position.copy(dice.mesh.position);
+            })
+            .onComplete(() => {
+                    realignDiceSelected();
+            })
+            .start();
 
-    gameData.canSelect = false;
-    setTimeout(() => {
-        gameData.canSelect = true;
-    }, 1000);
+            gameData.canSelect = false;
+        setTimeout(() => {
+            gameData.canSelect = true;
+        }, 1000);
 
-    dice.mesh.callback = function () { selectedDice(dice); };
+        dice.mesh.callback = function () { selectedDice(dice); };
 }
 
-export function realignDiceSelected() {
-    const alignmentDuration = 0.3 * 1000;
-    const delayBetweenDice = 0.1 * 1000;
+export function realignDiceSelected(callback) {
+    const alignmentDuration = 0.3;
+    const delayBetweenDice = 0.1;
 
     gameData.diceArraySelected.forEach((dice, index) => {
         console.log(gameData.diceArraySelected)
         const targetPosition = new CANNON.Vec3(index * 2, 0, -5);
+        new TWEEN.Tween(dice.body.position)
+            .to({
+                x: targetPosition.x,
+                y: targetPosition.y,
+                z: targetPosition.z
+            }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .start();
 
-        moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice)
+        new TWEEN.Tween({ y: dice.mesh.rotation.y })
+            .to({ y: 0 }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .onUpdate((obj) => {
+                dice.mesh.rotation.y = obj.y;
+                dice.mesh.rotation.reorder('YXZ');
+                dice.body.quaternion.copy(dice.mesh.quaternion);
+            })
+            .start();
     });
 }
+
 
 
 
@@ -324,58 +377,65 @@ export function throwDice() {
 Alignement des dés après le lancer
 */
 export function alignDiceInLine() {
-    const alignmentDuration = 1 * 1000;
-    const delayBetweenDice = 0.2 * 1000;
+    const alignmentDuration = 1;
+    const delayBetweenDice = 0.2;
 
     gameData.diceArray.forEach((dice, index) => {
-        const targetPosition = new CANNON.Vec3(0 + index * 2, 0, 0);
-        moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice, () => {
-            gameData.canSelect = true;
-        })
+        const targetPosition = new CANNON.Vec3(0 + index * 2, 0, 0); 
+
+        new TWEEN.Tween(dice.body.position)
+            .to({
+                x: targetPosition.x,
+                y: targetPosition.y,
+                z: targetPosition.z
+            }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .start();
+
+
+        new TWEEN.Tween({ y: dice.mesh.rotation.y })
+            .to({ y: 0 }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .onUpdate((obj) => {
+                dice.mesh.rotation.y = obj.y;
+                dice.mesh.rotation.reorder('YXZ');
+                dice.body.quaternion.copy(dice.mesh.quaternion);
+            })
+            .onComplete(() => {
+                gameData.canSelect = true;
+            })
+            .start();
+
     });
 
 }
-export function realignDice() {
-    const alignmentDuration = 0.3 * 1000;
-    const delayBetweenDice = 0.1 * 1000;
+export function realignDice(callback) {
+    const alignmentDuration = 0.3;
+    const delayBetweenDice = 0.1;
 
     gameData.diceArray.forEach((dice, index) => {
         const targetPosition = new CANNON.Vec3(index * 2, 0, 0);
-        moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice)
+        new TWEEN.Tween(dice.body.position)
+            .to({
+                x: targetPosition.x,
+                y: targetPosition.y,
+                z: targetPosition.z
+            }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .start();
+
+        new TWEEN.Tween({ y: dice.mesh.rotation.y })
+            .to({ y: 0 }, alignmentDuration * 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .delay(index * delayBetweenDice * 1000)
+            .onUpdate((obj) => {
+                dice.mesh.rotation.y = obj.y;
+                dice.mesh.rotation.reorder('YXZ');
+                dice.body.quaternion.copy(dice.mesh.quaternion);
+            })
+            .start();
     });
-}
-
-
-export function moveAndRotateDice(index, dice, targetPosition, targetRotation, duration, delay, callback) {
-
-    delay ? delay = index * delay : 0
-
-    new TWEEN.Tween(dice.mesh.position)
-        .to({
-            x: targetPosition.x,
-            y: targetPosition.y,
-            z: targetPosition.z
-        }, duration)
-        .easing(TWEEN.Easing.Quadratic.Out)
-        .delay(delay)
-        .onUpdate(() => {
-            dice.body.position.copy(dice.mesh.position);
-        })
-        .start();
-
-    new TWEEN.Tween({ y: dice.mesh.rotation.y })
-        .to({ y: targetRotation }, duration)
-        .easing(TWEEN.Easing.Quadratic.Out)
-        .delay(delay)
-        .onUpdate((obj) => {
-            dice.mesh.rotation.y = obj.y;
-            dice.mesh.rotation.reorder('YXZ');
-            dice.body.quaternion.copy(dice.mesh.quaternion);
-        })
-        .onComplete(() => {
-            if (callback) {
-                callback();
-            }
-        })
-        .start();
 }
