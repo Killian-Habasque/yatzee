@@ -116,6 +116,10 @@ export function createFloor() {
 Résultats score en texte
 */
 export function showRollResults(score) {
+    console.log("------global")
+    console.log(gameData.scoreGlobal)
+    console.log("------selected")
+    console.log(gameData.scoreSelected)
     gameData.scoreGlobal.push(score)
 
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {

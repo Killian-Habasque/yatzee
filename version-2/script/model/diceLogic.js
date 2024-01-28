@@ -229,8 +229,6 @@ export function addDiceEvents(dice) {
 // Modifiez la fonction selectedDice
 export function selectedDice(dice) {
     console.log(dice);
-    gameData.scoreSelected.push(dice.value);
-
 
     if (!gameData.canSelect) {
         return;
@@ -243,6 +241,7 @@ export function selectedDice(dice) {
 
     moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
         realignDice();
+        gameData.scoreSelected.push(dice.value);
     })
 
     gameData.canSelect = false;
@@ -255,7 +254,6 @@ export function selectedDice(dice) {
 
 export function unselectedDice(dice) {
 
-    gameData.scoreSelected.pop(dice.value);
 
     if (!gameData.canSelect) {
         return;
@@ -268,6 +266,7 @@ export function unselectedDice(dice) {
 
     moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
         realignDiceSelected();
+        gameData.scoreSelected.pop(dice.value);
     })
 
     gameData.canSelect = false;
