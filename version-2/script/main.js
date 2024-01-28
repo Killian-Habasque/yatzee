@@ -17,9 +17,10 @@ export let gameData = {
     diceArray: [],
     diceArraySelected: [],
 
+    scoreSelected: [],
     scoreResult: document.querySelector('#score-result'),
     scoreGlobal: [],
-    
+
     params: {
         numberOfDice: 5,
         segments: 40,

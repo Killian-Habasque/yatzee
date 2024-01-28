@@ -23,9 +23,7 @@ export default class Game {
         this.displayAllDice(this.dice);
         this.button = new Button("submit", "Lancer les dés", () => this.rollDice())
         // this.label = new Label("final", "Lancer les dés")
-        this.sheet = new Sheet(() => this.reinitialize());
-        this.sheet.compare(this.dice);
-        this.sheet.displaySheet();
+
     }
      
     /*

@@ -192,28 +192,29 @@ export function addDiceEvents(dice) {
                 showRollResults(1);
                 dice.mesh.callback = function () {
                     console.log(1);
+                    dice.value = 1;
                     selectedDice(dice);
                 }
 
             } else if (isHalfPi(euler.x)) {
                 showRollResults(4);
-                dice.mesh.callback = function () { console.log(4); selectedDice(dice); }
+                dice.mesh.callback = function () { console.log(4); dice.value = 4; selectedDice(dice); }
             } else if (isMinusHalfPi(euler.x)) {
                 showRollResults(3);
-                dice.mesh.callback = function () { console.log(3); selectedDice(dice); }
+                dice.mesh.callback = function () { console.log(3); dice.value = 3; selectedDice(dice); }
             } else if (isPiOrMinusPi(euler.x)) {
                 showRollResults(6);
-                dice.mesh.callback = function () { console.log(6); selectedDice(dice); }
+                dice.mesh.callback = function () { console.log(6); dice.value = 6; selectedDice(dice); }
             } else {
                 // landed on edge => wait to fall on side and fire the event again
                 dice.body.allowSleep = true;
             }
         } else if (isHalfPi(euler.z)) {
             showRollResults(2);
-            dice.mesh.callback = function () { console.log(2); selectedDice(dice); }
+            dice.mesh.callback = function () { console.log(2); dice.value = 2; selectedDice(dice); }
         } else if (isMinusHalfPi(euler.z)) {
             showRollResults(5);
-            dice.mesh.callback = function () { console.log(5); selectedDice(dice); }
+            dice.mesh.callback = function () { console.log(5); dice.value = 5; selectedDice(dice); }
         } else {
             // landed on edge => wait to fall on side and fire the event again
             dice.body.allowSleep = true;
@@ -228,6 +229,8 @@ export function addDiceEvents(dice) {
 // Modifiez la fonction selectedDice
 export function selectedDice(dice) {
     console.log(dice);
+    gameData.scoreSelected.push(dice.value);
+
 
     if (!gameData.canSelect) {
         return;
@@ -251,6 +254,8 @@ export function selectedDice(dice) {
 }
 
 export function unselectedDice(dice) {
+
+    gameData.scoreSelected.pop(dice.value);
 
     if (!gameData.canSelect) {
         return;
@@ -278,7 +283,6 @@ export function realignDiceSelected() {
     const delayBetweenDice = 0.1 * 1000;
 
     gameData.diceArraySelected.forEach((dice, index) => {
-        console.log(gameData.diceArraySelected)
         const targetPosition = new CANNON.Vec3(index * 2, 0, -5);
 
         moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice)
