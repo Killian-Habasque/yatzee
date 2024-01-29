@@ -25,11 +25,8 @@ export default class Sheet {
     Comparer les valeurs du tableau de score à partir des dés
     */
     compare(dice) {
-        console.log(dice)
         dice.sort((a, b) => a - b);
         const counts = this.countDiceValues(dice);
-        console.log("______________")
-        console.log(counts)
         // Yam's
         this.updateYamsScore(counts);
         // Carré
@@ -219,6 +216,20 @@ export default class Sheet {
             tbody.appendChild(row);
         }
         table.appendChild(tbody);
+    }
+
+    updateSheet() {
+        const table = document.getElementById('sheetTable');
+        const allCells = table.querySelectorAll('td');
+
+        allCells.forEach(cell => {
+            const key = cell.dataset.key;
+            if (key) {
+                cell.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
+                cell.className = this.sheet[key].checked ? 'selected' : '';
+            }
+
+        });
     }
 
 }

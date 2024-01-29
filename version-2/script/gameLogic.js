@@ -12,7 +12,7 @@ import { render } from './render.js';
 import Sheet from './model/Sheet.js';
 
 const canvasEl = document.querySelector('#canvas');
-
+let sheet = new Sheet();
 
 /*
 Création de la scène
@@ -59,7 +59,7 @@ export function initScene() {
     createOrUpdateRectangle();
 
     throwDice();
-
+    sheet.displaySheet();
     window.addEventListener('click', onDocumentMouseDown, false);
 
     render();
@@ -124,9 +124,9 @@ export function showRollResults(score) {
 
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {
         alignDiceInLine();
-        let sheet = new Sheet();
+
         sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
-        sheet.displaySheet();
+        sheet.updateSheet();
     }
     if (gameData.scoreResult.innerHTML === '') {
         gameData.scoreResult.innerHTML += score;

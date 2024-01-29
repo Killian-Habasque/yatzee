@@ -266,7 +266,10 @@ export function unselectedDice(dice) {
 
     moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
         realignDiceSelected();
-        gameData.scoreSelected.pop(dice.value);
+        let indexToDelete = gameData.scoreSelected.indexOf(dice.value);
+        if (indexToDelete !== -1) {
+            gameData.scoreSelected.splice(indexToDelete, 1);
+        }
     })
 
     gameData.canSelect = false;
@@ -296,6 +299,10 @@ export function realignDiceSelected() {
 Lancer dés 
 */
 export function throwDice() {
+    if (!gameData.canSelect) {
+        return;
+    }
+
     gameData.scoreResult.innerHTML = '';
     gameData.scoreGlobal = [];
 
@@ -319,7 +326,10 @@ export function throwDice() {
         );
         d.body.allowSleep = true;
     });
-
+    
+    setTimeout(() => {
+        gameData.canSelect = true;
+    }, 1000);
 }
 
 

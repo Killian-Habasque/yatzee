@@ -172,3 +172,10 @@ canvas {
 .ui-controls #roll-btn:hover {
 	background-color: #3737af;
 }
+
+#sheetContainer {
+	z-index: 50;
+}
+.selected {
+	opacity: 0.5;
+}
