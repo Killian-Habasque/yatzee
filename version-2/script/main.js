@@ -20,6 +20,10 @@ export let gameData = {
     scoreSelected: [],
     scoreResult: document.querySelector('#score-result'),
     scoreGlobal: [],
+    maxAttempts: 3,
+    attempts: 0,
+    canSelect: false,
+    canRoll: true,
 
     params: {
         numberOfDice: 5,
@@ -37,34 +41,6 @@ export let gameData = {
     },
 };
 
-
-// export let renderer, scene, camera, diceMesh, physicsWorld;
-// export let diceArray = [];
-// export let diceArraySelected = [];
-
-// export const canvasEl = document.querySelector('#canvas');
-// export let scoreResult = document.querySelector('#score-result');
-// export let scoreGlobal = [];
-
-// // let isRealignmentInProgress = false;
-// // let isRealignmentInProgress2 = false;
-// export let canSelect = false;
-
-
-// export const params = {
-//     numberOfDice: 5,
-//     segments: 40,
-//     edgeRadius: .07,
-//     notchRadius: .12,
-//     notchDepth: .1,
-//     rectangle: {
-//         width: 10,
-//         height: 2,
-//         positionX: 2,
-//         positionY: -6,
-//         positionZ: -5,
-//     },
-// };
 
 
 initPhysics();

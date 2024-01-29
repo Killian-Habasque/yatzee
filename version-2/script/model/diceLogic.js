@@ -8,7 +8,6 @@ import { gameData } from '../main.js';
 import { showRollResults } from '../gameLogic.js';
 
 
-let canSelect = false;
 
 let diceParams = {
     positionX: 0,
@@ -253,8 +252,6 @@ export function selectedDice(dice) {
 }
 
 export function unselectedDice(dice) {
-
-
     if (!gameData.canSelect) {
         return;
     }
@@ -299,37 +296,46 @@ export function realignDiceSelected() {
 Lancer dés 
 */
 export function throwDice() {
-    if (!gameData.canSelect) {
+    if (!gameData.canRoll) {
         return;
     }
+    gameData.canRoll = false;
+    console.log("-----------attempts")
 
-    gameData.scoreResult.innerHTML = '';
-    gameData.scoreGlobal = [];
+    if((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice ){
+        gameData.attempts++;
+    }
 
-    gameData.canSelect = false;
+    console.log(gameData.attempts)
+    if (gameData.attempts <= gameData.maxAttempts) {
 
-    gameData.diceArray.forEach((d, dIdx) => {
 
-        d.body.velocity.setZero();
-        d.body.angularVelocity.setZero();
+        gameData.scoreResult.innerHTML = '';
+        gameData.scoreGlobal = [];
 
-        d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
-        d.mesh.position.copy(d.body.position);
+        gameData.diceArray.forEach((d, dIdx) => {
 
-        d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
-        d.body.quaternion.copy(d.mesh.quaternion);
+            d.body.velocity.setZero();
+            d.body.angularVelocity.setZero();
 
-        const force = 3 + 5 * Math.random();
-        d.body.applyImpulse(
-            new CANNON.Vec3(-force, force, 0),
-            new CANNON.Vec3(0, 0, .2)
-        );
-        d.body.allowSleep = true;
-    });
-    
+            d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
+            d.mesh.position.copy(d.body.position);
+
+            d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
+            d.body.quaternion.copy(d.mesh.quaternion);
+
+            const force = 3 + 5 * Math.random();
+            d.body.applyImpulse(
+                new CANNON.Vec3(-force, force, 0),
+                new CANNON.Vec3(0, 0, .2)
+            );
+            d.body.allowSleep = true;
+        });
+    }
     setTimeout(() => {
-        gameData.canSelect = true;
-    }, 1000);
+        gameData.canRoll = true;
+    }, 4000);
+
 }
 
 

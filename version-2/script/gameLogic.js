@@ -57,7 +57,7 @@ export function initScene() {
 
 
     createOrUpdateRectangle();
-
+    
     throwDice();
     sheet.displaySheet();
     window.addEventListener('click', onDocumentMouseDown, false);
