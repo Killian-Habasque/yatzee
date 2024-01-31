@@ -291,7 +291,7 @@ export function throwDice() {
     gameData.canSelect = false;
     // console.log("-----------attempts")
 
-    if((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice ){
+    if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
         gameData.attempts++;
     }
 
@@ -324,35 +324,8 @@ export function throwDice() {
         setTimeout(() => {
             gameData.canRoll = true;
         }, 4000);
-    } 
-}
-export function reloadDice() {
-    gameData.diceArraySelected = [];
-
-    gameData.diceMesh = createDiceMesh();
-    for (let i = 0; i < gameData.params.numberOfDice; i++) {
-        gameData.diceArray.push(createDice());
-        addDiceEvents(gameData.diceArray[i]);
     }
-
-    throwDice();
 }
-
-export function autoSelected() {
-    console.log("______Dés_______");
-    console.log(gameData.diceArray);
-    console.log("______Dés Sélectionnés_______");
-    console.log(gameData.diceArraySelected);
-
-    gameData.diceArraySelected.forEach((dice, index) => {
-        const targetPosition = new CANNON.Vec3(gameData.diceArray.length * 2, 0, 0);
-        gameData.diceArray.push(dice);
-        moveAndRotateDice(index, dice, targetPosition, 0, 500, 0)
-    });
-    gameData.diceArraySelected = [];
-
-}
-
 
 
 /*
@@ -361,13 +334,20 @@ Alignement des dés après le lancer
 export function alignDiceInLine() {
     const alignmentDuration = 1 * 1000;
     const delayBetweenDice = 0.2 * 1000;
+    let completedDice = 0;
+    const totalDice = gameData.diceArray.length;
 
     gameData.diceArray.forEach((dice, index) => {
         const targetPosition = new CANNON.Vec3(0 + index * 2, 0, 0);
         moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice, () => {
             gameData.canSelect = true;
-            if(gameData.attempts == gameData.maxAttempts) {
+            if (gameData.attempts == gameData.maxAttempts) {
                 autoSelected()
+            }
+            completedDice++;
+            if (completedDice === totalDice) {
+                gameData.sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
+                gameData.sheet.updateSheet();
             }
         })
     });
@@ -416,4 +396,40 @@ export function moveAndRotateDice(index, dice, targetPosition, targetRotation, d
             }
         })
         .start();
+}
+
+
+export function reloadDice() {
+    gameData.attempts = 0;
+
+    gameData.diceArraySelected.forEach((dice, index) => {
+        gameData.diceArray.push(dice);
+        gameData.scoreGlobal.push(dice.value);
+    });
+    gameData.diceArraySelected = [];
+    gameData.scoreSelected = [];
+
+    console.log("______Score_______");
+    console.log(gameData.scoreGlobal);
+    console.log("______Score Sélectionnés_______");
+    console.log(gameData.scoreSelected);
+
+    throwDice();
+}
+
+export function autoSelected() {
+    console.log("______Dés_______");
+    console.log(gameData.diceArray);
+    console.log("______Dés Sélectionnés_______");
+    console.log(gameData.diceArraySelected);
+
+    gameData.canSelect = false;
+    gameData.diceArraySelected.forEach((dice, index) => {
+        const targetPosition = new CANNON.Vec3(gameData.diceArray.length * 2, 0, 0);
+        gameData.diceArray.push(dice);
+        gameData.scoreGlobal.push(dice.value);
+        moveAndRotateDice(index, dice, targetPosition, 0, 500, 100)
+    });
+    gameData.diceArraySelected = [];
+    gameData.scoreSelected = [];
 }

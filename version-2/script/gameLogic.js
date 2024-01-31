@@ -6,13 +6,13 @@ import { gameData } from './main.js';
 
 import { initDatGui } from './datGui.js';
 import { onDocumentMouseDown } from './eventHandling.js';
-import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
+import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
 import { createOrUpdateRectangle, updateRectangle } from './model/trayModel.js';
 import { render } from './render.js';
-import Sheet from './model/Sheet.js';
+
 
 const canvasEl = document.querySelector('#canvas');
-let sheet = new Sheet(() => { reloadDice();});
+
 
 /*
 Création de la scène
@@ -59,7 +59,7 @@ export function initScene() {
     createOrUpdateRectangle();
     
     throwDice();
-    sheet.displaySheet();
+    gameData.sheet.displaySheet();
     window.addEventListener('click', onDocumentMouseDown, false);
 
     render();
@@ -124,9 +124,6 @@ export function showRollResults(score) {
 
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {
         alignDiceInLine();
-
-        sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
-        sheet.updateSheet();
     }
     if (gameData.scoreResult.innerHTML === '') {
         gameData.scoreResult.innerHTML += score;

@@ -202,7 +202,7 @@ export default class Sheet {
                     cellValue.className = "selected";
                     const allCells = document.querySelectorAll('td');
                     allCells.forEach(cell => {
-                        cell.onclick = null;
+                        cell.onclick = () => {return;};
                     });
                     this.callback();
                 };
@@ -227,9 +227,20 @@ export default class Sheet {
             if (key) {
                 cell.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
                 cell.className = this.sheet[key].checked ? 'selected' : '';
+
+                if (!this.sheet[key].checked) {
+                    cell.onclick = () => {
+                        this.sheet[key].checked = true;
+                        cell.className = "selected";
+                        const allCells = document.querySelectorAll('td');
+                        allCells.forEach(cell => {
+                            cell.onclick = () => {return;};
+                        });
+                        this.callback();
+                    };
+                }
             }
 
         });
     }
-
 }
