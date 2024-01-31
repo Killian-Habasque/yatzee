@@ -289,13 +289,13 @@ export function throwDice() {
     }
     gameData.canRoll = false;
     gameData.canSelect = false;
-    // console.log("-----------attempts")
+    console.log("-----------attempts")
 
     if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
         gameData.attempts++;
     }
 
-    // console.log(gameData.attempts)
+    console.log(gameData.attempts)
     if (gameData.attempts <= gameData.maxAttempts) {
 
 
@@ -321,10 +321,11 @@ export function throwDice() {
             d.body.allowSleep = true;
 
         });
-        setTimeout(() => {
-            gameData.canRoll = true;
-        }, 4000);
+
     }
+    setTimeout(() => {
+        gameData.canRoll = true;
+    }, 4000);
 }
 
 
@@ -413,7 +414,8 @@ export function reloadDice() {
     console.log(gameData.scoreGlobal);
     console.log("______Score Sélectionnés_______");
     console.log(gameData.scoreSelected);
-
+    console.log("---lancer")
+    gameData.canRoll = true;
     throwDice();
 }
 
