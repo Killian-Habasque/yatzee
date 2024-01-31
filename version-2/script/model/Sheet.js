@@ -1,7 +1,7 @@
 
 
 export default class Sheet {
-    constructor() {
+    constructor(callback) {
         this.sheet = [
             { slug: 1, label: 1, value: null, checked: false },
             { slug: 2, label: 2, value: null, checked: false },
@@ -16,7 +16,7 @@ export default class Sheet {
             { slug: "four-kind", label: "Carré", value: null, checked: false },
             { slug: "yams", label: "Yam's", value: null, checked: false }
         ];
-        // this.callback = callback;
+        this.callback = callback;
         this.bonus = false;
         this.score = 0;
     }
@@ -151,7 +151,7 @@ export default class Sheet {
             if (this.sheet.find(item => item.slug === i).checked) {
                 const value = this.sheet.find(item => item.slug === i).value;
                 if (value !== null) {
-                    console.log(sum)
+                    // console.log(sum)
                     sum += value;
                 }
             }
@@ -174,7 +174,7 @@ export default class Sheet {
             sum += 35;
         }
         this.score = sum
-        console.log(this.score)
+        // console.log(this.score)
     }
 
     /*

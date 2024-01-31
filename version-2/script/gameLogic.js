@@ -12,7 +12,7 @@ import { render } from './render.js';
 import Sheet from './model/Sheet.js';
 
 const canvasEl = document.querySelector('#canvas');
-let sheet = new Sheet();
+let sheet = new Sheet(() => { reloadDice();});
 
 /*
 Création de la scène
@@ -116,10 +116,10 @@ export function createFloor() {
 Résultats score en texte
 */
 export function showRollResults(score) {
-    console.log("------global")
-    console.log(gameData.scoreGlobal)
-    console.log("------selected")
-    console.log(gameData.scoreSelected)
+    // console.log("------global")
+    // console.log(gameData.scoreGlobal)
+    // console.log("------selected")
+    // console.log(gameData.scoreSelected)
     gameData.scoreGlobal.push(score)
 
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {

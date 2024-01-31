@@ -7,18 +7,6 @@ import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 import { gameData } from '../main.js';
 import { showRollResults } from '../gameLogic.js';
 
-
-
-let diceParams = {
-    positionX: 0,
-    positionY: 0,
-    positionZ: 0,
-    selected: {
-        positionX: 0,
-        positionY: 0,
-        positionZ: -5,
-    },
-}
 /*
 Maillage du dés en regroupement Plane et Box geometry
 */
@@ -300,13 +288,14 @@ export function throwDice() {
         return;
     }
     gameData.canRoll = false;
-    console.log("-----------attempts")
+    gameData.canSelect = false;
+    // console.log("-----------attempts")
 
     if((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice ){
         gameData.attempts++;
     }
 
-    console.log(gameData.attempts)
+    // console.log(gameData.attempts)
     if (gameData.attempts <= gameData.maxAttempts) {
 
 
@@ -330,13 +319,40 @@ export function throwDice() {
                 new CANNON.Vec3(0, 0, .2)
             );
             d.body.allowSleep = true;
+
         });
+        setTimeout(() => {
+            gameData.canRoll = true;
+        }, 4000);
+    } 
+}
+export function reloadDice() {
+    gameData.diceArraySelected = [];
+
+    gameData.diceMesh = createDiceMesh();
+    for (let i = 0; i < gameData.params.numberOfDice; i++) {
+        gameData.diceArray.push(createDice());
+        addDiceEvents(gameData.diceArray[i]);
     }
-    setTimeout(() => {
-        gameData.canRoll = true;
-    }, 4000);
+
+    throwDice();
+}
+
+export function autoSelected() {
+    console.log("______Dés_______");
+    console.log(gameData.diceArray);
+    console.log("______Dés Sélectionnés_______");
+    console.log(gameData.diceArraySelected);
+
+    gameData.diceArraySelected.forEach((dice, index) => {
+        const targetPosition = new CANNON.Vec3(gameData.diceArray.length * 2, 0, 0);
+        gameData.diceArray.push(dice);
+        moveAndRotateDice(index, dice, targetPosition, 0, 500, 0)
+    });
+    gameData.diceArraySelected = [];
 
 }
+
 
 
 /*
@@ -350,6 +366,9 @@ export function alignDiceInLine() {
         const targetPosition = new CANNON.Vec3(0 + index * 2, 0, 0);
         moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice, () => {
             gameData.canSelect = true;
+            if(gameData.attempts == gameData.maxAttempts) {
+                autoSelected()
+            }
         })
     });
 
