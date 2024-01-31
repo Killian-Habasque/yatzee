@@ -232,8 +232,12 @@ export default class Sheet {
                     cell.onclick = () => {
                         this.sheet[key].checked = true;
                         cell.className = "selected";
-                        const allCells = document.querySelectorAll('td');
+                        const allCells = document.querySelectorAll('td:last-child');
                         allCells.forEach(cell => {
+                            const key = cell.dataset.key;
+                            if (!this.sheet[key].checked) {
+                                cell.textContent = '-';
+                            }
                             cell.onclick = () => {return;};
                         });
                         this.callback();
