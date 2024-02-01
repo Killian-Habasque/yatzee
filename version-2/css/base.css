@@ -179,3 +179,7 @@ canvas {
 .selected {
 	opacity: 0.5;
 }
+
+.alert {
+	position: absolute;
+}

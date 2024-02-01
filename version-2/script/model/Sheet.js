@@ -1,4 +1,4 @@
-
+import Label from './Label.js';
 
 export default class Sheet {
     constructor(callback) {
@@ -27,6 +27,7 @@ export default class Sheet {
     compare(dice) {
         dice.sort((a, b) => a - b);
         const counts = this.countDiceValues(dice);
+        let result = "";
         // Yam's
         this.updateYamsScore(counts);
         // Carré
@@ -57,6 +58,7 @@ export default class Sheet {
         if (!item.checked) {
             if (Object.values(counts).includes(5)) {
                 item.value = 50;
+                new Label("alert", "YAMS !!!", 5000);
             } else {
                 item.value = null;
             }
@@ -72,6 +74,9 @@ export default class Sheet {
                 if (fourOfAKindValue && nonFourOfAKindValue) {
                     const sumOfDice = parseInt(fourOfAKindValue) * 4 + parseInt(nonFourOfAKindValue);
                     item.value = sumOfDice;
+                    if (!Object.values(counts).includes(5)) {
+                    new Label("alert", "CARRÉ !!!", 5000);
+                    }
                 }
             } else {
                 item.value = null;
@@ -88,12 +93,15 @@ export default class Sheet {
 
         let maxNumber = 0
         let score = 0
+        let title = ""
         switch (true) {
             case slug == "sm-straight":
+                title = "Petite suite !!"
                 maxNumber = 4
                 score = 30
                 break;
             case slug == "lg-straight":
+                title = "Grande suite !!"
                 maxNumber = 5
                 score = 40
                 break;
@@ -104,6 +112,8 @@ export default class Sheet {
         if (!item.checked) {
             if (straight) {
                 item.value = score;
+                new Label("alert", title, 5000);
+                
             } else {
                 item.value = null;
             }
@@ -118,6 +128,7 @@ export default class Sheet {
                 const twoOfAKindValue = Object.keys(counts).find(key => counts[key] === 2);
                 if (threeOfAKindValue !== twoOfAKindValue) {
                     item.value = 25;
+                    new Label("alert", "FULL !!!", 5000);
                 }
             } else {
                 item.value = null;

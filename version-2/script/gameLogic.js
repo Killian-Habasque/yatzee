@@ -9,7 +9,7 @@ import { onDocumentMouseDown } from './eventHandling.js';
 import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
 import { createOrUpdateRectangle, updateRectangle } from './model/trayModel.js';
 import { render } from './render.js';
-
+import Label from './model/Label.js';
 
 const canvasEl = document.querySelector('#canvas');
 
