@@ -34,10 +34,10 @@ export default class Sheet {
         this.updateFourOfAKindScore(counts);
         // Full
         this.updateFullScore(counts);
-        // Petite suite
-        this.updateStraightScore(dice, "sm-straight");
         // Grande suite
-        this.updateStraightScore(dice, "lg-straight");
+        let straight = this.updateStraightScore(dice, "lg-straight");
+        // Petite suite
+        this.updateStraightScore(dice, "sm-straight", straight);
         // Chance
         this.updateChanceScore(dice);
         // Chiffres
@@ -75,7 +75,7 @@ export default class Sheet {
                     const sumOfDice = parseInt(fourOfAKindValue) * 4 + parseInt(nonFourOfAKindValue);
                     item.value = sumOfDice;
                     if (!Object.values(counts).includes(5)) {
-                    new Label("alert", "CARRÉ !!!", 5000);
+                        new Label("alert", "CARRÉ !!!", 5000);
                     }
                 }
             } else {
@@ -84,7 +84,7 @@ export default class Sheet {
         }
     }
 
-    updateStraightScore(dice, slug) {
+    updateStraightScore(dice, slug, lgStraightExist) {
         let diceValue = [];
         dice.forEach((die) => {
             diceValue.push(die);
@@ -112,8 +112,13 @@ export default class Sheet {
         if (!item.checked) {
             if (straight) {
                 item.value = score;
-                new Label("alert", title, 5000);
-                
+                if(slug == "lg-straight") {
+                    new Label("alert", title, 5000);
+                    return true;
+                }
+                if(!lgStraightExist) {
+                    new Label("alert", title, 5000);
+                }
             } else {
                 item.value = null;
             }
@@ -213,7 +218,7 @@ export default class Sheet {
                     cellValue.className = "selected";
                     const allCells = document.querySelectorAll('td');
                     allCells.forEach(cell => {
-                        cell.onclick = () => {return;};
+                        cell.onclick = () => { return; };
                     });
                     this.callback();
                 };
@@ -249,7 +254,7 @@ export default class Sheet {
                             if (!this.sheet[key].checked) {
                                 cell.textContent = '-';
                             }
-                            cell.onclick = () => {return;};
+                            cell.onclick = () => { return; };
                         });
                         this.callback();
                     };
@@ -262,7 +267,7 @@ export default class Sheet {
     pendingSheet() {
         const table = document.getElementById('sheetTable');
         const allCells = table.querySelectorAll('td');
-        console.log("PEEEEEEEEEEEEEEEEDING")
+
         allCells.forEach(cell => {
             const key = cell.dataset.key;
             if (key && !this.sheet[key].checked) {
