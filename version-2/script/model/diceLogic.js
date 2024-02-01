@@ -297,8 +297,7 @@ export function throwDice() {
 
     console.log(gameData.attempts)
     if (gameData.attempts <= gameData.maxAttempts) {
-
-
+        gameData.sheet.pendingSheet();
         gameData.scoreResult.innerHTML = '';
         gameData.scoreGlobal = [];
 

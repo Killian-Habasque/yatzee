@@ -247,4 +247,17 @@ export default class Sheet {
 
         });
     }
+
+    pendingSheet() {
+        const table = document.getElementById('sheetTable');
+        const allCells = table.querySelectorAll('td');
+        console.log("PEEEEEEEEEEEEEEEEDING")
+        allCells.forEach(cell => {
+            const key = cell.dataset.key;
+            if (key && !this.sheet[key].checked) {
+                cell.textContent = '-';
+            }
+
+        });
+    }
 }
