@@ -10,11 +10,7 @@ export default class Button {
     }
     existButton() {
         const button = document.querySelector("." + this.button.className);
-        if(button) {
-            return true
-        } else {
-            return false
-        }
+        return button ? true : false
     }
     addButton() {
         const controls = document.querySelector(".ui-controls");

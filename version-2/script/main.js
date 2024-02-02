@@ -30,6 +30,7 @@ export let gameData = {
     canRoll: true,
     sheet: new Sheet(() => { reloadDice();}),
     button: new Button("roll-btn", "Throw the dice"),
+    brake: null,
 
     params: {
         numberOfDice: 5,

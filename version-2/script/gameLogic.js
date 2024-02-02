@@ -57,7 +57,7 @@ export function initScene() {
 
 
     createOrUpdateRectangle();
-    
+
     throwDice();
     gameData.sheet.displaySheet();
     window.addEventListener('click', onDocumentMouseDown, false);
@@ -122,8 +122,24 @@ export function showRollResults(score) {
     // console.log(gameData.scoreSelected)
     gameData.scoreGlobal.push(score)
 
+    clearTimeout(gameData.brake);
+
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {
+        if (gameData.attempts < gameData.maxAttempts) {
+            gameData.button.addButton();
+        }
         alignDiceInLine();
+
+    } else {
+        gameData.brake = setTimeout(() => {
+            if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
+                console.log("CHARGEMENT DES");
+                if (gameData.attempts == gameData.maxAttempts) {
+                    gameData.attempts - 1;
+                }
+                gameData.button.addButton();
+            }
+        }, 5000);
     }
     if (gameData.scoreResult.innerHTML === '') {
         gameData.scoreResult.innerHTML += score;

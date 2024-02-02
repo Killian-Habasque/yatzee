@@ -355,7 +355,6 @@ export function alignDiceInLine() {
             if (completedDice === totalDice) {
                 gameData.sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
                 gameData.sheet.updateSheet();
-                gameData.button.addButton();
             }
         })
     });
