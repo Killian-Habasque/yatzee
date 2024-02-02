@@ -291,13 +291,13 @@ export function throwDice() {
     gameData.canSelect = false;
     console.log("-----------attempts")
 
-    if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
+    // if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
         gameData.attempts++;
         if (gameData.button.existButton()) {
             gameData.button.removeButton();
         }
 
-    }
+    // }
     console.log(gameData.attempts)
     if (gameData.attempts <= gameData.maxAttempts) {
         gameData.sheet.pendingSheet();

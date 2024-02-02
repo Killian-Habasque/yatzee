@@ -134,9 +134,7 @@ export function showRollResults(score) {
         gameData.brake = setTimeout(() => {
             if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
                 console.log("CHARGEMENT DES");
-                if (gameData.attempts == gameData.maxAttempts) {
-                    gameData.attempts - 1;
-                }
+                gameData.attempts - 1;
                 gameData.button.addButton();
             }
         }, 5000);
