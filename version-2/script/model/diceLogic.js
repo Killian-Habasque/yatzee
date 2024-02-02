@@ -293,8 +293,11 @@ export function throwDice() {
 
     if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
         gameData.attempts++;
-    }
+        if (gameData.button.existButton()) {
+            gameData.button.removeButton();
+        }
 
+    }
     console.log(gameData.attempts)
     if (gameData.attempts <= gameData.maxAttempts) {
         gameData.sheet.pendingSheet();
@@ -322,8 +325,12 @@ export function throwDice() {
         });
 
     }
+    // if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
+    //     gameData.button.addButton();
+    // }
     setTimeout(() => {
         gameData.canRoll = true;
+
     }, 4000);
 }
 
@@ -348,6 +355,7 @@ export function alignDiceInLine() {
             if (completedDice === totalDice) {
                 gameData.sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
                 gameData.sheet.updateSheet();
+                gameData.button.addButton();
             }
         })
     });

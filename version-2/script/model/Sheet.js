@@ -58,7 +58,7 @@ export default class Sheet {
         if (!item.checked) {
             if (Object.values(counts).includes(5)) {
                 item.value = 50;
-                new Label("alert", "YAMS !!!", 5000);
+                new Label("alert", "YAMS !!!", 2000);
             } else {
                 item.value = null;
             }
@@ -75,7 +75,7 @@ export default class Sheet {
                     const sumOfDice = parseInt(fourOfAKindValue) * 4 + parseInt(nonFourOfAKindValue);
                     item.value = sumOfDice;
                     if (!Object.values(counts).includes(5)) {
-                        new Label("alert", "CARRÉ !!!", 5000);
+                        new Label("alert", "CARRÉ !!!", 2000);
                     }
                 }
             } else {
@@ -113,11 +113,11 @@ export default class Sheet {
             if (straight) {
                 item.value = score;
                 if(slug == "lg-straight") {
-                    new Label("alert", title, 5000);
+                    new Label("alert", title, 2000);
                     return true;
                 }
                 if(!lgStraightExist) {
-                    new Label("alert", title, 5000);
+                    new Label("alert", title, 2000);
                 }
             } else {
                 item.value = null;
@@ -133,7 +133,7 @@ export default class Sheet {
                 const twoOfAKindValue = Object.keys(counts).find(key => counts[key] === 2);
                 if (threeOfAKindValue !== twoOfAKindValue) {
                     item.value = 25;
-                    new Label("alert", "FULL !!!", 5000);
+                    new Label("alert", "FULL !!!", 2000);
                 }
             } else {
                 item.value = null;

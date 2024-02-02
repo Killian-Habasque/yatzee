@@ -1,0 +1,42 @@
+
+
+.btn__throw {
+    position: relative;
+    border-radius: 50px;
+    border: 2px solid white;
+    background: #9D301D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 25px;
+    padding-right: calc(25px*2 + 20px);
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+
+    .dice {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        right: 25px;
+
+        &.one {
+            transform: translate(5px, 5px) rotate(25deg);
+        }
+        &.two {
+            transform: translate(-5px, -5px);      
+        }
+
+    }
+    &:hover .dice.two {
+        animation: 0.5s linear slidein;
+
+        @keyframes slidein {
+            0% {  transform: translate(-5px, -30px); }
+            50% {  transform: translate(-5px, -5px); }
+            70% {  transform: translate(-5px, -10px); }
+            100%   { transform: translate(-5px, -5px);  }
+          }
+    }
+}

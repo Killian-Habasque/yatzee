@@ -8,6 +8,7 @@ import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, add
 // import { throwDice } from './model/diceLogic.js';
 import { render } from './render.js';
 import Sheet from './model/Sheet.js';
+import Button from './model/Button.js';
 
 export let gameData = {
     renderer: null,
@@ -28,6 +29,7 @@ export let gameData = {
     canSelect: false,
     canRoll: true,
     sheet: new Sheet(() => { reloadDice();}),
+    button: new Button("roll-btn", "Throw the dice"),
 
     params: {
         numberOfDice: 5,
@@ -51,6 +53,6 @@ initPhysics();
 initScene();
 
 window.addEventListener('resize', updateSceneSize);
-document.getElementById('roll-btn').addEventListener('click', throwDice);
+
 
 render();
