@@ -1,0 +1,99 @@
+.sheet__score {
+    $sheet-radius: 15px;
+    $sheet-radius--in: calc($sheet-radius - $spacer-xs);
+    $border-style: 2px solid $color-primary;
+
+    font-family: $font-text--label;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: $color-primary;
+    border: $border-style;
+    background: $color-light;
+    border-radius: $sheet-radius;
+    width: 300px;
+    padding: $spacer-xs;
+
+    .sheet__table {
+        display: grid;
+        border-radius: $sheet-radius;
+
+        thead,
+        tbody,
+        tfoot {
+            display: flex;
+            flex-direction: column;
+            border: $border-style;
+            border-bottom: none;
+            overflow: hidden;
+
+        }
+
+        thead {
+            border-radius: $sheet-radius--in $sheet-radius--in 0 0;
+        }
+
+        tfoot {
+            border-radius: 0 0 $sheet-radius--in $sheet-radius--in;
+            border-top: none;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 10fr 4fr;
+
+            &:not(:last-child) {
+                border-bottom: $border-style;
+            }
+
+            .cell {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 1vh;
+                width: 100%;
+
+                &:last-child {
+                    justify-content: center;
+                    border-left: $border-style;
+                }
+
+                &.double {
+                    padding: 0;
+                    flex-direction: column;
+                }
+
+                &.large {
+                    padding: 2vh 1vh;
+                }
+
+                .icon {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+
+
+    }
+}
+.txt__number {
+    font-family: $font-number--label;
+    font-size: 20px;
+}
+.choice__score {
+   cursor: pointer;
+}
+.bg__primary {
+    background: $color-primary;
+    color: $color-light;
+}
+
+.bg__secondary {
+    background: $color-secondary;
+    color: $color-light;
+}
+
+.border__dotted {
+    border-style: dotted !important;
+}
