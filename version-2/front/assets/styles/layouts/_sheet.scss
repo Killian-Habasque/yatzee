@@ -12,7 +12,9 @@
     background: $color-light;
     border-radius: $sheet-radius;
     width: 300px;
+    height: fit-content;
     padding: $spacer-xs;
+    align-self: center;
 
     .sheet__table {
         display: grid;
@@ -26,7 +28,6 @@
             border: $border-style;
             border-bottom: none;
             overflow: hidden;
-
         }
 
         thead {
@@ -81,7 +82,7 @@
     font-family: $font-number--label;
     font-size: 20px;
 }
-.choice__score {
+#choice__score {
    cursor: pointer;
 }
 .bg__primary {
