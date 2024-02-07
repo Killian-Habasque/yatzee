@@ -57,15 +57,15 @@ export function initScene() {
             gltf.scene.traverse(function (child) {
                 if (child.type === 'Mesh') {
                     let m = child
-                    m.receiveShadow = true
-                    m.castShadow = false
+                    m.receiveShadow = false
+                    m.castShadow = true
                     m.scale.set(9, 9, 9);
-                    m.position.set(4, -7.1, -2);
+                    m.position.set(2, -7.1, 0);
 
                     let plateauMaterial = m.material;
-                    plateauMaterial.color.r = 2;
-                    plateauMaterial.color.g = 2;
-                    plateauMaterial.color.b = 2;
+                    plateauMaterial.color.r = 4;
+                    plateauMaterial.color.g = 4;
+                    plateauMaterial.color.b = 4;
                     m.material = plateauMaterial;
                 }
                 // if (child.type === 'SpotLight') {
@@ -101,9 +101,9 @@ export function initScene() {
                     let m = child
                     m.receiveShadow = false
                     m.castShadow = true
-                    m.scale.set(40, 40, 40);
+                    m.scale.set(50, 50, 50);
                     console.log(m)
-                    m.position.set(-1000, -700, -2);
+                    m.position.set(-1100, -680, -2);
                     m.rotateY(Math.PI / 1.2);
                 }
             })
@@ -166,6 +166,32 @@ export function createFloor() {
     )
     floor.receiveShadow = true;
     floor.position.y = -7;
+    floor.quaternion.setFromAxisAngle(new THREE.Vector3(-1, 0, 0), Math.PI * .5);
+    gameData.scene.add(floor);
+
+    const floorBody = new CANNON.Body({
+        type: CANNON.Body.STATIC,
+        shape: new CANNON.Plane(),
+    });
+    floorBody.position.copy(floor.position);
+    floorBody.quaternion.copy(floor.quaternion);
+    gameData.physicsWorld.addBody(floorBody);
+    createFloor2()
+}
+
+export function createFloor2() {
+    const textureLoader = new THREE.TextureLoader();
+    const floorTexture = textureLoader.load('/version-2/models/wood_floor_worn_diff_1k.jpg');
+    const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(1000, 1000),
+        // new THREE.ShadowMaterial({
+        //     opacity: .1
+        // }),
+        new THREE.MeshBasicMaterial({ map: floorTexture })
+    )
+
+    floor.receiveShadow = true;
+    floor.position.y = -7.1;
     floor.quaternion.setFromAxisAngle(new THREE.Vector3(-1, 0, 0), Math.PI * .5);
     gameData.scene.add(floor);
 
