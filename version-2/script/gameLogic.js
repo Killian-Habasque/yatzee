@@ -1,6 +1,7 @@
 import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
 import * as THREE from 'three';
 
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 import { gameData } from './main.js';
 
@@ -48,6 +49,75 @@ export function initScene() {
     topLight.shadow.camera.far = 400;
     gameData.scene.add(topLight);
 
+    const loader = new GLTFLoader()
+    console.log(loader)
+    loader.load(
+        '/version-2/models/food_tray.glb',
+        function (gltf) {
+            gltf.scene.traverse(function (child) {
+                if (child.type === 'Mesh') {
+                    let m = child
+                    m.receiveShadow = true
+                    m.castShadow = false
+                    m.scale.set(9, 9, 9);
+                    m.position.set(4, -7.1, -2);
+
+                    let plateauMaterial = m.material;
+                    plateauMaterial.color.r = 2;
+                    plateauMaterial.color.g = 2;
+                    plateauMaterial.color.b = 2;
+                    m.material = plateauMaterial;
+                }
+                // if (child.type === 'SpotLight') {
+                 
+                //     let l = child
+                //     l.castShadow = true
+                //     l.shadow.bias = -0.003
+                //     //l.shadow.mapSize.width = 2048
+                //     //l.shadow.mapSize.height = 2048
+                // }
+            })
+            gameData.scene.add(gltf.scene)
+            // gltf.animations; // Array<THREE.AnimationClip>
+            // gltf.scene; // THREE.Group
+            // gltf.scenes; // Array<THREE.Group>
+            // gltf.cameras; // Array<THREE.Camera>
+            // gltf.asset; // Object
+        },
+        (xhr) => {
+            if (xhr.lengthComputable) {
+                var percentComplete = (xhr.loaded / xhr.total) * 100
+            }
+        },
+        (error) => {
+            console.log(error)
+        }
+    )
+    loader.load(
+        '/version-2/models/pen(1).glb',
+        function (gltf) {
+            gltf.scene.traverse(function (child) {
+                if (child.type === 'Mesh') {
+                    let m = child
+                    m.receiveShadow = false
+                    m.castShadow = true
+                    m.scale.set(40, 40, 40);
+                    console.log(m)
+                    m.position.set(-1000, -700, -2);
+                    m.rotateY(Math.PI / 1.2);
+                }
+            })
+            gameData.scene.add(gltf.scene)
+        },
+        (xhr) => {
+            if (xhr.lengthComputable) {
+                var percentComplete = (xhr.loaded / xhr.total) * 100
+            }
+        },
+        (error) => {
+            console.log(error)
+        }
+    )
     createFloor();
     gameData.diceMesh = createDiceMesh();
     for (let i = 0; i < gameData.params.numberOfDice; i++) {
