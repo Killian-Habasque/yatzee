@@ -7,12 +7,11 @@ import { gameData } from './main.js';
 import { initDatGui } from './datGui.js';
 import { onDocumentMouseDown } from './eventHandling.js';
 import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
-import { createOrUpdateRectangle, updateRectangle } from './model/trayModel.js';
 import { render } from './render.js';
-import Label from './model/Label.js';
 
 const canvasEl = document.querySelector('#canvas');
-
+export let tray =  null;
+import Tray from './model/Tray.js';
 
 /*
 Création de la scène
@@ -33,6 +32,7 @@ export function initScene() {
     gameData.camera.position.set(0, 7, 10);
     gameData.camera.rotation.set(18, 0, 0);
 
+    gameData.tray = new Tray();
     initDatGui();
 
     updateSceneSize();
@@ -54,9 +54,6 @@ export function initScene() {
         gameData.diceArray.push(createDice());
         addDiceEvents(gameData.diceArray[i]);
     }
-
-
-    createOrUpdateRectangle();
 
     throwDice();
     gameData.sheet.displaySheet();

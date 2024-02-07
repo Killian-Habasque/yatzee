@@ -2,7 +2,7 @@ import * as dat from 'dat.gui';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { gameData } from './main.js';
-import { createOrUpdateRectangle, updateRectangle  } from './model/trayModel.js';
+
 
 /*
 Alignement des dés après le lancer
@@ -27,11 +27,11 @@ export function initDatGui() {
 
 
     const rectangleFolder = gui.addFolder('Rectangle');
-    rectangleFolder.add(gameData.params.rectangle, 'width', 1, 5).onChange(updateRectangle);
-    rectangleFolder.add(gameData.params.rectangle, 'height', 1, 5).onChange(updateRectangle);
-    rectangleFolder.add(gameData.params.rectangle, 'positionX', -10, 10).onChange(updateRectangle);
-    rectangleFolder.add(gameData.params.rectangle, 'positionY', -10, 10).onChange(updateRectangle);
-    rectangleFolder.add(gameData.params.rectangle, 'positionZ', -10, 10).onChange(updateRectangle);
+    rectangleFolder.add(gameData.params.rectangle, 'width', 1, 5).onChange(() => gameData.tray.updateRectangle());
+    rectangleFolder.add(gameData.params.rectangle, 'height', 1, 5).onChange(() => gameData.tray.updateRectangle());
+    rectangleFolder.add(gameData.params.rectangle, 'positionX', -10, 10).onChange(() => gameData.tray.updateRectangle());
+    rectangleFolder.add(gameData.params.rectangle, 'positionY', -10, 10).onChange(() => gameData.tray.updateRectangle());
+    rectangleFolder.add(gameData.params.rectangle, 'positionZ', -10, 10).onChange(() => gameData.tray.updateRectangle());
 
     const diceDebugFolder = gui.addFolder('Dice Debug');
 
