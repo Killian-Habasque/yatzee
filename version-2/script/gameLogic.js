@@ -14,6 +14,7 @@ const canvasEl = document.querySelector('#canvas');
 export let tray =  null;
 import Tray from './model/Tray.js';
 import Floor from './model/Floor.js';
+import Dice from './model/Dice.js';
 
 /*
 Création de la scène
@@ -51,14 +52,14 @@ export function initScene() {
     topLight.shadow.camera.far = 400;
     gameData.scene.add(topLight);
 
-    
-    gameData.diceMesh = createDiceMesh();
-    for (let i = 0; i < gameData.params.numberOfDice; i++) {
-        gameData.diceArray.push(createDice());
-        addDiceEvents(gameData.diceArray[i]);
-    }
+    new Dice();
+    // gameData.diceMesh = createDiceMesh();
+    // for (let i = 0; i < gameData.params.numberOfDice; i++) {
+    //     gameData.diceArray.push(createDice());
+    //     addDiceEvents(gameData.diceArray[i]);
+    // }
 
-    throwDice();
+    // throwDice();
     gameData.sheet.displaySheet();
     window.addEventListener('click', onDocumentMouseDown, false);
 

@@ -24,7 +24,7 @@ export default class Tray {
                         let m = child
                         m.receiveShadow = false
                         m.castShadow = true
-                        m.scale.set(9, 9, 9);
+                        m.scale.set(8, 8, 8);
                         m.position.set(2, -7.1, 0);
 
                         let plateauMaterial = m.material;
