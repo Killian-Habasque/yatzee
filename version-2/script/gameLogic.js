@@ -12,9 +12,9 @@ import { render } from './render.js';
 
 const canvasEl = document.querySelector('#canvas');
 export let tray =  null;
-import Tray from './model/Tray.js';
-import Floor from './model/Floor.js';
-import Dice from './model/Dice.js';
+import Tray from './class/Tray.js';
+import Floor from './class/Floor.js';
+import Dice from './class/Dice.js';
 
 /*
 Création de la scène

@@ -7,8 +7,8 @@ import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, add
 
 // import { throwDice } from './model/diceLogic.js';
 import { render } from './render.js';
-import Sheet from './model/Sheet.js';
-import Button from './model/Button.js';
+import Sheet from './class/Sheet.js';
+import Button from './class/Button.js';
 
 export let gameData = {
     renderer: null,
