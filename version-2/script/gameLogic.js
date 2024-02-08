@@ -13,6 +13,7 @@ import { render } from './render.js';
 const canvasEl = document.querySelector('#canvas');
 export let tray =  null;
 import Tray from './model/Tray.js';
+import Floor from './model/Floor.js';
 
 /*
 Création de la scène
@@ -63,9 +64,9 @@ export function initScene() {
                     m.position.set(2, -7.1, 0);
 
                     let plateauMaterial = m.material;
-                    plateauMaterial.color.r = 4;
-                    plateauMaterial.color.g = 4;
-                    plateauMaterial.color.b = 4;
+                    plateauMaterial.color.r = 3;
+                    plateauMaterial.color.g = 3;
+                    plateauMaterial.color.b = 3;
                     m.material = plateauMaterial;
                 }
                 // if (child.type === 'SpotLight') {
@@ -103,7 +104,7 @@ export function initScene() {
                     m.castShadow = true
                     m.scale.set(50, 50, 50);
                     console.log(m)
-                    m.position.set(-1100, -680, -2);
+                    m.position.set(-1100, -670, -2);
                     m.rotateY(Math.PI / 1.2);
                 }
             })
@@ -118,7 +119,8 @@ export function initScene() {
             console.log(error)
         }
     )
-    createFloor();
+
+    new Floor();
     gameData.diceMesh = createDiceMesh();
     for (let i = 0; i < gameData.params.numberOfDice; i++) {
         gameData.diceArray.push(createDice());
@@ -154,55 +156,8 @@ export function initPhysics() {
 }
 
 
-/*
-Création du plane
-*/
-export function createFloor() {
-    const floor = new THREE.Mesh(
-        new THREE.PlaneGeometry(1000, 1000),
-        new THREE.ShadowMaterial({
-            opacity: .1
-        })
-    )
-    floor.receiveShadow = true;
-    floor.position.y = -7;
-    floor.quaternion.setFromAxisAngle(new THREE.Vector3(-1, 0, 0), Math.PI * .5);
-    gameData.scene.add(floor);
 
-    const floorBody = new CANNON.Body({
-        type: CANNON.Body.STATIC,
-        shape: new CANNON.Plane(),
-    });
-    floorBody.position.copy(floor.position);
-    floorBody.quaternion.copy(floor.quaternion);
-    gameData.physicsWorld.addBody(floorBody);
-    createFloor2()
-}
 
-export function createFloor2() {
-    const textureLoader = new THREE.TextureLoader();
-    const floorTexture = textureLoader.load('/version-2/models/wood_floor_worn_diff_1k.jpg');
-    const floor = new THREE.Mesh(
-        new THREE.PlaneGeometry(1000, 1000),
-        // new THREE.ShadowMaterial({
-        //     opacity: .1
-        // }),
-        new THREE.MeshBasicMaterial({ map: floorTexture })
-    )
-
-    floor.receiveShadow = true;
-    floor.position.y = -7.1;
-    floor.quaternion.setFromAxisAngle(new THREE.Vector3(-1, 0, 0), Math.PI * .5);
-    gameData.scene.add(floor);
-
-    const floorBody = new CANNON.Body({
-        type: CANNON.Body.STATIC,
-        shape: new CANNON.Plane(),
-    });
-    floorBody.position.copy(floor.position);
-    floorBody.quaternion.copy(floor.quaternion);
-    gameData.physicsWorld.addBody(floorBody);
-}
 
 
 /*
