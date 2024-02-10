@@ -16,8 +16,6 @@ export default class Dice {
             gameData.diceArray.push(this.createDice());
             this.addDiceEvents(gameData.diceArray[i]);
         }
-    
-        this.throwDice();
     }
 
     /*
@@ -312,15 +310,23 @@ export default class Dice {
         console.log("-----------attempts")
 
         // if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
-        gameData.attempts++;
-        if (gameData.button.existButton()) {
-            gameData.button.removeButton();
+            gameData.attempts++;
+        if(gameData.tour != 0 || gameData.attempts != 0) {
+            console.log("BUTTTTTON")
+            console.log(gameData.tour)
+            if (gameData.button.existButton()) {
+             
+                gameData.button.removeButton();
+            }
         }
-
+       
         // }
-        console.log(gameData.attempts)
+        console.log(gameData.tour)
         if (gameData.attempts <= gameData.maxAttempts) {
-            gameData.sheet.pendingSheet();
+            if(gameData.tour != 0 || gameData.attempts != 0) {
+                gameData.sheet.pendingSheet();
+            }
+            
             gameData.scoreResult.innerHTML = '';
             gameData.scoreGlobal = [];
 

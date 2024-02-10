@@ -1,12 +1,11 @@
-import { throwDice } from '../model/diceLogic.js';
 
 export default class Button {
-    constructor(slug, innerHTML) {
+    constructor(slug, innerHTML, callback) {
         this.button = document.createElement("button");
         this.button.className = slug;
         this.button.id = slug;
         this.button.innerHTML = innerHTML;
-        this.button.addEventListener('click', throwDice);
+        this.button.addEventListener('click', callback);
     }
     existButton() {
         const button = document.querySelector("." + this.button.className);

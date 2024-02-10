@@ -3,12 +3,10 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
 
 import { initPhysics, initScene, updateSceneSize } from './gameLogic.js';
-import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
+// import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
 
 // import { throwDice } from './model/diceLogic.js';
 import { render } from './render.js';
-import Sheet from './class/Sheet.js';
-import Button from './class/Button.js';
 
 export let gameData = {
     renderer: null,
@@ -28,8 +26,9 @@ export let gameData = {
     tour: 0,
     canSelect: false,
     canRoll: true,
-    sheet: new Sheet(() => { reloadDice();}),
-    button: new Button("roll-btn", "Throw the dice"),
+    sheet: null,
+    button: null,
+    dice: null,
     tray: null,
     brake: null,
 

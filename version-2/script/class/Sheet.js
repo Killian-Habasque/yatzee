@@ -1,4 +1,5 @@
 import Label from './Label.js';
+import { gameData } from '../main.js';
 
 export default class Sheet {
     constructor(callback) {
@@ -220,6 +221,7 @@ export default class Sheet {
                     allCells.forEach(cell => {
                         cell.onclick = () => { return; };
                     });
+                    gameData.tour++;
                     this.callback();
                 };
             }
@@ -256,6 +258,7 @@ export default class Sheet {
                             }
                             cell.onclick = () => { return; };
                         });
+                        gameData.tour++;
                         this.callback();
                     };
                 }

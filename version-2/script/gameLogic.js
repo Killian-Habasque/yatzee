@@ -7,7 +7,7 @@ import { gameData } from './main.js';
 
 import { initDatGui } from './datGui.js';
 import { onDocumentMouseDown } from './eventHandling.js';
-import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
+// import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
 import { render } from './render.js';
 
 const canvasEl = document.querySelector('#canvas');
@@ -15,11 +15,15 @@ export let tray =  null;
 import Tray from './class/Tray.js';
 import Floor from './class/Floor.js';
 import Dice from './class/Dice.js';
+import Sheet from './class/Sheet.js';
+import Button from './class/Button.js';
 
 /*
 Création de la scène
 */
 export function initScene() {
+
+
 
     gameData.renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -35,8 +39,15 @@ export function initScene() {
     gameData.camera.position.set(0, 7, 10);
     gameData.camera.rotation.set(18, 0, 0);
 
+    gameData.dice = new Dice();
+    gameData.button = new Button("roll-btn", "Throw the dice", () => { gameData.dice.throwDice();})
+    gameData.sheet = new Sheet(() => { gameData.dice.reloadDice();})
     gameData.tray = new Tray();
     new Floor();
+    gameData.dice.throwDice();
+
+
+
     initDatGui();
 
     updateSceneSize();
@@ -52,7 +63,7 @@ export function initScene() {
     topLight.shadow.camera.far = 400;
     gameData.scene.add(topLight);
 
-    new Dice();
+ 
     // gameData.diceMesh = createDiceMesh();
     // for (let i = 0; i < gameData.params.numberOfDice; i++) {
     //     gameData.diceArray.push(createDice());
@@ -104,7 +115,7 @@ export function showRollResults(score) {
         if (gameData.attempts < gameData.maxAttempts) {
             gameData.button.addButton();
         }
-        alignDiceInLine();
+        gameData.dice.alignDiceInLine();
 
     } else {
         gameData.brake = setTimeout(() => {
