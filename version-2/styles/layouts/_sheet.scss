@@ -1,4 +1,5 @@
 .sheet__score {
+    z-index: 10;
     $sheet-radius: 15px;
     $sheet-radius--in: calc($sheet-radius - $spacer-xs);
     $border-style: 2px solid $color-primary;

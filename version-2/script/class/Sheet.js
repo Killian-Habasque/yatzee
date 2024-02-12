@@ -198,62 +198,65 @@ export default class Sheet {
     Afficher le tableau des scores
     */
     displaySheet() {
-        const table = document.getElementById('sheetTable');
-        table.innerHTML = '';
+        // const table = document.getElementById('sheetTable');
+        // table.innerHTML = '';
 
-        const tbody = document.createElement('tbody');
-        for (const key in this.sheet) {
-            const row = document.createElement('tr');
-            const cellKey = document.createElement('td');
-            cellKey.textContent = this.sheet[key].label;
+        // const tbody = document.createElement('tbody');
+        // for (const key in this.sheet) {
+        //     const row = document.createElement('tr');
+        //     const cellKey = document.createElement('td');
+        //     cellKey.textContent = this.sheet[key].label;
 
-            const cellValue = document.createElement('td');
+        //     const cellValue = document.createElement('td');
 
-            cellValue.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
+        //     cellValue.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
 
-            cellValue.dataset.key = key;
+        //     cellValue.dataset.key = key;
 
-            if (!this.sheet[key].checked) {
-                cellValue.onclick = () => {
-                    this.sheet[key].checked = true;
-                    cellValue.className = "selected";
-                    const allCells = document.querySelectorAll('td');
-                    allCells.forEach(cell => {
-                        cell.onclick = () => { return; };
-                    });
-                    gameData.tour++;
-                    this.callback();
-                };
-            }
+        //     if (!this.sheet[key].checked) {
+        //         cellValue.onclick = () => {
+        //             this.sheet[key].checked = true;
+        //             cellValue.className = "selected";
+        //             const allCells = document.querySelectorAll('td');
+        //             allCells.forEach(cell => {
+        //                 cell.onclick = () => { return; };
+        //             });
+        //             gameData.tour++;
+        //             this.callback();
+        //         };
+        //     }
 
-            if (this.sheet[key].checked) {
-                cellValue.className = "selected";
-            }
-            row.appendChild(cellKey);
-            row.appendChild(cellValue);
-            tbody.appendChild(row);
-        }
-        table.appendChild(tbody);
+        //     if (this.sheet[key].checked) {
+        //         cellValue.className = "selected";
+        //     }
+        //     row.appendChild(cellKey);
+        //     row.appendChild(cellValue);
+        //     tbody.appendChild(row);
+        // }
+        // table.appendChild(tbody);
     }
 
     updateSheet() {
-        const table = document.getElementById('sheetTable');
-        const allCells = table.querySelectorAll('td');
+        const table = document.getElementById('sheet');
+        const allCells = table.querySelectorAll('.cell');
 
         allCells.forEach(cell => {
             const key = cell.dataset.key;
             if (key) {
                 cell.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
-                cell.className = this.sheet[key].checked ? 'selected' : '';
+                if(this.sheet[key].checked) {
+                    cell.classList.add('selected');
+                }
+        
 
                 if (!this.sheet[key].checked) {
                     cell.onclick = () => {
                         this.sheet[key].checked = true;
-                        cell.className = "selected";
-                        const allCells = document.querySelectorAll('td:last-child');
+                        cell.classList.add('selected');
+                        const allCells = document.querySelectorAll('.cell:last-child');
                         allCells.forEach(cell => {
                             const key = cell.dataset.key;
-                            if (!this.sheet[key].checked) {
+                            if (key && !this.sheet[key].checked) {
                                 cell.textContent = '-';
                             }
                             cell.onclick = () => { return; };
@@ -268,8 +271,8 @@ export default class Sheet {
     }
 
     pendingSheet() {
-        const table = document.getElementById('sheetTable');
-        const allCells = table.querySelectorAll('td');
+        const table = document.getElementById('sheet');
+        const allCells = table.querySelectorAll('.cell');
 
         allCells.forEach(cell => {
             const key = cell.dataset.key;
