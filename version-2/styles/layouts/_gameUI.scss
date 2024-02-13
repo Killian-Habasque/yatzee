@@ -9,12 +9,21 @@
     display: grid;
 
     .sheet__score {
+        z-index: 50;
         margin-left: $spacer-md;
     }
     .ui-controls {
+        z-index: 50;
         position: absolute;
         align-self: end;
         justify-self: center;
         margin-bottom: $spacer-xl;
+    }
+    .ui-labels {
+        z-index: 50;
+        position: absolute;
+        align-self: start;
+        justify-self: center;
+        margin-top: $spacer-xl;
     }
 }

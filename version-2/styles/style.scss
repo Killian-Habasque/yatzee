@@ -18,41 +18,30 @@ canvas {
 	left: 0;
 }
 
-.ui-controls #score-result {
-	display: inline-block;
-	min-width: 1.8em;
-	color: #d45f2e;
-}
-.ui-controls #score-result:after {
-	content: "\200b";
-}
-.ui-controls .roll-btn {
-	background-color: #273e9a;
-	font-weight: bold;
-	color: #ffffff;
-	border: none;
-	padding: 1em 1.5em;
-	border-radius: 1.5em;
-	text-decoration: none;
-	display: inline-block;
-	cursor: pointer;
-	margin: 2em 0 0 0;
-	transition: background-color 0.2s, transform 0.1s;
-	pointer-events: auto;
-}
-.ui-controls .roll-btn:active {
-	transform: translateY(2px);
-}
-.ui-controls .roll-btn:hover {
-	background-color: #3737af;
-}
-#sheetContainer {
-	z-index: 50;
-}
+
 .selected {
 	opacity: 0.5;
 }
 
 .alert {
 	position: absolute;
+	align-self: center;
+	justify-self: center;
+	font-family: Helvetica, sans-serif;
+    min-width: 100px;
+    font-size: 40px;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+	color: white;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+}
+
+
+.label__txt {
+	font-family: Helvetica, sans-serif;
+    min-width: 100px;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+	color: white;
 }

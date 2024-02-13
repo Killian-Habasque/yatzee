@@ -11,7 +11,7 @@ import { onDocumentMouseDown } from './eventHandling.js';
 import { render } from './render.js';
 
 const canvasEl = document.querySelector('#canvas');
-export let tray =  null;
+export let tray = null;
 import Tray from './class/Tray.js';
 import Floor from './class/Floor.js';
 import Dice from './class/Dice.js';
@@ -40,8 +40,8 @@ export function initScene() {
     gameData.camera.rotation.set(18, 0, 0);
 
     gameData.dice = new Dice();
-    gameData.button = new Button("roll-btn", "Throw the dice", () => { gameData.dice.throwDice();})
-    gameData.sheet = new Sheet(() => { gameData.dice.reloadDice();})
+    gameData.button = new Button("btn__throw", 'Lancer <svg class="dice one" width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D" stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /><circle cx="9" cy="20.9355" r="3" fill="#9D301D" /><circle cx="21" cy="8.93555" r="3" fill="#9D301D" /></svg ><svg class="dice two" width="31" height="31" viewBox="0 0 31 31" fill="none"xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D"stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /></svg>', () => { gameData.dice.throwDice();})
+    gameData.sheet = new Sheet(() => { gameData.dice.reloadDice(); })
     gameData.tray = new Tray();
     new Floor();
     gameData.dice.throwDice();
@@ -63,7 +63,7 @@ export function initScene() {
     topLight.shadow.camera.far = 400;
     gameData.scene.add(topLight);
 
- 
+
     // gameData.diceMesh = createDiceMesh();
     // for (let i = 0; i < gameData.params.numberOfDice; i++) {
     //     gameData.diceArray.push(createDice());

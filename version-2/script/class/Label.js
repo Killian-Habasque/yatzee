@@ -4,7 +4,7 @@ export default class Label {
         this.label.className = slug;
         this.label.innerHTML = innerHTML;
 
-        const diceContainer = document.querySelector(".content");
+        const diceContainer = document.querySelector(".game__main");
         diceContainer.appendChild(this.label);
         setTimeout(() => {
             diceContainer.removeChild(this.label);
