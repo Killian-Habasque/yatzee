@@ -130,7 +130,7 @@
         &:before {
             background: $color-secondary;
             border: 2px solid $color-secondary;
-            left: 4px;
+            left: 0;
             top: 6px;
             box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
         }
@@ -205,7 +205,7 @@
 
                 &:after {
                     top: 0;
-                    left: 4px;
+                    // left: 4px;
                 }
 
                 &:before {

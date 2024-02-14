@@ -18,7 +18,7 @@ export default class Sheet {
             { slug: "yams", label: "Yam's", value: null, checked: false }
         ];
         this.callback = callback;
-        this.bonus = false;
+        this.bonus = 0;
         this.score = 0;
     }
 
@@ -59,7 +59,7 @@ export default class Sheet {
         if (!item.checked) {
             if (Object.values(counts).includes(5)) {
                 item.value = 50;
-                new Label("alert", "YAMS !!!", 2000);
+                new Label("alert", "Yams !", 2000);
             } else {
                 item.value = null;
             }
@@ -76,7 +76,7 @@ export default class Sheet {
                     const sumOfDice = parseInt(fourOfAKindValue) * 4 + parseInt(nonFourOfAKindValue);
                     item.value = sumOfDice;
                     if (!Object.values(counts).includes(5)) {
-                        new Label("alert", "CARRÉ !!!", 2000);
+                        new Label("alert", "Carré !", 2000);
                     }
                 }
             } else {
@@ -97,12 +97,12 @@ export default class Sheet {
         let title = ""
         switch (true) {
             case slug == "sm-straight":
-                title = "Petite suite !!"
+                title = "Petite suite !"
                 maxNumber = 4
                 score = 30
                 break;
             case slug == "lg-straight":
-                title = "Grande suite !!"
+                title = "Grande suite !"
                 maxNumber = 5
                 score = 40
                 break;
@@ -134,7 +134,7 @@ export default class Sheet {
                 const twoOfAKindValue = Object.keys(counts).find(key => counts[key] === 2);
                 if (threeOfAKindValue !== twoOfAKindValue) {
                     item.value = 25;
-                    new Label("alert", "FULL !!!", 2000);
+                    new Label("alert", "Full !", 2000);
                 }
             } else {
                 item.value = null;
@@ -168,18 +168,21 @@ export default class Sheet {
             if (this.sheet.find(item => item.slug === i).checked) {
                 const value = this.sheet.find(item => item.slug === i).value;
                 if (value !== null) {
-                    // console.log(sum)
                     sum += value;
                 }
             }
         }
-        if (sum >= 63) {
-            this.bonus = true;
-        } else {
-            this.bonus = false;
+        this.bonus = sum
+        this.displayBonus()
+    }
+    displayBonus() {
+        const cellTotalBonusScore = document.getElementById('total-bonus__score');
+        cellTotalBonusScore.textContent = this.bonus + "/63";
+        if (this.bonus >= 63) {
+            const cellBonusScore = document.getElementById('bonus__score');
+            cellBonusScore.textContent = "✗";
         }
     }
-
     updateScore() {
         let sum = 0;
         for (const item of this.sheet) {
@@ -187,13 +190,18 @@ export default class Sheet {
                 sum += item.value;
             }
         }
-        if (this.bonus) {
+        if (this.bonus >= 63) {
             sum += 35;
         }
         this.score = sum
+        this.displayScore()
+        // console.log("----score")
         // console.log(this.score)
     }
-
+    displayScore() {
+        const cellScore = document.getElementById('total__score');
+        cellScore.textContent = this.score;
+    }
     /*
     Afficher le tableau des scores
     */
@@ -262,11 +270,12 @@ export default class Sheet {
                             cell.onclick = () => { return; };
                         });
                         gameData.tour++;
+                        this.updateBonus();
+                        this.updateScore();
                         this.callback();
                     };
                 }
             }
-
         });
     }
 

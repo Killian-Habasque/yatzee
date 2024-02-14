@@ -55,14 +55,18 @@
                 padding: 1vh;
                 width: 100%;
 
+                &:first-child {
+                    border-right: $border-style;
+                }
+
                 &:last-child {
                     justify-content: center;
-                    border-left: $border-style;
                 }
 
                 &.double {
                     padding: 0;
                     flex-direction: column;
+                    padding-top: 10px;
                 }
 
                 &.large {
