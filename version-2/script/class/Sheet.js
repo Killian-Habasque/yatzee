@@ -162,6 +162,11 @@ export default class Sheet {
         }
     }
 
+    updateTurn(turn) {
+        const cellTurn = document.getElementById('total__turn');
+        cellTurn.textContent = turn;
+    }
+
     updateBonus() {
         let sum = 0;
         for (let i = 1; i <= 6; i++) {
@@ -251,7 +256,7 @@ export default class Sheet {
         allCells.forEach(cell => {
             const key = cell.dataset.key;
             if (key) {
-                cell.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
+                cell.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '0';
                 if(this.sheet[key].checked) {
                     cell.classList.add('selected');
                 }
@@ -265,11 +270,11 @@ export default class Sheet {
                         allCells.forEach(cell => {
                             const key = cell.dataset.key;
                             if (key && !this.sheet[key].checked) {
-                                cell.textContent = '-';
+                                cell.textContent = '0';
                             }
                             cell.onclick = () => { return; };
                         });
-                        gameData.tour++;
+                        gameData.turn++;
                         this.updateBonus();
                         this.updateScore();
                         this.callback();

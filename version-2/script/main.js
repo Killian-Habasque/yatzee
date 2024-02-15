@@ -23,7 +23,7 @@ export let gameData = {
     scoreGlobal: [],
     maxAttempts: 3,
     attempts: 0,
-    tour: 0,
+    turn: 0,
     canSelect: false,
     canRoll: true,
     sheet: null,

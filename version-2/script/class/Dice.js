@@ -311,9 +311,9 @@ export default class Dice {
 
         // if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
             gameData.attempts++;
-        if(gameData.tour != 0 || gameData.attempts != 0) {
+        if(gameData.turn != 0 || gameData.attempts != 0) {
             console.log("BUTTTTTON")
-            console.log(gameData.tour)
+            console.log(gameData.turn)
             if (gameData.button.existButton()) {
              
                 gameData.button.removeButton();
@@ -321,9 +321,9 @@ export default class Dice {
         }
        
         // }
-        console.log(gameData.tour)
+        console.log(gameData.turn)
         if (gameData.attempts <= gameData.maxAttempts) {
-            if(gameData.tour != 0 || gameData.attempts != 0) {
+            if(gameData.turn != 0 || gameData.attempts != 0) {
                 gameData.sheet.pendingSheet();
             }
             
@@ -426,7 +426,9 @@ export default class Dice {
     */
     reloadDice() {
         gameData.attempts = 0;
-    
+        console.log(gameData.turn)
+        gameData.sheet.updateTurn(gameData.turn + "/12");
+
         gameData.diceArraySelected.forEach((dice, index) => {
             gameData.diceArray.push(dice);
             gameData.scoreGlobal.push(dice.value);
