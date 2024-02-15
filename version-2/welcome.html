@@ -38,11 +38,68 @@
 
 <style>
     body {
-        background: #A13320;
+        background: #9D301D;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
+        /* background-image: url("./assets/images/line.png");
+        background-position: 100% 100%;
+        background-repeat: repeat; */
+        position: relative;
+        overflow: hidden;
+        z-index: 0;
+        padding: 0;
+        margin: 0;
+
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("./assets/images/line2.png");
+        background-repeat: repeat-x;
+        background-position: -100px 0;
+        animation: animateBackground2 10s infinite alternate;
+        z-index: -1;
+    }
+
+    body::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("./assets/images/line2.png");
+        background-repeat: repeat-x;
+        background-position: calc(-160px - 100px) 50%;
+        animation: animateBackground 10s ease-in-out infinite alternate;
+        z-index: -1;
+    }
+
+    @keyframes animateBackground {
+        from {
+            background-position-y: 0;
+        }
+
+        to {
+            background-position-y: 25%;
+        }
+    }
+
+    @keyframes animateBackground2 {
+        from {
+            background-position-y: 65%;
+        }
+
+        to {
+            background-position-y: 45%;
+        }
     }
 
     .logo {
@@ -107,11 +164,21 @@
         // TweenMax.to(cup, 1, { x: 0 });
         // TweenMax.to(text, 1, { y: 0 });
 
-        TweenMax.from(cup, 1.5, { x: 100, y: 100, rotation: -20 });
+        TweenMax.from(cup, 1.5, { x: 100, y: 100, rotation: 10 });
         TweenMax.from(text, 1.5, { x: -100, y: 80 });
 
-        TweenMax.from(dice1, 1.5, { x: 200, y: 100, rotation: 50 });
-        TweenMax.from(dice2, 1.5, { x: 200, y: 100, rotation: -60 });
+        TweenMax.from(dice1, 1.5, {
+            x: 200, y: 100, rotation: 50,
+            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
+                TweenMax.to(dice1, 10, { x: 10, y: -10, rotation: -15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
+            }
+        });
+        TweenMax.from(dice2, 1.5, {
+            x: 200, y: 100, rotation: -60,
+            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
+                TweenMax.to(dice2, 10, { x: 10, y: -10, rotation: 15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
+            }
+        });
 
         TweenMax.from(bandeau3, 1.5, { transform: "translateX(27px) translateY(-7px)", delay: 0.2 });
 
