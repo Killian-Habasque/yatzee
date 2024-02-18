@@ -233,7 +233,7 @@ export default class Dice {
         }
         gameData.canSelect = false;
         gameData.canRoll = false;
-        const targetPosition = new CANNON.Vec3(gameData.diceArraySelected.length * 2, 0, -5);
+        const targetPosition = new CANNON.Vec3(-2 + gameData.diceArraySelected.length * 2, 0, -5);
         const selectedDiceIndex = gameData.diceArray.indexOf(dice);
 
         gameData.diceArray.splice(selectedDiceIndex, 1);
@@ -258,7 +258,7 @@ export default class Dice {
         }
         gameData.canSelect = false;
         gameData.canRoll = false;
-        const targetPosition = new CANNON.Vec3((gameData.diceArray.length) * 2, 0, 0);
+        const targetPosition = new CANNON.Vec3(-2 + (gameData.diceArray.length) * 2, 0, 0);
         const selectedDiceIndex = gameData.diceArraySelected.indexOf(dice);
         gameData.diceArraySelected.splice(selectedDiceIndex, 1);
         gameData.diceArray.push(dice);
@@ -292,7 +292,7 @@ export default class Dice {
 
         gameData.canRoll = false;
         gameData.diceArraySelected.forEach((dice, index) => {
-            const targetPosition = new CANNON.Vec3(index * 2, 0, -5);
+            const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, -5);
 
             this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
                 () => {
@@ -312,7 +312,7 @@ export default class Dice {
 
         gameData.canRoll = false;
         gameData.diceArray.forEach((dice, index) => {
-            const targetPosition = new CANNON.Vec3(index * 2, 0, 0);
+            const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
             this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
                 () => {
                     completedDice++;
@@ -327,6 +327,34 @@ export default class Dice {
     Lancer dés 
     */
     throwDice() {
+        if (gameData.cup) {
+            let currentRotation = { rotationY: 0 };
+        
+            // Première tween pour la rotation
+            let rotationTween = new TWEEN.Tween(currentRotation)
+                .to({ rotationY: Math.PI * (-1 / 3) }, 2000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onUpdate(() => {
+                    // Mise à jour de la rotation de l'objet à chaque frame
+                    gameData.cup.rotation.y = currentRotation.rotationY;
+                });
+        
+            // Deuxième tween pour ramener l'objet à sa position initiale
+            let returnTween = new TWEEN.Tween(currentRotation)
+                .to({ rotationY: 0 }, 2000) // Retour à la rotation initiale
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onUpdate(() => {
+                    // Mise à jour de la rotation de l'objet à chaque frame
+                    gameData.cup.rotation.y = currentRotation.rotationY;
+                });
+        
+            // Chaînage des tweens pour les exécuter séquentiellement
+            rotationTween.chain(returnTween);
+        
+            // Démarrage de la première tween
+            rotationTween.start();
+        }
+    
         if (!gameData.canRoll) {
             return;
         }
@@ -377,10 +405,6 @@ export default class Dice {
 
         }
 
-        // setTimeout(() => {
-        //     gameData.canRoll = true;
-
-        // }, 4000);
     }
 
     /*
@@ -393,7 +417,7 @@ export default class Dice {
         const totalDice = gameData.diceArray.length;
         gameData.canRoll = false;
         gameData.diceArray.forEach((dice, index) => {
-            const targetPosition = new CANNON.Vec3(0 + index * 2, 0, 0);
+            const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
             this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice, () => {
                 gameData.canSelect = true;
                 if (gameData.attempts == gameData.maxAttempts) {
@@ -402,7 +426,7 @@ export default class Dice {
                 completedDice++;
                 if (completedDice === totalDice) {
                     gameData.canRoll = true;
-                  
+
                     gameData.sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
                     gameData.sheet.updateSheet();
                 }
@@ -474,7 +498,7 @@ export default class Dice {
 
         gameData.canSelect = false;
         gameData.diceArraySelected.forEach((dice, index) => {
-            const targetPosition = new CANNON.Vec3(gameData.diceArray.length * 2, 0, 0);
+            const targetPosition = new CANNON.Vec3(-2 + gameData.diceArray.length * 2, 0, 0);
             gameData.diceArray.push(dice);
             gameData.scoreGlobal.push(dice.value);
             this.moveAndRotateDice(index, dice, targetPosition, 0, 500, 100)

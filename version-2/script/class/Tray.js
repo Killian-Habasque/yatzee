@@ -12,6 +12,7 @@ export default class Tray {
         this.createOrUpdateRectangle();
         this.createTrayModel();
         this.createPenModel();
+        this.createCupModel();
     }
 
 
@@ -82,6 +83,35 @@ export default class Tray {
         )
     }
 
+    createCupModel() {
+        this.loader.load(
+            '/version-2/assets/models/simple_paper_cup(1).glb',
+            function (gltf, showProgressBar) {
+                gltf.scene.traverse(function (child) {
+                    if (child.type === 'Mesh') {
+                        child.receiveShadow = false
+                        child.castShadow = true
+                        child.scale.set(1.2, 1.2, 1.2);
+                        child.position.set(15, 6, -6.5);
+                        gameData.cup = child
+                    }
+                })
+                // showProgressBar = false
+                gameData.scene.add(gltf.scene)
+            },
+            (xhr) => {
+                if (xhr.lengthComputable) {
+                    let percentComplete = (xhr.loaded / xhr.total) * 100
+                    this.valueProgressBar = percentComplete
+                    this.showProgressBar = true
+                }
+            },
+            (error) => {
+                console.log(error)
+            }
+        )
+    }
+
     createOrUpdateRectangle() {
         const wall = {
             width: 17,
@@ -93,7 +123,7 @@ export default class Tray {
         const geometry = new THREE.BoxGeometry(wall.width, wall.height, 0.1);
         const material = new THREE.MeshStandardMaterial({
             color: 0xff0000,
-            transparent: true, 
+            transparent: true,
             opacity: 0
         });
         this.createWallCollision(wall.width, wall.height, geometry, material, wall.positionX, wall.positionY, wall.positionZ, 0)

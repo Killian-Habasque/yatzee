@@ -31,6 +31,7 @@ export let gameData = {
     dice: null,
     tray: null,
     brake: null,
+    cup: null,
 
     params: {
         numberOfDice: 5,
