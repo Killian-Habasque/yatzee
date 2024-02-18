@@ -4,7 +4,8 @@ header {
     display: flex;
     justify-content: flex-end;
     padding: 16px;
-
+    z-index: 10;
+    
     nav {
         display: flex;
         gap: 20px;

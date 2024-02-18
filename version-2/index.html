@@ -13,6 +13,14 @@
 
 		<header>
 			<nav>
+				<button id="btn-audio" class="btn-audio active">
+					<div class="wave">
+						<span class="stroke"></span>
+						<span class="stroke"></span>
+						<span class="stroke"></span>
+						<span class="stroke"></span>
+					</div>
+				</button>
 				<a class="btn__primary" href="">Regles</a>
 				<a class="btn__light" href="">Menu</a>
 			</nav>
@@ -168,7 +176,6 @@
 		<div class="ui-controls">
 		</div>
 	</div>
-
 	<script type="importmap">
 		  {
 			"imports": {
@@ -179,6 +186,13 @@
 		  }
 		</script>
 	<script type="module" src="./script/main.js"></script>
+
+	<script>
+		let element = document.getElementById("btn-audio");
+		element.addEventListener('click', (e) => {
+			element.classList.toggle("active");
+		})
+	</script>
 </body>
 
 </html>

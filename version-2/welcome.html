@@ -203,10 +203,10 @@
         const diceOne = document.querySelector(".logo__dice.one");
         const diceTwo = document.querySelector(".logo__dice.two");
         const text = document.querySelector(".logo__text");
-  
+
 
         TweenMax.from(cup, 2, {
-            x: 200, y: 200, rotation: -30, 
+            x: 200, y: 200, rotation: -30,
             onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
                 TweenMax.to(cup, 10, { x: 10, y: 10, rotation: -5, repeat: -1, yoyo: true }); // Deuxième animation de dice2
             }
@@ -221,7 +221,7 @@
             opacity: 1, delay: 0.2
         });
         TweenMax.from(diceOne, 2, {
-            x: 200, y: 100, rotation: 50, 
+            x: 200, y: 100, rotation: 50,
             onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
                 TweenMax.to(diceOne, 15, { x: 10, y: -10, rotation: -15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
             }
@@ -230,7 +230,7 @@
             opacity: 1, delay: 0.2
         });
         TweenMax.from(diceTwo, 2, {
-             x: 200, y: 100, rotation: -60,
+            x: 200, y: 100, rotation: -60,
             onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
                 TweenMax.to(diceTwo, 15, { x: 10, y: -10, rotation: 15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
             }

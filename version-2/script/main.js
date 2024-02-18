@@ -24,7 +24,7 @@ export let gameData = {
     maxAttempts: 3,
     attempts: 0,
     turn: 0,
-    canSelect: false,
+    canSelect: true,
     canRoll: true,
     sheet: null,
     button: null,
