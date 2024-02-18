@@ -1,0 +1,36 @@
+@mixin text-style($type) {
+    @if $type =="label" {
+        font-family: $font-text--label;
+        font-size: 15px;
+        letter-spacing: 0.1em;
+        font-weight: 400;
+        color: $color-light;
+    }
+
+    @else if $type =="number" {
+        font-family: $font-number--label;
+        font-size: 20px;
+    }
+
+}
+
+/*
+ * Classes defintion
+ */
+.txt {
+    &__title {
+        @include text-style("title");
+    }
+
+    &__label {
+        @include text-style("label");
+    }
+
+    &__cta {
+        @include text-style("cta");
+    }
+
+    &__number {
+        @include text-style("number");
+    }
+}

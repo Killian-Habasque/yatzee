@@ -5,7 +5,7 @@
 @import "necessary/breakpoints";
 
 @import "components/Button";
-// @import "components/Label";
+@import "components/Text";
 
 @import "layouts/header";
 @import "layouts/sheet";
@@ -36,11 +36,3 @@ canvas {
 }
 
 
-.label__txt {
-	font-family: Helvetica, sans-serif;
-    min-width: 100px;
-    font-size: 15px;
-    letter-spacing: 0.1em;
-    font-weight: 400;
-	color: white;
-}

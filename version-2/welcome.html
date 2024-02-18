@@ -4,22 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Yatzee | Jeu de dés en ligne</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <link rel="icon" type="image/x-icon" href="assets/images/logo-color.svg">
 </head>
 
 <body onload="init()">
     <div class="logo">
-        <img id="cup" class="cup" src="./assets/images/cup.png" alt="">
-        <svg id="text" class="text" width="889" height="733" viewBox="0 0 889 733" fill="none"
+        <img class="logo__cup" src="./assets/images/cup.png" alt="">
+        <svg class="logo__text" width="889" height="733" viewBox="0 0 889 733" fill="none"
             xmlns="http://www.w3.org/2000/svg">
-            <path id="bandeau1" class="bandeau1"
+            <path class="band one"
                 d="M165.382 501.305L149.46 642.735L111.288 653.462L127.359 510.711L29.1867 387.347L66.6715 377.548L165.382 501.305Z"
                 fill="#CE3E1E" />
-            <path id="bandeau2"
+            <path class="band two"
                 d="M192.4 494.161L176.576 634.715L138.404 645.442L154.376 503.567L56.2042 380.203L93.6891 370.405L192.4 494.161Z"
                 fill="#D86F1F" />
-            <path id="bandeau3"
+            <path class="band three"
                 d="M218.598 486.338L202.751 627.103L165.27 637.908L181.188 496.513L83.0158 373.149L120.501 363.35L218.598 486.338Z"
                 fill="#D78A19" />
             <path
@@ -29,8 +31,42 @@
                 d="M262.19 321.943L250.635 424.584L228.7 619.416L190.638 630.829L206.505 489.887L108.408 366.899L146.658 356.513L213.061 438.908L225.043 332.48L262.19 321.943Z"
                 fill="white" />
         </svg>
-        <img id="dice1" class="dice1" src="./assets/images/dice-4112743-3408791@0 1.png" alt="">
-        <img id="dice2" class="dice2" src="./assets/images/dice-4112743-3408791@0 2.png" alt="">
+        <img class="logo__dice one" src="./assets/images/dice-4112743-3408791@0 1.png" alt="">
+        <img class="logo__dice two" src="./assets/images/dice-4112743-3408791@0 2.png" alt="">
+    </div>
+    <div class="ui-controls">
+        <button class="btn-throw__primary">
+            Jouer
+            <svg class="dice" width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D"
+                    stroke-width="1.87097" />
+                <circle cx="15" cy="14.9355" r="3" fill="#9D301D" />
+                <circle cx="9" cy="20.9355" r="3" fill="#9D301D" />
+                <circle cx="21" cy="8.93555" r="3" fill="#9D301D" />
+            </svg>
+            <svg class="dice" width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D"
+                    stroke-width="1.87097" />
+                <circle cx="15" cy="14.9355" r="3" fill="#9D301D" />
+            </svg>
+        </button>
+        <button class="btn-throw__secondary">
+            Règles
+            <svg class="book" width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M6.67742 1.06452C3.5775 1.06452 1.06452 3.5775 1.06452 6.67742V35.3226C1.06452 38.4225 3.5775 40.9355 6.67742 40.9355H31.3226C34.4225 40.9355 36.9355 38.4225 36.9355 35.3226V6.67742C36.9355 3.5775 34.4225 1.06452 31.3226 1.06452H6.67742Z"
+                    fill="#9D301D" stroke="#D78A19" stroke-width="1.87097" />
+                <path
+                    d="M12.6774 1.06452C9.5775 1.06452 7.06452 3.5775 7.06452 6.67742V35.3226C7.06452 38.4225 9.5775 40.9355 12.6774 40.9355H34.3226C37.4225 40.9355 39.9355 38.4225 39.9355 35.3226V6.67742C39.9355 3.5775 37.4225 1.06452 34.3226 1.06452H12.6774Z"
+                    fill="#9D301D" stroke="#D78A19" stroke-width="1.87097" />
+                <path d="M14 12H34" stroke="#D78A19" stroke-width="3" stroke-linecap="round" />
+                <path d="M14 21H22" stroke="#D78A19" stroke-width="3" stroke-linecap="round" />
+                <path d="M14 30H26" stroke="#D78A19" stroke-width="3" stroke-linecap="round" />
+            </svg>
+        </button>
+    </div>
+    <div class="copyright">
+        <p class="txt__label">© 2024 • KILLIAN HABASQUE</p>
     </div>
 </body>
 
@@ -43,14 +79,12 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        /* background-image: url("./assets/images/line.png");
-        background-position: 100% 100%;
-        background-repeat: repeat; */
         position: relative;
         overflow: hidden;
         z-index: 0;
         padding: 0;
         margin: 0;
+        flex-direction: column;
 
     }
 
@@ -104,105 +138,120 @@
 
     .logo {
         position: relative;
-        width: 800px;
-        height: 600px;
+        width: 50%;
+        height: 500px;
+        max-width: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    /* .logo>* {
+    .ui-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .logo__cup {
+        position: absolute;
         width: 100%;
-    } */
-
-    .cup {
-        position: absolute;
-        /* width: 709.34px;
-        height: 502.87px; */
-        right: -200px;
+        right: -20%;
+        opacity: 0
     }
 
-    #bandeau1,
-    #bandeau2,
-    #bandeau3,
-    #dice1,
-    #dice2 {
+
+    .band,
+    .logo__dice,
+    .logo__text {
         position: absolute;
+        opacity: 0;
     }
 
-    #dice1 {
-        bottom: 187px;
-        left: 341px;
-        width: 170px;
+    .logo__dice.one {
+        top: 50%;
+        left: 35%;
+        width: 25%;
         z-index: 1;
     }
 
-    #dice2 {
-        bottom: 91px;
-        left: 131px;
-        width: 200px;
+    .logo__dice.two {
+        bottom: 15%;
+        left: 6%;
+        width: 27%;
         z-index: 3;
     }
 
-    .text {
-        position: absolute;
-        width: 744.86px;
-        height: 613.21px;
-        top: -50px;
+    .logo__text {
+        width: 100%;
+        height: 100%;
+        right: 10%;
         z-index: 2;
+    }
+
+    .copyright {
+        margin-bottom: 40px;
     }
 </style>
 
 <script>
     function init() {
-        var cup = document.getElementById("cup");
-        var bandeau1 = document.getElementById("bandeau1");
-        var bandeau2 = document.getElementById("bandeau2");
-        var bandeau3 = document.getElementById("bandeau3");
-        var dice1 = document.getElementById("dice1");
-        var dice2 = document.getElementById("dice2");
-        var text = document.getElementById("text");
-        console.log(bandeau1)
-        // Translation initial
-        // TweenMax.to(cup, 1, { x: 0 });
-        // TweenMax.to(text, 1, { y: 0 });
+        const cup = document.querySelector(".logo__cup");
+        const bandOne = document.querySelector(".band.one");
+        const bandTwo = document.querySelector(".band.two");
+        const bandThree = document.querySelector(".band.three");
+        const diceOne = document.querySelector(".logo__dice.one");
+        const diceTwo = document.querySelector(".logo__dice.two");
+        const text = document.querySelector(".logo__text");
+  
 
-        TweenMax.from(cup, 1.5, { x: 100, y: 100, rotation: 10 });
-        TweenMax.from(text, 1.5, { x: -100, y: 80 });
-
-        TweenMax.from(dice1, 1.5, {
-            x: 200, y: 100, rotation: 50,
+        TweenMax.from(cup, 2, {
+            x: 200, y: 200, rotation: -30, 
             onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
-                TweenMax.to(dice1, 10, { x: 10, y: -10, rotation: -15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
-            }
-        });
-        TweenMax.from(dice2, 1.5, {
-            x: 200, y: 100, rotation: -60,
-            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
-                TweenMax.to(dice2, 10, { x: 10, y: -10, rotation: 15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
+                TweenMax.to(cup, 10, { x: 10, y: 10, rotation: -5, repeat: -1, yoyo: true }); // Deuxième animation de dice2
             }
         });
 
-        TweenMax.from(bandeau3, 1.5, { transform: "translateX(27px) translateY(-7px)", delay: 0.2 });
+        TweenMax.to(cup, 1, {
+            opacity: 1, delay: 0.2
+        });
 
+        TweenMax.from(text, 2, { x: -100, y: 80, });
+        TweenMax.to(text, 1, {
+            opacity: 1, delay: 0.2
+        });
+        TweenMax.from(diceOne, 2, {
+            x: 200, y: 100, rotation: 50, 
+            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
+                TweenMax.to(diceOne, 15, { x: 10, y: -10, rotation: -15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
+            }
+        });
+        TweenMax.to(diceOne, 1, {
+            opacity: 1, delay: 0.2
+        });
+        TweenMax.from(diceTwo, 2, {
+             x: 200, y: 100, rotation: -60,
+            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
+                TweenMax.to(diceTwo, 15, { x: 10, y: -10, rotation: 15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
+            }
+        });
+        TweenMax.to(diceTwo, 1, {
+            opacity: 1, delay: 0.2
+        });
+        TweenMax.from(bandThree, 1.5, { transform: "translateX(27px) translateY(-7px)", delay: 0.2, repeat: -1, yoyo: true });
+        TweenMax.to(bandThree, 0.5, {
+            opacity: 1, delay: 0.2
+        });
 
-        TweenMax.from(bandeau2, 1.5, { transform: "translateX(54px) translateY(-14px)", delay: 0.4 });
+        TweenMax.from(bandTwo, 1.5, { transform: "translateX(54px) translateY(-14px)", delay: 0.4, repeat: -1, yoyo: true });
+        TweenMax.to(bandTwo, 1, {
+            opacity: 1, delay: 0.2
+        });
 
+        TweenMax.from(bandOne, 1.5, { transform: "translateX(81px) translateY(-21px)", delay: 0.6, repeat: -1, yoyo: true });
+        TweenMax.to(bandOne, 1, {
+            opacity: 1, delay: 0.2
+        });
 
-        TweenMax.from(bandeau1, 1.5, { transform: "translateX(81px) translateY(-21px)", delay: 0.6 });
-
-
-        // cup.addEventListener("mouseover", function () {
-        //     TweenMax.to(this, 0.35, { width: "80px", height: "80px" });
-        // });
-
-        // cup.addEventListener("mouseout", function () {
-        //     TweenMax.to(this, 0.5, { width: "50px", height: "50px" });
-        // });
-
-        // text.addEventListener("mouseover", function () {
-        //     TweenMax.to(this, 0.35, { width: "80px", height: "80px" });
-        // });
-
-        // text.addEventListener("mouseout", function () {
-        //     TweenMax.to(this, 0.5, { width: "50px", height: "50px" });
-        // });
     }
 </script>

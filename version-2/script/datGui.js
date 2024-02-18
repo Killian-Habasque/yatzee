@@ -1,5 +1,5 @@
 import * as dat from 'dat.gui';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
 
 import { gameData } from './main.js';
 
@@ -12,9 +12,6 @@ export function initDatGui() {
 
     const gui = new dat.GUI();
 
-    const controls = new OrbitControls(gameData.camera, gameData.renderer.domElement)
-    controls.enableDamping = true
-    controls.target.y = 0.5
 
     const perspectiveCameraFolder = gui.addFolder('Camera');
     perspectiveCameraFolder.add(gameData.camera.position, 'x', -20, 20, 0.1);
