@@ -83,34 +83,78 @@ export default class Tray {
     }
 
     createOrUpdateRectangle() {
-        const rectangleShape = new CANNON.Box(new CANNON.Vec3(gameData.params.rectangle.width * 0.5, gameData.params.rectangle.height * 0.5, 0.05));
-
-        if (!this.rectangleMesh) {
-            const geometry = new THREE.BoxGeometry(gameData.params.rectangle.width, gameData.params.rectangle.height, 0.1);
-            const material = new THREE.MeshStandardMaterial({
-                color: 0xff0000
-            });
-
-            this.rectangleMesh = new THREE.Mesh(geometry, material);
-            var rectangleMesh2 = new THREE.Mesh(geometry, material);
-            var rectangleMesh3 = new THREE.Mesh(geometry, material);
-            this.rectangleMesh.receiveShadow = true;
-            this.rectangleMesh.position.set(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, gameData.params.rectangle.positionZ);
-            rectangleMesh2.position.set(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, -gameData.params.rectangle.positionZ);
-            gameData.scene.add(this.rectangleMesh);
-            gameData.scene.add(rectangleMesh2);
-
-            const rectangleBody = new CANNON.Body({
-                mass: 0, // Masse nulle pour un objet statique (mur, sol, etc.)
-                shape: rectangleShape,
-                position: new CANNON.Vec3(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, gameData.params.rectangle.positionZ),
-                quaternion: new CANNON.Quaternion()
-            });
-            gameData.physicsWorld.addBody(rectangleBody);
-        } else {
-            this.rectangleMesh.scale.set(gameData.params.rectangle.width, gameData.params.rectangle.height, 0.1);
-            this.rectangleMesh.position.set(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, gameData.params.rectangle.positionZ);
+        const wall = {
+            width: 17,
+            height: 6,
+            positionX: 2,
+            positionY: -4,
+            positionZ: -6,
         }
+        const geometry = new THREE.BoxGeometry(wall.width, wall.height, 0.1);
+        const material = new THREE.MeshStandardMaterial({
+            color: 0xff0000,
+            transparent: true, 
+            opacity: 0
+        });
+        this.createWallCollision(wall.width, wall.height, geometry, material, wall.positionX, wall.positionY, wall.positionZ, 0)
+        this.createWallCollision(wall.width, wall.height, geometry, material, wall.positionX, wall.positionY, -wall.positionZ, 0)
+        this.createWallCollision(wall.width, wall.height, geometry, material, -6, wall.positionY, 0, Math.PI / 2)
+        this.createWallCollision(wall.width, wall.height, geometry, material, 10, wall.positionY, 0, Math.PI / 2)
+
+        // const rectangleShape = new CANNON.Box(new CANNON.Vec3(gameData.params.rectangle.width * 0.5, gameData.params.rectangle.height * 0.5, 0.05));
+
+        // if (!this.rectangleMesh) {
+        //     const geometry = new THREE.BoxGeometry(gameData.params.rectangle.width, gameData.params.rectangle.height, 0.1);
+        //     const material = new THREE.MeshStandardMaterial({
+        //         color: 0xff0000,
+        //         // transparent: true, 
+        //         // opacity: 0.5
+        //     });
+
+        //     this.rectangleMesh = new THREE.Mesh(geometry, material);
+        //     var rectangleMesh2 = new THREE.Mesh(geometry, material);
+        //     var rectangleMesh3 = new THREE.Mesh(geometry, material);
+        //     var rectangleMesh4 = new THREE.Mesh(geometry, material);
+        //     this.rectangleMesh.receiveShadow = false;
+        //     this.rectangleMesh.position.set(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, gameData.params.rectangle.positionZ);
+        //     rectangleMesh2.position.set(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, -gameData.params.rectangle.positionZ);
+        //     gameData.scene.add(this.rectangleMesh);
+        //     gameData.scene.add(rectangleMesh2);
+
+        //     rectangleMesh3.position.set( -5 , gameData.params.rectangle.positionY, 0);
+        //     rectangleMesh3.rotation.set(0, Math.PI / 2, 0)
+        //     rectangleMesh4.position.set( 9 , gameData.params.rectangle.positionY, 0);
+        //     rectangleMesh4.rotation.set(0, Math.PI / 2, 0)
+        //     gameData.scene.add(rectangleMesh3);
+        //     gameData.scene.add(rectangleMesh4);
+
+        //     const rectangleBody = new CANNON.Body({
+        //         mass: 0, // Masse nulle pour un objet statique (mur, sol, etc.)
+        //         shape: rectangleShape,
+        //         position: new CANNON.Vec3(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, gameData.params.rectangle.positionZ),
+        //         quaternion: new CANNON.Quaternion()
+        //     });
+        //     gameData.physicsWorld.addBody(rectangleBody);
+        // } else {
+        //     this.rectangleMesh.scale.set(gameData.params.rectangle.width, gameData.params.rectangle.height, 0.1);
+        //     this.rectangleMesh.position.set(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, gameData.params.rectangle.positionZ);
+        // }
+    }
+
+    createWallCollision(width, height, geometry, material, x, y, z, rotationY) {
+        let rectangleMesh = new THREE.Mesh(geometry, material);
+        rectangleMesh.position.set(x, y, z);
+        rectangleMesh.rotation.set(0, rotationY, 0)
+        gameData.scene.add(rectangleMesh);
+        const rectangleShape = new CANNON.Box(new CANNON.Vec3(width * 0.5, height * 0.5, 0.05));
+        const rectangleBody = new CANNON.Body({
+            mass: 0,
+            shape: rectangleShape,
+            position: new CANNON.Vec3(x, y, z),
+            // rotation: new CANNON.Vec3(0, rotationY, 0), 
+            quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(0, 1, 0), rotationY)
+        });
+        gameData.physicsWorld.addBody(rectangleBody);
     }
 
     updateRectangle() {

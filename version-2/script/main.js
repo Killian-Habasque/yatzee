@@ -38,13 +38,6 @@ export let gameData = {
         edgeRadius: .07,
         notchRadius: .12,
         notchDepth: .1,
-        rectangle: {
-            width: 10,
-            height: 2,
-            positionX: 2,
-            positionY: -6,
-            positionZ: -5,
-        },
     },
 };
 

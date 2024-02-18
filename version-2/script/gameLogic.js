@@ -123,6 +123,7 @@ export function showRollResults(score) {
             if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
                 console.log("CHARGEMENT DES");
                 gameData.attempts - 1;
+                gameData.canRoll = true;
                 gameData.button.addButton();
             }
         }, 5000);

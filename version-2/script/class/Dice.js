@@ -377,10 +377,10 @@ export default class Dice {
 
         }
 
-        setTimeout(() => {
-            gameData.canRoll = true;
+        // setTimeout(() => {
+        //     gameData.canRoll = true;
 
-        }, 4000);
+        // }, 4000);
     }
 
     /*
