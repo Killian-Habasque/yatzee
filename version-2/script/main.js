@@ -3,9 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
 
 import { initPhysics, initScene, updateSceneSize } from './gameLogic.js';
-// import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
 
-// import { throwDice } from './model/diceLogic.js';
 import { render } from './render.js';
 
 export let gameData = {

@@ -86,30 +86,30 @@ export default class Tray {
     createCupModel() {
         this.loader.load(
             '/version-2/assets/models/simple_paper_cup(1).glb',
-            function (gltf, showProgressBar) {
-                gltf.scene.traverse(function (child) {
+            (gltf, showProgressBar) => { // Utilisation d'une fonction fléchée ici
+                gltf.scene.traverse((child) => { // Utilisation d'une fonction fléchée ici
                     if (child.type === 'Mesh') {
-                        child.receiveShadow = false
-                        child.castShadow = true
-                        child.scale.set(1.2, 1.2, 1.2);
-                        child.position.set(15, 6, -6.5);
-                        gameData.cup = child
+                        child.receiveShadow = false;
+                        child.castShadow = true;
+                        child.scale.set(1.3, 1.3, 1.3);
+                        child.position.set(17, 4, -6.5);
+                        gameData.cup = child;
                     }
-                })
+                });
                 // showProgressBar = false
-                gameData.scene.add(gltf.scene)
+                gameData.scene.add(gltf.scene);
             },
             (xhr) => {
                 if (xhr.lengthComputable) {
-                    let percentComplete = (xhr.loaded / xhr.total) * 100
-                    this.valueProgressBar = percentComplete
-                    this.showProgressBar = true
+                    let percentComplete = (xhr.loaded / xhr.total) * 100;
+                    this.valueProgressBar = percentComplete;
+                    this.showProgressBar = true;
                 }
             },
             (error) => {
-                console.log(error)
+                console.log(error);
             }
-        )
+        );
     }
 
     createOrUpdateRectangle() {

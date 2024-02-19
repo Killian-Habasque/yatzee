@@ -13,7 +13,8 @@ export default class Dice {
     constructor() {
         gameData.diceMesh = this.createDiceMesh();
         for (let i = 0; i < gameData.params.numberOfDice; i++) {
-            gameData.diceArray.push(this.createDice());
+            const dice = this.createDice();
+            gameData.diceArray.push(dice);
             this.addDiceEvents(gameData.diceArray[i]);
         }
     }
@@ -23,19 +24,21 @@ export default class Dice {
     */
     createDice() {
         const mesh = gameData.diceMesh.clone();
-        gameData.scene.add(mesh);
 
         const body = new CANNON.Body({
             mass: 1,
             shape: new CANNON.Box(new CANNON.Vec3(.5, .5, .5)),
             sleepTimeLimit: .1,
         });
-        // body.initQuaternion = mesh.quaternion.clone();
-        gameData.physicsWorld.addBody(body);
 
+        mesh.visible = true;
+        mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
+        body.quaternion.copy(mesh.quaternion);
+      
+        gameData.scene.add(mesh); 
+        gameData.physicsWorld.addBody(body);
         return { mesh, body };
     }
-
 
     /*
     Maillage du dé en regroupant Plane et Box geometry
@@ -232,7 +235,7 @@ export default class Dice {
             return;
         }
         gameData.canSelect = false;
-        gameData.canRoll = false;
+        // gameData.canRoll = false;
         const targetPosition = new CANNON.Vec3(-2 + gameData.diceArraySelected.length * 2, 0, -5);
         const selectedDiceIndex = gameData.diceArray.indexOf(dice);
 
@@ -242,13 +245,8 @@ export default class Dice {
         this.moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
             this.realignDice();
             gameData.scoreSelected.push(dice.value);
-        })
-
-
-        setTimeout(() => {
             gameData.canSelect = true;
-            // gameData.canRoll = true;
-        }, 1000);
+        })
 
         dice.mesh.callback = () => { this.unselectedDice(dice); }
     }
@@ -257,7 +255,7 @@ export default class Dice {
             return;
         }
         gameData.canSelect = false;
-        gameData.canRoll = false;
+        // gameData.canRoll = false;
         const targetPosition = new CANNON.Vec3(-2 + (gameData.diceArray.length) * 2, 0, 0);
         const selectedDiceIndex = gameData.diceArraySelected.indexOf(dice);
         gameData.diceArraySelected.splice(selectedDiceIndex, 1);
@@ -268,14 +266,10 @@ export default class Dice {
             let indexToDelete = gameData.scoreSelected.indexOf(dice.value);
             if (indexToDelete !== -1) {
                 gameData.scoreSelected.splice(indexToDelete, 1);
+                gameData.canSelect = true;
             }
         })
 
-
-        setTimeout(() => {
-            gameData.canSelect = true;
-            // gameData.canRoll = true;
-        }, 1000);
 
         dice.mesh.callback = () => { this.selectedDice(dice); };
     }
@@ -289,19 +283,24 @@ export default class Dice {
 
         let completedDice = 0;
         const totalDice = gameData.diceArraySelected.length;
-
         gameData.canRoll = false;
-        gameData.diceArraySelected.forEach((dice, index) => {
-            const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, -5);
+        if (totalDice == 0) {
+            gameData.canRoll = true;
+        } else {
+            gameData.diceArraySelected.forEach((dice, index) => {
+                const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, -5);
 
-            this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
-                () => {
-                    completedDice++;
-                    if (completedDice === totalDice) {
-                        gameData.canRoll = true;
-                    }
-                })
-        });
+                this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
+                    () => {
+                        completedDice++;
+                        if (completedDice === totalDice) {
+                            gameData.canRoll = true;
+                        }
+                    })
+            });
+        }
+
+
     }
     realignDice() {
         const alignmentDuration = 0.3 * 1000;
@@ -311,58 +310,34 @@ export default class Dice {
         const totalDice = gameData.diceArray.length;
 
         gameData.canRoll = false;
-        gameData.diceArray.forEach((dice, index) => {
-            const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
-            this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
-                () => {
-                    completedDice++;
-                    if (completedDice === totalDice) {
-                        gameData.canRoll = true;
-                    }
-                })
-        });
+
+        if (totalDice == 0) {
+            gameData.canRoll = true;
+        } else {
+            gameData.diceArray.forEach((dice, index) => {
+                const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
+                this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
+                    () => {
+                        completedDice++;
+                        if (completedDice === totalDice) {
+                            gameData.canRoll = true;
+                        }
+                    })
+            });
+        }
     }
 
     /*
     Lancer dés 
     */
     throwDice() {
-        if (gameData.cup) {
-            let currentRotation = { rotationY: 0 };
-        
-            // Première tween pour la rotation
-            let rotationTween = new TWEEN.Tween(currentRotation)
-                .to({ rotationY: Math.PI * (-1 / 3) }, 2000)
-                .easing(TWEEN.Easing.Quadratic.InOut)
-                .onUpdate(() => {
-                    // Mise à jour de la rotation de l'objet à chaque frame
-                    gameData.cup.rotation.y = currentRotation.rotationY;
-                });
-        
-            // Deuxième tween pour ramener l'objet à sa position initiale
-            let returnTween = new TWEEN.Tween(currentRotation)
-                .to({ rotationY: 0 }, 2000) // Retour à la rotation initiale
-                .easing(TWEEN.Easing.Quadratic.InOut)
-                .onUpdate(() => {
-                    // Mise à jour de la rotation de l'objet à chaque frame
-                    gameData.cup.rotation.y = currentRotation.rotationY;
-                });
-        
-            // Chaînage des tweens pour les exécuter séquentiellement
-            rotationTween.chain(returnTween);
-        
-            // Démarrage de la première tween
-            rotationTween.start();
-        }
-    
+        console.log(gameData.canRoll)
         if (!gameData.canRoll) {
             return;
         }
         gameData.canRoll = false;
         gameData.canSelect = false;
-        console.log("-----------attempts")
 
-        // if ((gameData.diceArray.length + gameData.diceArraySelected.length) == gameData.params.numberOfDice) {
         gameData.attempts++;
         if (gameData.turn != 0 || gameData.attempts != 0) {
             console.log("BUTTTTTON")
@@ -373,15 +348,11 @@ export default class Dice {
             }
         }
 
-        // }
-        console.log(gameData.turn)
-        if (gameData.attempts <= gameData.maxAttempts) {
-            if (gameData.turn != 0 || gameData.attempts != 0) {
-                gameData.sheet.pendingSheet();
-            }
+        if (gameData.cup) {
+            let startPosition = { x: 17, y: 4, z: -6.5 };
+            let endPosition = { x: 6.5, y: 0, z: 8.5 };
+            let startRotation = { rotationY: 0 };
 
-            gameData.scoreResult.innerHTML = '';
-            gameData.scoreGlobal = [];
 
             gameData.diceArray.forEach((d, dIdx) => {
 
@@ -390,20 +361,78 @@ export default class Dice {
 
                 d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
                 d.mesh.position.copy(d.body.position);
-
+                d.mesh.visible = false;
+            
                 d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
                 d.body.quaternion.copy(d.mesh.quaternion);
 
-                const force = 3 + 5 * Math.random();
-                d.body.applyImpulse(
-                    new CANNON.Vec3(-force, force, 0),
-                    new CANNON.Vec3(0, 0, .2)
-                );
-                d.body.allowSleep = true;
-
             });
 
+            // Tween pour l'animation initiale
+            let forwardTween = new TWEEN.Tween({ t: 0 })
+                .to({ t: 1 }, 1000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onUpdate((obj) => {
+                    gameData.cup.rotation.y = startRotation.rotationY + obj.t * (Math.PI * (-5 / 6) - startRotation.rotationY);
+                    gameData.cup.position.set(
+                        startPosition.x + obj.t * (endPosition.x - startPosition.x),
+                        startPosition.y + obj.t * (endPosition.y - startPosition.y),
+                        startPosition.z + obj.t * (endPosition.z - startPosition.z)
+                    );
+                }).onComplete(() => {
+
+                    if (gameData.attempts <= gameData.maxAttempts) {
+                        if (gameData.turn != 0 || gameData.attempts != 0) {
+                            gameData.sheet.pendingSheet();
+                        }
+
+                        gameData.scoreResult.innerHTML = '';
+                        gameData.scoreGlobal = [];
+
+                        gameData.diceArray.forEach((d, dIdx) => {
+
+                            d.mesh.visible = true;
+                            const force = 3 + 5 * Math.random();
+                            d.body.applyImpulse(
+                                new CANNON.Vec3(-force, force, 0),
+                                new CANNON.Vec3(0, 0, .2)
+                            );
+                            d.body.allowSleep = true;
+
+                        });
+
+                    }
+                });
+
+            // Tween pour l'animation inverse
+            let backwardTween = new TWEEN.Tween({ t: 0 })
+                .to({ t: 1 }, 1000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onUpdate((obj) => {
+                    gameData.cup.rotation.y = startRotation.rotationY + (1 - obj.t) * (Math.PI * (-5 / 6) - startRotation.rotationY);
+                    gameData.cup.position.set(
+                        startPosition.x + (1 - obj.t) * (endPosition.x - startPosition.x),
+                        startPosition.y + (1 - obj.t) * (endPosition.y - startPosition.y),
+                        startPosition.z + (1 - obj.t) * (endPosition.z - startPosition.z)
+                    );
+                })
+                .delay(200)
+                .onComplete(() => {
+                    // Réinitialiser la position et la rotation à la fin de l'animation
+                    gameData.cup.rotation.y = 0;
+                    gameData.cup.position.set(startPosition.x, startPosition.y, startPosition.z);
+
+
+                    console.log(gameData.turn)
+
+                });
+
+            // Démarrer la tween de l'animation initiale puis la tween de retour
+            forwardTween.chain(backwardTween);
+            forwardTween.start();
         }
+
+
 
     }
 
