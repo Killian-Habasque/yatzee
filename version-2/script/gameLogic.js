@@ -44,7 +44,6 @@ export function initScene() {
     new Floor();
     gameData.dice = new Dice();
     gameData.button.addButton();
-
     // initDatGui();
     const controls = new OrbitControls(gameData.camera, gameData.renderer.domElement)
     controls.enableDamping = true

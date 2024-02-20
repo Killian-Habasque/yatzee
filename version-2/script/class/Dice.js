@@ -12,13 +12,15 @@ import { showRollResults } from '../gameLogic.js';
 export default class Dice {
     constructor() {
         gameData.diceMesh = this.createDiceMesh();
+        this.initDice()
+    }
+    initDice() {
         for (let i = 0; i < gameData.params.numberOfDice; i++) {
             const dice = this.createDice();
             gameData.diceArray.push(dice);
-            this.addDiceEvents(gameData.diceArray[i]);
+            // this.addDiceEvents(gameData.diceArray[i]);
         }
     }
-
     /*
     Création des dés
     */
@@ -335,9 +337,14 @@ export default class Dice {
         if (!gameData.canRoll) {
             return;
         }
+        if(gameData.turn == 0 && gameData.attempts == 0) {
+            for (let i = 0; i < gameData.params.numberOfDice; i++) {
+
+                this.addDiceEvents(gameData.diceArray[i]);
+            }
+        }
         gameData.canRoll = false;
         gameData.canSelect = false;
-
         gameData.attempts++;
         if (gameData.turn != 0 || gameData.attempts != 0) {
             console.log("BUTTTTTON")
@@ -353,7 +360,7 @@ export default class Dice {
             let endPosition = { x: 6.5, y: 0, z: 8.5 };
             let startRotation = { rotationY: 0 };
 
-
+  
             gameData.diceArray.forEach((d, dIdx) => {
 
                 d.body.velocity.setZero();
