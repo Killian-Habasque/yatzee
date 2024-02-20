@@ -333,13 +333,11 @@ export default class Dice {
     Lancer dés 
     */
     throwDice() {
-        console.log(gameData.canRoll)
         if (!gameData.canRoll) {
             return;
         }
-        if(gameData.turn == 0 && gameData.attempts == 0) {
+        if (gameData.turn === 0 && gameData.attempts === 0 && gameData.brake === null) {
             for (let i = 0; i < gameData.params.numberOfDice; i++) {
-
                 this.addDiceEvents(gameData.diceArray[i]);
             }
         }

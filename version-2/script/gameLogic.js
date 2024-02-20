@@ -1,7 +1,7 @@
 import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
+import Label from './class/Label.js';
 
 import { gameData } from './main.js';
 
@@ -110,6 +110,8 @@ export function showRollResults(score) {
 
     clearTimeout(gameData.brake);
 
+    let attemps = document.querySelector('#nb-attempts')
+    attemps.innerHTML = gameData.attempts;
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {
         if (gameData.attempts < gameData.maxAttempts) {
             gameData.button.addButton();
@@ -121,6 +123,7 @@ export function showRollResults(score) {
             if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
                 console.log("_____CHARGEMENT DES");
                 console.log("_____Attemps :" + gameData.attempts)
+                new Label("alert", "Dés cassés !", 2000);
                 gameData.attempts = gameData.attempts - 1;
                 gameData.canRoll = true;
                 gameData.button.addButton();
@@ -130,6 +133,6 @@ export function showRollResults(score) {
     if (gameData.scoreResult.innerHTML === '') {
         gameData.scoreResult.innerHTML += score;
     } else {
-        gameData.scoreResult.innerHTML += ('+' + score);
+        gameData.scoreResult.innerHTML += (' - ' + score);
     }
 }
