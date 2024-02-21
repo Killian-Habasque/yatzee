@@ -7,7 +7,7 @@ import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 
 import { gameData } from '../main.js';
 import { showRollResults } from '../gameLogic.js';
-
+import { onDocumentMouseMove } from '../eventHandling.js';
 
 export default class Dice {
     constructor() {
@@ -336,15 +336,18 @@ export default class Dice {
         if (!gameData.canRoll) {
             return;
         }
-        if (gameData.turn === 0 && gameData.attempts === 0 && gameData.brake === null) {
+        document.removeEventListener('mousemove', onDocumentMouseMove, false);
+
+        if (gameData.turn === 1 && gameData.attempts === 0 && gameData.brake === null) {
             for (let i = 0; i < gameData.params.numberOfDice; i++) {
                 this.addDiceEvents(gameData.diceArray[i]);
             }
+            gameData.sheet.updateTurn(gameData.turn + "/12");
         }
         gameData.canRoll = false;
         gameData.canSelect = false;
         gameData.attempts++;
-        if (gameData.turn != 0 || gameData.attempts != 0) {
+        if (gameData.turn != 1 || gameData.attempts != 0) {
             console.log("BUTTTTTON")
             console.log(gameData.turn)
             if (gameData.button.existButton()) {
@@ -387,10 +390,9 @@ export default class Dice {
                 }).onComplete(() => {
 
                     if (gameData.attempts <= gameData.maxAttempts) {
-                        if (gameData.turn != 0 || gameData.attempts != 0) {
+                        if (gameData.turn != 1 || gameData.attempts != 0) {
                             gameData.sheet.pendingSheet();
                         }
-
                         gameData.scoreResult.innerHTML = '';
                         gameData.scoreGlobal = [];
 
@@ -511,6 +513,7 @@ export default class Dice {
     */
     reloadDice() {
         gameData.attempts = 0;
+        gameData.turn++;
         console.log(gameData.turn)
         gameData.sheet.updateTurn(gameData.turn + "/12");
 
@@ -529,7 +532,7 @@ export default class Dice {
     Alignement de tous les dés (sélectionnés/ non-selectionnés)
     */
     autoSelected() {
-
+    document.removeEventListener('mousemove', onDocumentMouseMove, false);
         gameData.canSelect = false;
         gameData.diceArraySelected.forEach((dice, index) => {
             const targetPosition = new CANNON.Vec3(-2 + gameData.diceArray.length * 2, 0, 0);

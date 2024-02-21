@@ -6,7 +6,8 @@ import Label from './class/Label.js';
 import { gameData } from './main.js';
 
 import { initDatGui } from './datGui.js';
-import { onDocumentMouseDown } from './eventHandling.js';
+import { onDocumentMouseDown, onDocumentMouseMove } from './eventHandling.js';
+
 // import { createDiceMesh, createDice, createBoxGeometry, createInnerGeometry, addDiceEvents, selectedDice, unselectedDice, realignDiceSelected, realignDice, reloadDice, throwDice, alignDiceInLine } from './model/diceLogic.js';
 import { render } from './render.js';
 
@@ -117,7 +118,7 @@ export function showRollResults(score) {
             gameData.button.addButton();
         }
         gameData.dice.alignDiceInLine();
-
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
     } else {
         gameData.brake = setTimeout(() => {
             if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {

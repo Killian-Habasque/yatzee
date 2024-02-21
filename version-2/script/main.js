@@ -21,7 +21,7 @@ export let gameData = {
     scoreGlobal: [],
     maxAttempts: 3,
     attempts: 0,
-    turn: 0,
+    turn: 1,
     canSelect: true,
     canRoll: true,
     sheet: null,
@@ -31,6 +31,9 @@ export let gameData = {
     brake: null,
     cup: null,
 
+    dice: {
+        hover: null
+    },
     params: {
         numberOfDice: 5,
         segments: 40,

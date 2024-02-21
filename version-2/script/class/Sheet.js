@@ -274,7 +274,6 @@ export default class Sheet {
                             }
                             cell.onclick = () => { return; };
                         });
-                        gameData.turn++;
                         this.updateBonus();
                         this.updateScore();
                         this.callback();
@@ -292,6 +291,7 @@ export default class Sheet {
             const key = cell.dataset.key;
             if (key && !this.sheet[key].checked) {
                 cell.textContent = '-';
+                cell.onclick = () => { return; };
             }
 
         });

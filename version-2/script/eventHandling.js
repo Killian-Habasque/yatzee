@@ -78,5 +78,4 @@ export function onDocumentMouseMove(event) {
 }
 
 
-document.addEventListener('mousemove', onDocumentMouseMove, false);
-// document.removeEventListener('mousemove', onDocumentMouseMove, false);
+
