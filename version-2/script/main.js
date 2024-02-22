@@ -8,20 +8,18 @@ export let gameData = {
 
     diceArray: [],
     diceArraySelected: [],
-
     scoreSelected: [],
     scoreGlobal: [],
     maxAttempts: 3,
     attempts: 0,
     turn: 1,
+    brake: null,
 
     dashboard: null,
     sheet: null,
     button: null,
     dice: null,
     tray: null,
-
-    brake: null,
     cup: null,
 };
 

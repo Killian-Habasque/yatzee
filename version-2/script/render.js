@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 
 import { gameData } from './main.js';
