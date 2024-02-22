@@ -12,6 +12,17 @@
         font-size: 20px;
     }
 
+    @else if $type =="alert" {
+        font-family: $font-text--label;
+        font-size: 40px;
+        position: absolute;
+        align-self: center;
+        justify-self: center;
+        min-width: 100px;
+        font-weight: 600;
+        color: $color-light;
+        text-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.5);
+    }
 }
 
 /*
@@ -32,5 +43,8 @@
 
     &__number {
         @include text-style("number");
+    }
+    &__alert {
+        @include text-style("alert");
     }
 }

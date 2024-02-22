@@ -124,7 +124,7 @@ export function showRollResults(score) {
             if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
                 console.log("_____CHARGEMENT DES");
                 console.log("_____Attemps :" + gameData.attempts)
-                new Label("alert", "Dés cassés !", 2000);
+                new Label("txt__alert", "Dés cassés !", 2000);
                 gameData.attempts = gameData.attempts - 1;
                 gameData.canRoll = true;
                 gameData.button.addButton();
