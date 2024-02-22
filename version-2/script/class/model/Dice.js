@@ -405,7 +405,7 @@ export default class Dice {
                         if (gameData.turn != 1 || gameData.attempts != 0) {
                             gameData.sheet.pendingSheet();
                         }
-                        gameData.scoreResult.innerHTML = '';
+                        gameData.dashboard.clearScore()
                         gameData.scoreGlobal = [];
 
                         gameData.diceArray.forEach((d, dIdx) => {

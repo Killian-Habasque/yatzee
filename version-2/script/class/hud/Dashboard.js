@@ -1,11 +1,20 @@
 
 export default class Dashboard {
     constructor() {
+        this.scoreResult = document.querySelector('#score-result')
+        this.attemps = document.querySelector('#nb-attempts')
     }
-    clear() {
+    clearScore() {
+        this.scoreResult.innerHTML = '';
     }
-    addTurn() {
+    changeAttemps(attemps) {
+        this.attemps.innerHTML = attemps;
     }
-    addScore() {
+    addScore(score) {
+        if (this.scoreResult.innerHTML === '') {
+            this.scoreResult.innerHTML += score;
+        } else {
+            this.scoreResult.innerHTML += (' - ' + score);
+        }
     }
 }

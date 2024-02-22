@@ -15,6 +15,7 @@ import Floor from './class/model/Floor.js';
 import Dice from './class/model/Dice.js';
 import Sheet from './class/hud/Sheet.js';
 import Button from './class/hud/Button.js';
+import Dashboard from './class/hud/Dashboard.js';
 
 /*
 Création du jeu
@@ -73,6 +74,7 @@ export function initGame() {
     gameData.tray = new Tray();
     new Floor();
     gameData.dice = new Dice();
+    gameData.dashboard = new Dashboard();
     gameData.button.addButton();
 }
 
@@ -109,8 +111,8 @@ export function showRollResults(score) {
 
     clearTimeout(gameData.brake);
 
-    let attemps = document.querySelector('#nb-attempts')
-    attemps.innerHTML = gameData.attempts;
+    gameData.dashboard.changeAttemps(gameData.attempts)
+
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {
         if (gameData.attempts < gameData.maxAttempts) {
             gameData.button.addButton();
@@ -120,9 +122,5 @@ export function showRollResults(score) {
     } else {
         gameData.dice.diceBrake()
     }
-    if (gameData.scoreResult.innerHTML === '') {
-        gameData.scoreResult.innerHTML += score;
-    } else {
-        gameData.scoreResult.innerHTML += (' - ' + score);
-    }
+    gameData.dashboard.addScore(score)
 }

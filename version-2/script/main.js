@@ -10,12 +10,12 @@ export let gameData = {
     diceArraySelected: [],
 
     scoreSelected: [],
-    scoreResult: document.querySelector('#score-result'),
     scoreGlobal: [],
     maxAttempts: 3,
     attempts: 0,
     turn: 1,
 
+    dashboard: null,
     sheet: null,
     button: null,
     dice: null,
