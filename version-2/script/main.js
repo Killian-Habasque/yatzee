@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 
 
-import { initPhysics, initScene, updateSceneSize } from './gameLogic.js';
+import { GameInstance } from './gameLogic.js';
 
-import { render } from './render.js';
 
 export let gameData = {
     renderer: null,
@@ -40,11 +39,4 @@ export let gameData = {
 };
 
 
-
-initPhysics();
-initScene();
-
-window.addEventListener('resize', updateSceneSize);
-
-
-render();
+GameInstance();

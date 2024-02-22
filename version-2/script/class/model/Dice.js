@@ -4,10 +4,9 @@ import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 
-
-import { gameData } from '../main.js';
-import { showRollResults } from '../gameLogic.js';
-import { onDocumentMouseMove } from '../eventHandling.js';
+import { gameData } from '../../main.js';
+import { showRollResults } from '../../gameLogic.js';
+import { onDocumentMouseMove } from '../../eventHandling.js';
 
 export default class Dice {
     constructor() {

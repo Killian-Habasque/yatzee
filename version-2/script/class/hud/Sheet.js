@@ -1,5 +1,5 @@
 import Label from './Label.js';
-import { gameData } from '../main.js';
+import { gameData } from '../../main.js';
 
 export default class Sheet {
     constructor(callback) {
@@ -206,47 +206,6 @@ export default class Sheet {
     displayScore() {
         const cellScore = document.getElementById('total__score');
         cellScore.textContent = this.score;
-    }
-    /*
-    Afficher le tableau des scores
-    */
-    displaySheet() {
-        // const table = document.getElementById('sheetTable');
-        // table.innerHTML = '';
-
-        // const tbody = document.createElement('tbody');
-        // for (const key in this.sheet) {
-        //     const row = document.createElement('tr');
-        //     const cellKey = document.createElement('td');
-        //     cellKey.textContent = this.sheet[key].label;
-
-        //     const cellValue = document.createElement('td');
-
-        //     cellValue.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '-';
-
-        //     cellValue.dataset.key = key;
-
-        //     if (!this.sheet[key].checked) {
-        //         cellValue.onclick = () => {
-        //             this.sheet[key].checked = true;
-        //             cellValue.className = "selected";
-        //             const allCells = document.querySelectorAll('td');
-        //             allCells.forEach(cell => {
-        //                 cell.onclick = () => { return; };
-        //             });
-        //             gameData.tour++;
-        //             this.callback();
-        //         };
-        //     }
-
-        //     if (this.sheet[key].checked) {
-        //         cellValue.className = "selected";
-        //     }
-        //     row.appendChild(cellKey);
-        //     row.appendChild(cellValue);
-        //     tbody.appendChild(row);
-        // }
-        // table.appendChild(tbody);
     }
 
     updateSheet() {

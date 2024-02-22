@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
-import { gameData } from '../main.js';
+import { gameData } from '../../main.js';
 
 
 export default class Floor {

@@ -6,8 +6,10 @@ export default class Label {
 
         const diceContainer = document.querySelector(".game__main");
         diceContainer.appendChild(this.label);
-        setTimeout(() => {
-            diceContainer.removeChild(this.label);
-        }, time);
+        if(time) {
+            setTimeout(() => {
+                diceContainer.removeChild(this.label);
+            }, time);
+        }
     }
 }
