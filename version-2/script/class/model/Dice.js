@@ -7,14 +7,27 @@ import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 import { gameData } from '../../main.js';
 import { showRollResults } from '../../gameLogic.js';
 import { onDocumentMouseMove } from '../../eventHandling.js';
+import Label from '../hud/Label.js';
+
+let diceMesh = null;
+const params = {
+    numberOfDice: 5,
+    segments: 40,
+    edgeRadius: .07,
+    notchRadius: .12,
+    notchDepth: .1,
+}
+let canSelect = true
+let canRoll = true
+
 
 export default class Dice {
     constructor() {
-        gameData.diceMesh = this.createDiceMesh();
+        diceMesh = this.createDiceMesh();
         this.initDice()
     }
     initDice() {
-        for (let i = 0; i < gameData.params.numberOfDice; i++) {
+        for (let i = 0; i < params.numberOfDice; i++) {
             const dice = this.createDice();
             gameData.diceArray.push(dice);
             // this.addDiceEvents(gameData.diceArray[i]);
@@ -24,7 +37,7 @@ export default class Dice {
     Création des dés
     */
     createDice() {
-        const mesh = gameData.diceMesh.clone();
+        const mesh = diceMesh.clone();
 
         const body = new CANNON.Body({
             mass: 1,
@@ -35,8 +48,8 @@ export default class Dice {
         mesh.visible = true;
         mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
         body.quaternion.copy(mesh.quaternion);
-      
-        gameData.scene.add(mesh); 
+
+        gameData.scene.add(mesh);
         gameData.physicsWorld.addBody(body);
         return { mesh, body };
     }
@@ -71,10 +84,10 @@ export default class Dice {
     */
     createBoxGeometry() {
 
-        let boxGeometry = new THREE.BoxGeometry(1, 1, 1, gameData.params.segments, gameData.params.segments, gameData.params.segments);
+        let boxGeometry = new THREE.BoxGeometry(1, 1, 1, params.segments, params.segments, params.segments);
 
         const positionAttr = boxGeometry.attributes.position;
-        const subCubeHalfSize = .5 - gameData.params.edgeRadius;
+        const subCubeHalfSize = .5 - params.edgeRadius;
 
 
         for (let i = 0; i < positionAttr.count; i++) {
@@ -85,29 +98,29 @@ export default class Dice {
             const addition = new THREE.Vector3().subVectors(position, subCube);
 
             if (Math.abs(position.x) > subCubeHalfSize && Math.abs(position.y) > subCubeHalfSize && Math.abs(position.z) > subCubeHalfSize) {
-                addition.normalize().multiplyScalar(gameData.params.edgeRadius);
+                addition.normalize().multiplyScalar(params.edgeRadius);
                 position = subCube.add(addition);
             } else if (Math.abs(position.x) > subCubeHalfSize && Math.abs(position.y) > subCubeHalfSize) {
                 addition.z = 0;
-                addition.normalize().multiplyScalar(gameData.params.edgeRadius);
+                addition.normalize().multiplyScalar(params.edgeRadius);
                 position.x = subCube.x + addition.x;
                 position.y = subCube.y + addition.y;
             } else if (Math.abs(position.x) > subCubeHalfSize && Math.abs(position.z) > subCubeHalfSize) {
                 addition.y = 0;
-                addition.normalize().multiplyScalar(gameData.params.edgeRadius);
+                addition.normalize().multiplyScalar(params.edgeRadius);
                 position.x = subCube.x + addition.x;
                 position.z = subCube.z + addition.z;
             } else if (Math.abs(position.y) > subCubeHalfSize && Math.abs(position.z) > subCubeHalfSize) {
                 addition.x = 0;
-                addition.normalize().multiplyScalar(gameData.params.edgeRadius);
+                addition.normalize().multiplyScalar(params.edgeRadius);
                 position.y = subCube.y + addition.y;
                 position.z = subCube.z + addition.z;
             }
 
             const notchWave = (v) => {
-                v = (1 / gameData.params.notchRadius) * v;
+                v = (1 / params.notchRadius) * v;
                 v = Math.PI * Math.max(-1, Math.min(1, v));
-                return gameData.params.notchDepth * (Math.cos(v) + 1.);
+                return params.notchDepth * (Math.cos(v) + 1.);
             }
             const notch = (pos) => notchWave(pos[0]) * notchWave(pos[1]);
 
@@ -159,7 +172,7 @@ export default class Dice {
     Plane geometry à l'intérieur des dés
     */
     createInnerGeometry() {
-        const baseGeometry = new THREE.PlaneGeometry(1 - 2 * gameData.params.edgeRadius, 1 - 2 * gameData.params.edgeRadius);
+        const baseGeometry = new THREE.PlaneGeometry(1 - 2 * params.edgeRadius, 1 - 2 * params.edgeRadius);
         const offset = .48;
         return BufferGeometryUtils.mergeBufferGeometries([
             baseGeometry.clone().translate(0, 0, offset),
@@ -232,11 +245,11 @@ export default class Dice {
     selectedDice(dice) {
         console.log(dice);
 
-        if (!gameData.canSelect) {
+        if (!canSelect) {
             return;
         }
-        gameData.canSelect = false;
-        // gameData.canRoll = false;
+        canSelect = false;
+        // canRoll = false;
         const targetPosition = new CANNON.Vec3(-2 + gameData.diceArraySelected.length * 2, 0, -5);
         const selectedDiceIndex = gameData.diceArray.indexOf(dice);
 
@@ -246,17 +259,17 @@ export default class Dice {
         this.moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
             this.realignDice();
             gameData.scoreSelected.push(dice.value);
-            gameData.canSelect = true;
+            canSelect = true;
         })
 
         dice.mesh.callback = () => { this.unselectedDice(dice); }
     }
     unselectedDice(dice) {
-        if (!gameData.canSelect) {
+        if (!canSelect) {
             return;
         }
-        gameData.canSelect = false;
-        // gameData.canRoll = false;
+        canSelect = false;
+        // canRoll = false;
         const targetPosition = new CANNON.Vec3(-2 + (gameData.diceArray.length) * 2, 0, 0);
         const selectedDiceIndex = gameData.diceArraySelected.indexOf(dice);
         gameData.diceArraySelected.splice(selectedDiceIndex, 1);
@@ -267,7 +280,7 @@ export default class Dice {
             let indexToDelete = gameData.scoreSelected.indexOf(dice.value);
             if (indexToDelete !== -1) {
                 gameData.scoreSelected.splice(indexToDelete, 1);
-                gameData.canSelect = true;
+                canSelect = true;
             }
         })
 
@@ -284,9 +297,9 @@ export default class Dice {
 
         let completedDice = 0;
         const totalDice = gameData.diceArraySelected.length;
-        gameData.canRoll = false;
+        canRoll = false;
         if (totalDice == 0) {
-            gameData.canRoll = true;
+            canRoll = true;
         } else {
             gameData.diceArraySelected.forEach((dice, index) => {
                 const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, -5);
@@ -295,7 +308,7 @@ export default class Dice {
                     () => {
                         completedDice++;
                         if (completedDice === totalDice) {
-                            gameData.canRoll = true;
+                            canRoll = true;
                         }
                     })
             });
@@ -310,10 +323,10 @@ export default class Dice {
         let completedDice = 0;
         const totalDice = gameData.diceArray.length;
 
-        gameData.canRoll = false;
+        canRoll = false;
 
         if (totalDice == 0) {
-            gameData.canRoll = true;
+            canRoll = true;
         } else {
             gameData.diceArray.forEach((dice, index) => {
                 const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
@@ -321,7 +334,7 @@ export default class Dice {
                     () => {
                         completedDice++;
                         if (completedDice === totalDice) {
-                            gameData.canRoll = true;
+                            canRoll = true;
                         }
                     })
             });
@@ -332,19 +345,19 @@ export default class Dice {
     Lancer dés 
     */
     throwDice() {
-        if (!gameData.canRoll) {
+        if (!canRoll) {
             return;
         }
         document.removeEventListener('mousemove', onDocumentMouseMove, false);
 
         if (gameData.turn === 1 && gameData.attempts === 0 && gameData.brake === null) {
-            for (let i = 0; i < gameData.params.numberOfDice; i++) {
+            for (let i = 0; i < params.numberOfDice; i++) {
                 this.addDiceEvents(gameData.diceArray[i]);
             }
             gameData.sheet.updateTurn(gameData.turn + "/12");
         }
-        gameData.canRoll = false;
-        gameData.canSelect = false;
+        canRoll = false;
+        canSelect = false;
         gameData.attempts++;
         if (gameData.turn != 1 || gameData.attempts != 0) {
             console.log("BUTTTTTON")
@@ -360,7 +373,7 @@ export default class Dice {
             let endPosition = { x: 6.5, y: 0, z: 8.5 };
             let startRotation = { rotationY: 0 };
 
-  
+
             gameData.diceArray.forEach((d, dIdx) => {
 
                 d.body.velocity.setZero();
@@ -369,7 +382,7 @@ export default class Dice {
                 d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
                 d.mesh.position.copy(d.body.position);
                 d.mesh.visible = false;
-            
+
                 d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
                 d.body.quaternion.copy(d.mesh.quaternion);
 
@@ -450,17 +463,17 @@ export default class Dice {
         const delayBetweenDice = 0.2 * 1000;
         let completedDice = 0;
         const totalDice = gameData.diceArray.length;
-        gameData.canRoll = false;
+        canRoll = false;
         gameData.diceArray.forEach((dice, index) => {
             const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
             this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice, () => {
-                gameData.canSelect = true;
+                canSelect = true;
                 if (gameData.attempts == gameData.maxAttempts) {
                     this.autoSelected()
                 }
                 completedDice++;
                 if (completedDice === totalDice) {
-                    gameData.canRoll = true;
+                    canRoll = true;
 
                     gameData.sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
                     gameData.sheet.updateSheet();
@@ -523,7 +536,7 @@ export default class Dice {
         gameData.diceArraySelected = [];
         gameData.scoreSelected = [];
 
-        gameData.canRoll = true;
+        canRoll = true;
         this.throwDice();
     }
 
@@ -531,8 +544,8 @@ export default class Dice {
     Alignement de tous les dés (sélectionnés/ non-selectionnés)
     */
     autoSelected() {
-    document.removeEventListener('mousemove', onDocumentMouseMove, false);
-        gameData.canSelect = false;
+        document.removeEventListener('mousemove', onDocumentMouseMove, false);
+        canSelect = false;
         gameData.diceArraySelected.forEach((dice, index) => {
             const targetPosition = new CANNON.Vec3(-2 + gameData.diceArray.length * 2, 0, 0);
             gameData.diceArray.push(dice);
@@ -541,5 +554,21 @@ export default class Dice {
         });
         gameData.diceArraySelected = [];
         gameData.scoreSelected = [];
+    }
+
+    /*
+    Time out dés cassés
+    */
+    diceBrake() {
+        gameData.brake = setTimeout(() => {
+            if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
+                console.log("_____CHARGEMENT DES");
+                console.log("_____Attemps :" + gameData.attempts)
+                new Label("txt__alert", "Dés cassés !", 2000);
+                gameData.attempts = gameData.attempts - 1;
+                canRoll = true;
+                gameData.button.addButton();
+            }
+        }, 3000);
     }
 }

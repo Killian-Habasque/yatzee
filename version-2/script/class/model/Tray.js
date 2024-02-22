@@ -147,10 +147,4 @@ export default class Tray {
         });
         gameData.physicsWorld.addBody(rectangleBody);
     }
-
-    updateRectangle() {
-        this.rectangleMesh.scale.set(gameData.params.rectangle.width, gameData.params.rectangle.height, 0.1);
-        this.rectangleMesh.position.set(gameData.params.rectangle.positionX, gameData.params.rectangle.positionY, gameData.params.rectangle.positionZ);
-    }
-
 }

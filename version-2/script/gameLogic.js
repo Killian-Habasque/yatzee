@@ -118,16 +118,7 @@ export function showRollResults(score) {
         gameData.dice.alignDiceInLine();
         document.addEventListener('mousemove', onDocumentMouseMove, false);
     } else {
-        gameData.brake = setTimeout(() => {
-            if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
-                console.log("_____CHARGEMENT DES");
-                console.log("_____Attemps :" + gameData.attempts)
-                new Label("txt__alert", "Dés cassés !", 2000);
-                gameData.attempts = gameData.attempts - 1;
-                gameData.canRoll = true;
-                gameData.button.addButton();
-            }
-        }, 3000);
+        gameData.dice.diceBrake()
     }
     if (gameData.scoreResult.innerHTML === '') {
         gameData.scoreResult.innerHTML += score;
