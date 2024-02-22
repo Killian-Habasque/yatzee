@@ -1,6 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import * as dat from 'dat.gui';
+
 
 import { initPhysics, initScene, updateSceneSize } from './gameLogic.js';
 
@@ -31,9 +30,6 @@ export let gameData = {
     brake: null,
     cup: null,
 
-    dice: {
-        hover: null
-    },
     params: {
         numberOfDice: 5,
         segments: 40,

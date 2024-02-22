@@ -45,10 +45,8 @@ export function initScene() {
     new Floor();
     gameData.dice = new Dice();
     gameData.button.addButton();
-    // initDatGui();
-    const controls = new OrbitControls(gameData.camera, gameData.renderer.domElement)
-    controls.enableDamping = true
-    controls.target.y = 0.5
+    initDatGui();
+
 
     updateSceneSize();
 
@@ -64,13 +62,6 @@ export function initScene() {
     gameData.scene.add(topLight);
 
 
-    // gameData.diceMesh = createDiceMesh();
-    // for (let i = 0; i < gameData.params.numberOfDice; i++) {
-    //     gameData.diceArray.push(createDice());
-    //     addDiceEvents(gameData.diceArray[i]);
-    // }
-
-    // throwDice();
     gameData.sheet.displaySheet();
     window.addEventListener('click', onDocumentMouseDown, false);
 
