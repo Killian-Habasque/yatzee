@@ -378,6 +378,10 @@ export default class Dice {
         if (!canRoll) {
             return;
         }
+        if (gameData.diceArraySelected.length == 5) {
+            new Label("txt__alert", "Aucun dé à lancer !", 1000);
+            return;
+        }
         document.removeEventListener('mousemove', onDocumentMouseMove, false);
 
         if (gameData.turn === 1 && gameData.attempts === 0 && gameData.brake === null) {
