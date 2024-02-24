@@ -8,6 +8,13 @@ export let gameData = {
 
     diceArray: [],
     diceArraySelected: [],
+    dicePositionSelected : {
+        0 : null,
+        1 : null,
+        2 : null,
+        3 : null,
+        4 : null,
+    },
     scoreSelected: [],
     scoreGlobal: [],
     maxAttempts: 3,

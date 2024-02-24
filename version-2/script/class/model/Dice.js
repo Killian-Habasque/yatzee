@@ -239,6 +239,31 @@ export default class Dice {
 
     }
 
+    findFirstNullIndex(array) {
+        for (let i = 0; i <= Object.keys(array).length; i++) {
+            if (array[i] === null) {
+                return i;
+            }
+        }
+        return null;
+    }
+    setToNullIfPresent(array, value) {
+        const keys = Object.keys(array);
+        for (let i = 0; i < keys.length; i++) {
+            if (array[keys[i]] === value) {
+                array[keys[i]] = null;
+                return true;
+            }
+        }
+        return false;
+    }
+    setToNull(array) {
+        const keys = Object.keys(array);
+        for (let i = 0; i < keys.length; i++) {
+            array[keys[i]] = null;
+        }
+        return false;
+    }
     /*
     Sélection/ desélection d'un dé
     */
@@ -250,11 +275,16 @@ export default class Dice {
         }
         canSelect = false;
         // canRoll = false;
-        const targetPosition = new CANNON.Vec3(-2 + gameData.diceArraySelected.length * 2, 0, -5);
+        console.log("___________")
+        console.log(gameData.dicePositionSelected)
+        let target = this.findFirstNullIndex(gameData.dicePositionSelected);
+
+        const targetPosition = new CANNON.Vec3(-2 + target * 2, -6.5, -5);
         const selectedDiceIndex = gameData.diceArray.indexOf(dice);
 
         gameData.diceArray.splice(selectedDiceIndex, 1);
         gameData.diceArraySelected.push(dice);
+        gameData.dicePositionSelected[target] = dice;
 
         this.moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
             this.realignDice();
@@ -274,9 +304,10 @@ export default class Dice {
         const selectedDiceIndex = gameData.diceArraySelected.indexOf(dice);
         gameData.diceArraySelected.splice(selectedDiceIndex, 1);
         gameData.diceArray.push(dice);
+        this.setToNullIfPresent(gameData.dicePositionSelected, dice) 
 
         this.moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
-            this.realignDiceSelected();
+            // this.realignDiceSelected();
             let indexToDelete = gameData.scoreSelected.indexOf(dice.value);
             if (indexToDelete !== -1) {
                 gameData.scoreSelected.splice(indexToDelete, 1);
@@ -289,33 +320,32 @@ export default class Dice {
     }
 
     /*
-    Réalignement des dés
+    Réalignement des dés 
     */
-    realignDiceSelected() {
-        const alignmentDuration = 0.3 * 1000;
-        const delayBetweenDice = 0.1 * 1000;
+    // realignDiceSelected() {
+    //     const alignmentDuration = 0.3 * 1000;
+    //     const delayBetweenDice = 0.1 * 1000;
 
-        let completedDice = 0;
-        const totalDice = gameData.diceArraySelected.length;
-        canRoll = false;
-        if (totalDice == 0) {
-            canRoll = true;
-        } else {
-            gameData.diceArraySelected.forEach((dice, index) => {
-                const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, -5);
+    //     let completedDice = 0;
+    //     const totalDice = gameData.diceArraySelected.length;
+    //     canRoll = false;
+    //     if (totalDice == 0) {
+    //         canRoll = true;
+    //     } else {
+    //         gameData.diceArraySelected.forEach((dice, index) => {
+    //             const targetPosition = new CANNON.Vec3(-2 + index * 2, -6.5, -5);
 
-                this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
-                    () => {
-                        completedDice++;
-                        if (completedDice === totalDice) {
-                            canRoll = true;
-                        }
-                    })
-            });
-        }
-
-
-    }
+    //             this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice,
+    //                 () => {
+    //                     completedDice++;
+    //                     if (completedDice === totalDice) {
+    //                         canRoll = true;
+    //                     }
+    //                 })
+    //         });
+    //     }
+    // }
+    
     realignDice() {
         const alignmentDuration = 0.3 * 1000;
         const delayBetweenDice = 0.1 * 1000;
@@ -553,6 +583,7 @@ export default class Dice {
             this.moveAndRotateDice(index, dice, targetPosition, 0, 500, 100)
         });
         gameData.diceArraySelected = [];
+        this.setToNull(gameData.dicePositionSelected)
         gameData.scoreSelected = [];
     }
 
