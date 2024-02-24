@@ -565,6 +565,7 @@ export default class Dice {
         });
         gameData.diceArraySelected = [];
         gameData.scoreSelected = [];
+        this.setToNull(gameData.dicePositionSelected)
 
         canRoll = true;
         this.throwDice();
