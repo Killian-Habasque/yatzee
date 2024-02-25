@@ -13,6 +13,7 @@
     }
 
     @else if $type =="alert" {
+        font-family: $font-text--label;
         font-size: 40px;
         position: absolute;
         align-self: center;

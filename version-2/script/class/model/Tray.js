@@ -18,7 +18,7 @@ export default class Tray {
 
     createTrayModel() {
         this.loader.load(
-            '/version-2/assets/models/food_tray.glb',
+            '/version-2/assets/models/tray.glb',
             function (gltf) {
                 gltf.scene.traverse(function (child) {
                     if (child.type === 'Mesh') {
@@ -54,7 +54,7 @@ export default class Tray {
 
     createPenModel() {
         this.loader.load(
-            '/version-2/assets/models/pen(1).glb',
+            '/version-2/assets/models/pen.glb',
             function (gltf, showProgressBar) {
                 gltf.scene.traverse(function (child) {
                     if (child.type === 'Mesh') {
@@ -85,7 +85,7 @@ export default class Tray {
 
     createCupModel() {
         this.loader.load(
-            '/version-2/assets/models/simple_paper_cup(1).glb',
+            '/version-2/assets/models/cup.glb',
             (gltf, showProgressBar) => { // Utilisation d'une fonction fléchée ici
                 gltf.scene.traverse((child) => { // Utilisation d'une fonction fléchée ici
                     if (child.type === 'Mesh') {

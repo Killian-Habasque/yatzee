@@ -10,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="assets/images/logo-color.svg">
 </head>
 
-<body onload="init()">
+<body onload="init()" class="page homepage">
 
     <header>
         <div class="header-right">
@@ -29,7 +29,7 @@
 
             <div class="header-menu">
                 <nav class="header-menu__links">
-                    <a href="" class="txt__title">Home</a>
+                    <a href="/version-2" class="txt__title">Home</a>
                     <a href="" class="txt__title">About us</a>
                 </nav>
                 <div class="header-menu__rules">
@@ -41,7 +41,7 @@
             </div>
         </div>
     </header>
-    <main>
+    <main class="content">
         <div class="logo">
             <img class="logo__cup" src="./assets/images/cup.png" alt="">
             <svg class="logo__text" width="889" height="733" viewBox="0 0 889 733" fill="none"
@@ -108,222 +108,7 @@
 </html>
 
 <style>
-    body {
-        background: #9D301D;
-        overflow: hidden;
-    }
 
-    main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        position: relative;
-        overflow: hidden;
-        z-index: 0;
-        padding: 0;
-        margin: 0;
-        flex-direction: column;
-    }
-
-    body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url("./assets/images/line2.png");
-        background-repeat: repeat-x;
-        background-position: -100px 0;
-        animation: animateBackground2 10s infinite alternate;
-        z-index: -1;
-    }
-
-    body::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url("./assets/images/line2.png");
-        background-repeat: repeat-x;
-        background-position: calc(-160px - 100px) 50%;
-        animation: animateBackground 10s ease-in-out infinite alternate;
-        z-index: -1;
-    }
-
-    @keyframes animateBackground {
-        from {
-            background-position-y: 0;
-        }
-
-        to {
-            background-position-y: 25%;
-        }
-    }
-
-    @keyframes animateBackground2 {
-        from {
-            background-position-y: 65%;
-        }
-
-        to {
-            background-position-y: 45%;
-        }
-    }
-
-    .logo {
-        position: relative;
-        width: 50%;
-        height: 500px;
-        max-width: 500px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .ui-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-
-    .logo__cup {
-        position: absolute;
-        width: 100%;
-        right: -20%;
-        opacity: 0
-    }
-
-
-    .band,
-    .logo__dice,
-    .logo__text {
-        position: absolute;
-        opacity: 0;
-    }
-
-    .logo__dice.one {
-        top: 50%;
-        left: 35%;
-        width: 25%;
-        z-index: 1;
-    }
-
-    .logo__dice.two {
-        bottom: 15%;
-        left: 6%;
-        width: 27%;
-        z-index: 3;
-    }
-
-    .logo__text {
-        width: 100%;
-        height: 100%;
-        right: 10%;
-        z-index: 2;
-    }
-
-    .copyright {
-        margin-bottom: 40px;
-    }
 </style>
-
-<script>
-        const btnMenu = document.querySelector("#menu");
-        const menu = document.querySelector(".header-menu");
-        const menuLinks = document.querySelector(".header-menu__links");
-        const menuRules = document.querySelector(".header-menu__rules");
-        const menuBlog = document.querySelector(".header-menu__blog");
-
-        let isMenuOpen = false;
-
-        btnMenu.addEventListener("click", () => {
-            if (!isMenuOpen) {
-                // Animations à effectuer lorsque le menu est ouvert
-                menu.style.visibility = "visible";
-                TweenMax.from(menu, 0.5, { opacity: 0});
-                TweenMax.from(menuLinks, 0.5, { y: 200, rotation: 10});
-                TweenMax.from(menuRules, 0.5, { y: 300, rotation: -10 });
-                TweenMax.from(menuBlog, 0.5, { y: 200, rotation: -10 });
-
-                TweenMax.to(menu, 0.5, { opacity: 1, delay: 0.2 });
-                TweenMax.to(menuLinks, 0.5, { y: 0, rotation: 0,  delay: 0.2});
-                TweenMax.to(menuRules, 0.5, { y: 0, rotation: 0, delay: 0.2 });
-                TweenMax.to(menuBlog, 0.5, { y: 0, rotation: 0, delay: 0.3 });
-                isMenuOpen = true;
-            } else {
-                // Animations à effectuer lorsque le menu est fermé
-                TweenMax.to(menu, 0.5, { opacity: 0, delay: 0.2 });
-                TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 10,  delay: 0.3});
-                TweenMax.to(menuRules, 0.5, { y: 300, rotation: -10, delay: 0.3 });
-                TweenMax.to(menuBlog, 0.5, { y: 200, rotation: -10, delay: 0.2, onComplete: () => {
-                    menu.style.visibility = "hidden";
-                    isMenuOpen = false;
-                }});
-               
-            }
-        });
-    function init() {
-        const cup = document.querySelector(".logo__cup");
-        const bandOne = document.querySelector(".band.one");
-        const bandTwo = document.querySelector(".band.two");
-        const bandThree = document.querySelector(".band.three");
-        const diceOne = document.querySelector(".logo__dice.one");
-        const diceTwo = document.querySelector(".logo__dice.two");
-        const text = document.querySelector(".logo__text");
-
-
-        TweenMax.from(cup, 2, {
-            x: 200, y: 200, rotation: -30,
-            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
-                TweenMax.to(cup, 10, { x: 10, y: 10, rotation: -5, repeat: -1, yoyo: true }); // Deuxième animation de dice2
-            }
-        });
-
-        TweenMax.to(cup, 1, {
-            opacity: 1, delay: 0.2
-        });
-
-        TweenMax.from(text, 2, { x: -100, y: 80, });
-        TweenMax.to(text, 1, {
-            opacity: 1, delay: 0.2
-        });
-        TweenMax.from(diceOne, 2, {
-            x: 200, y: 100, rotation: 50,
-            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
-                TweenMax.to(diceOne, 15, { x: 10, y: -10, rotation: -15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
-            }
-        });
-        TweenMax.to(diceOne, 1, {
-            opacity: 1, delay: 0.2
-        });
-        TweenMax.from(diceTwo, 2, {
-            x: 200, y: 100, rotation: -60,
-            onComplete: function () { // Fonction de rappel pour la deuxième animation de dice2
-                TweenMax.to(diceTwo, 15, { x: 10, y: -10, rotation: 15, repeat: -1, yoyo: true }); // Deuxième animation de dice2
-            }
-        });
-        TweenMax.to(diceTwo, 1, {
-            opacity: 1, delay: 0.2
-        });
-        TweenMax.from(bandThree, 1.5, { transform: "translateX(27px) translateY(-7px)", delay: 0.2, repeat: -1, yoyo: true });
-        TweenMax.to(bandThree, 0.5, {
-            opacity: 1, delay: 0.2
-        });
-
-        TweenMax.from(bandTwo, 1.5, { transform: "translateX(54px) translateY(-14px)", delay: 0.4, repeat: -1, yoyo: true });
-        TweenMax.to(bandTwo, 1, {
-            opacity: 1, delay: 0.2
-        });
-
-        TweenMax.from(bandOne, 1.5, { transform: "translateX(81px) translateY(-21px)", delay: 0.6, repeat: -1, yoyo: true });
-        TweenMax.to(bandOne, 1, {
-            opacity: 1, delay: 0.2
-        });
-
-    }
-</script>
+<script type="text/javascript" src="./script/pages/header.js"></script>
+<script type="text/javascript" src="./script/pages/home.js"></script>

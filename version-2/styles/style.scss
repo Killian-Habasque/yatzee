@@ -12,6 +12,12 @@
 @import "layouts/sheet";
 @import "layouts/gameUI";
 
+@import "pages/home";
+
+body {
+    background: $color-primary;
+    overflow: hidden;
+}
 
 canvas {
 	position: absolute;

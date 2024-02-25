@@ -37,7 +37,7 @@
 
         tfoot {
             border-radius: 0 0 $sheet-radius--in $sheet-radius--in;
-            border-top: none;
+            border-bottom: 2px solid $color-primary;
         }
 
         .row {

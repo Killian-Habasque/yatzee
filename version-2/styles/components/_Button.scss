@@ -29,11 +29,11 @@
 
     @else if $type =="secondary" {
         background: $color-secondary;
-        color: $color-primary;
+        color: $color-light;
 
         &:hover {
             background: $color-secondary--light;
-            color: $color-primary;
+            color: $color-light;
         }
     }
 
@@ -109,6 +109,9 @@
     @else if $type =="secondary" {
         color: $color-primary;
         animation-delay: 1s;
+        &:hover {
+            color: $color-primary;
+        }
     }
 
     &:after,
