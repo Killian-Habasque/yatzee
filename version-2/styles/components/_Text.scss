@@ -13,7 +13,6 @@
     }
 
     @else if $type =="alert" {
-        font-family: $font-text--label;
         font-size: 40px;
         position: absolute;
         align-self: center;
@@ -22,6 +21,23 @@
         font-weight: 600;
         color: $color-light;
         text-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.5);
+    }
+
+    @else if $type =="cta" {
+        font-family: $font-text--label;
+        font-size: 15px;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    @else if $type =="title" {
+        font-family: $font-text--label;
+        font-size: 18px;
+        letter-spacing: 0.05em;
+        font-weight: 400;
+        color: $color-light;
+        text-transform: uppercase;
     }
 }
 
@@ -44,6 +60,7 @@
     &__number {
         @include text-style("number");
     }
+
     &__alert {
         @include text-style("alert");
     }

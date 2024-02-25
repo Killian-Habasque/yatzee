@@ -4,24 +4,40 @@
 <head>
 	<!-- <link rel="stylesheet" type="text/css" href="styles/base.css" /> -->
 	<link rel="stylesheet" type="text/css" href="styles/style.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 </head>
 
 <body>
 	<main class="game__main">
 
 		<header>
-			<nav>
-				<button id="btn-audio" class="btn-audio active">
-					<div class="wave">
-						<span class="stroke"></span>
-						<span class="stroke"></span>
-						<span class="stroke"></span>
-						<span class="stroke"></span>
+			<div class="header-right">
+				<nav class="header-nav">
+					<button id="btn-audio" class="btn-audio active">
+						<div class="wave">
+							<span class="stroke"></span>
+							<span class="stroke"></span>
+							<span class="stroke"></span>
+							<span class="stroke"></span>
+						</div>
+					</button>
+					<a class="btn__secondary" href="">Regles</a>
+					<button id="menu" class="btn__light" href="">Menu</button>
+				</nav>
+	
+				<div class="header-menu">
+					<nav class="header-menu__links">
+						<a href="" class="txt__title">Home</a>
+						<a href="" class="txt__title">About us</a>
+					</nav>
+					<div class="header-menu__rules">
+						<h2 class="txt__title">Règles</h2>
 					</div>
-				</button>
-				<a class="btn__primary" href="">Regles</a>
-				<a class="btn__light" href="">Menu</a>
-			</nav>
+					<div class="header-menu__blog">
+						<a href="" class="txt__title">Blog</a>
+					</div>
+				</div>
+			</div>
 		</header>
 		<div id="sheet" class="sheet__score">
 			<table class="sheet__table">

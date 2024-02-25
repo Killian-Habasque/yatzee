@@ -23,25 +23,23 @@
                         <span class="stroke"></span>
                     </div>
                 </button>
-                <a class="btn__primary" href="">Regles</a>
+                <a class="btn__secondary" href="">Regles</a>
                 <button id="menu" class="btn__light" href="">Menu</button>
             </nav>
 
             <div class="header-menu">
                 <nav class="header-menu__links">
-                    <a href="">Home</a>
-                    <a href="">About us</a>
+                    <a href="" class="txt__title">Home</a>
+                    <a href="" class="txt__title">About us</a>
                 </nav>
                 <div class="header-menu__rules">
-
+                    <h2 class="txt__title">Règles</h2>
                 </div>
                 <div class="header-menu__blog">
-
+                    <a href="" class="txt__title">Blog</a>
                 </div>
             </div>
         </div>
-
-        
     </header>
     <main>
         <div class="logo">
@@ -248,8 +246,8 @@
                 // Animations à effectuer lorsque le menu est ouvert
                 menu.style.visibility = "visible";
                 TweenMax.from(menu, 0.5, { opacity: 0});
-                TweenMax.from(menuLinks, 0.5, { y: 200, rotation: 15});
-                TweenMax.from(menuRules, 0.5, { y: 300, rotation: -15 });
+                TweenMax.from(menuLinks, 0.5, { y: 200, rotation: 10});
+                TweenMax.from(menuRules, 0.5, { y: 300, rotation: -10 });
                 TweenMax.from(menuBlog, 0.5, { y: 200, rotation: -10 });
 
                 TweenMax.to(menu, 0.5, { opacity: 1, delay: 0.2 });
@@ -260,12 +258,13 @@
             } else {
                 // Animations à effectuer lorsque le menu est fermé
                 TweenMax.to(menu, 0.5, { opacity: 0, delay: 0.2 });
-                TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 15,  delay: 0.3});
-                TweenMax.to(menuRules, 0.5, { y: 300, rotation: -15, delay: 0.3 });
+                TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 10,  delay: 0.3});
+                TweenMax.to(menuRules, 0.5, { y: 300, rotation: -10, delay: 0.3 });
                 TweenMax.to(menuBlog, 0.5, { y: 200, rotation: -10, delay: 0.2, onComplete: () => {
                     menu.style.visibility = "hidden";
+                    isMenuOpen = false;
                 }});
-                isMenuOpen = false;
+               
             }
         });
     function init() {

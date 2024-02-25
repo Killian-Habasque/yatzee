@@ -1,20 +1,16 @@
 @mixin button-style($type) {
     position: relative;
     border-radius: $g-radius;
-    font-family: Helvetica, sans-serif;
     min-width: 100px;
-    font-size: 15px;
-    letter-spacing: 0.05em;
-    font-weight: 600;
+    @include text-style("cta");
     background: #9d301d;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: $spacer-md $spacer-lg;
-    text-transform: uppercase;
     color: $color-primary;
     cursor: pointer;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 10px 10px 0px rgba(71, 71, 71, 0.1);
     z-index: 10;
 
     /* Primary */
@@ -48,8 +44,8 @@
         color: $color-light;
 
         &:hover {
-            background: $color-light;
-            color: $color-dark;
+            background: $color-primary--light;
+            color: $color-light;
         }
     }
 
@@ -60,7 +56,7 @@
         color: $color-dark;
 
         &:hover {
-            background: $color-dark;
+            background: $color-primary--light;
             color: $color-light;
         }
     }
