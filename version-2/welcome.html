@@ -246,22 +246,25 @@
         btnMenu.addEventListener("click", () => {
             if (!isMenuOpen) {
                 // Animations à effectuer lorsque le menu est ouvert
-                TweenMax.from(menuLinks, 0.5, { y: 200, rotation: 15 });
-                TweenMax.from(menu, 0.5, { opacity: 0, delay: 0.2 });
-                TweenMax.from(menuRules, 0.8, { y: 250, rotation: -15, delay: 0.2 });
-                TweenMax.from(menuBlog, 1, { y: 200, rotation: -10, delay: 0.3 });
+                menu.style.visibility = "visible";
+                TweenMax.from(menu, 0.5, { opacity: 0});
+                TweenMax.from(menuLinks, 0.5, { y: 200, rotation: 15});
+                TweenMax.from(menuRules, 0.5, { y: 300, rotation: -15 });
+                TweenMax.from(menuBlog, 0.5, { y: 200, rotation: -10 });
 
-                TweenMax.to(menuLinks, 0.5, { y: 0, rotation: 0 });
                 TweenMax.to(menu, 0.5, { opacity: 1, delay: 0.2 });
-                TweenMax.to(menuRules, 0.8, { y: 0, rotation: 0, delay: 0.2 });
-                TweenMax.to(menuBlog, 1, { y: 0, rotation: 0, delay: 0.3 });
+                TweenMax.to(menuLinks, 0.5, { y: 0, rotation: 0,  delay: 0.2});
+                TweenMax.to(menuRules, 0.5, { y: 0, rotation: 0, delay: 0.2 });
+                TweenMax.to(menuBlog, 0.5, { y: 0, rotation: 0, delay: 0.3 });
                 isMenuOpen = true;
             } else {
                 // Animations à effectuer lorsque le menu est fermé
-                TweenMax.to(menuLinks, 1, { y: 200, rotation: 15,  delay: 0.3});
                 TweenMax.to(menu, 0.5, { opacity: 0, delay: 0.2 });
-                TweenMax.to(menuRules, 0.8, { y: 250, rotation: -15, delay: 0.3 });
-                TweenMax.to(menuBlog, 0.5, { y: 200, rotation: -10, delay: 0.2 });
+                TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 15,  delay: 0.3});
+                TweenMax.to(menuRules, 0.5, { y: 300, rotation: -15, delay: 0.3 });
+                TweenMax.to(menuBlog, 0.5, { y: 200, rotation: -10, delay: 0.2, onComplete: () => {
+                    menu.style.visibility = "hidden";
+                }});
                 isMenuOpen = false;
             }
         });
