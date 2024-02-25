@@ -3,11 +3,44 @@ header {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    padding: 16px;
+    padding: $spacer-md;
     z-index: 10;
     
-    nav {
-        display: flex;
-        gap: 20px;
+    .header-right {
+        position: relative;
+        .header-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-menu {
+            margin-top: $spacer-md;
+            position: absolute;
+            height: calc(100vh - 50px - 2*$spacer-md - $spacer-md);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: $spacer-md;
+            opacity: 0;
+            &>* {
+                border-radius: $spacer-sm;
+            }
+
+            .header-menu__links {
+                width: 100%;
+                height: 100%;
+                background: $color-secondary;
+            }
+            .header-menu__rules {
+                width: 100%;
+                height: 100%;
+                background: $color-secondary;
+            }
+            .header-menu__blog {
+                width: 100%;
+                height: 30%;
+                background: $color-dark;
+            }
+        }
     }
 }
