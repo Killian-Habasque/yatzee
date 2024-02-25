@@ -26,7 +26,7 @@ export let gameData = {
     sheet: null,
     button: null,
     dice: null,
-    tray: null,
+    models: null,
     cup: null,
 };
 

@@ -6,6 +6,9 @@ element.addEventListener('click', (e) => {
     element.classList.toggle("active");
 })
 
+/*
+Toggle menu animation
+*/
 const btnMenu = document.querySelector("#menu");
 const menu = document.querySelector(".header-menu");
 const menuLinks = document.querySelector(".header-menu__links");
