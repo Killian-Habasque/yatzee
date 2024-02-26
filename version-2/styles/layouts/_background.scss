@@ -1,4 +1,6 @@
 .bg__patern {
+    border-bottom: 10px solid $color-secondary;
+    
     &::before {
         content: "";
         position: absolute;

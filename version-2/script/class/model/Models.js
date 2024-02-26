@@ -14,18 +14,18 @@ export default class Models {
         this.modelsLoaded = 0;
         this.createOrUpdateRectangle();
         this.loadModels();
-        const progressBarcontainer = document.querySelector(".progress-bar__container")
-        const progress = document.querySelector(".progress span")
+        const loadingContainer = document.querySelector(".loading__container")
+        const progress = document.querySelector(".progress-bar span")
         this.loadingManagment.onProgress = function(url, loaded, total){
             let value = (loaded / total) * 100;
             progress.style.width = value + "%";
             if(value === 100) {
                 setTimeout(() => {
-                    progressBarcontainer.style.opacity = "0";
+                    loadingContainer.style.top = "-100%";
                 }, 500);
                 setTimeout(() => {
-                    progressBarcontainer.style.display = "none";
-                }, 1000);
+                    loadingContainer.style.display = "none";
+                }, 10000);
             }
         }
     }
