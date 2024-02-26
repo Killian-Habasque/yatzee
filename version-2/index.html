@@ -9,7 +9,10 @@
 
 <body>
 	<main class="game__main">
-
+		<div class="progress-bar__container">
+			<label for="progress-bar">Loading...</label>
+			<progress id="progress-bar" value="0" max="100"></progress>
+		</div>
 		<header>
 			<div class="header-right">
 				<nav class="header-nav">
@@ -194,3 +197,26 @@
 </body>
 
 </html>
+
+<style>
+	.progress-bar__container {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		z-index: 100;
+		background: black;
+	}
+	#progress-bar {
+		width: 300px;
+		margin-top: 0.5%;
+		height: 2%;
+	}
+	label {
+		color: white;
+		font-size: 2rem;
+	}
+</style>

@@ -5,13 +5,27 @@ import { gameData } from '../../main.js';
 
 export default class Models {
     constructor() {
-        this.loader = new GLTFLoader();
+        this.loadingManagment = new THREE.LoadingManager();
+        this.loader = new GLTFLoader( this.loadingManagment );
+       
         this.showProgressBar = false;
         this.valueProgressBar = 0;
         this.totalModels = 3;
         this.modelsLoaded = 0;
         this.createOrUpdateRectangle();
         this.loadModels();
+        const progressBarcontainer = document.querySelector(".progress-bar__container")
+        const progressBar = document.getElementById("progress-bar")
+        this.loadingManagment.onProgress = function(url, loaded, total){
+            progressBar.value = (loaded / total) * 100;
+            if(progressBar.value === 100) {
+                setTimeout(() => {
+                    progressBarcontainer.style.display = "none";
+                }, 500);
+               
+            }
+            console.log(progressBar)
+        }
     }
 
     updateProgressBar(xhr) {
