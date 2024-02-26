@@ -18,11 +18,13 @@ function initEventCanvas(event) {
 Evenement clic canvas
 */
 export function onDocumentMouseDown(event) {
-    const intersects = initEventCanvas(event);
-    if (intersects.length > 0) {
-        const selectedObject = intersects[0].object.parent;
-        if (selectedObject.type === "Group") {
-            selectedObject.callback()
+    if (!event.target.closest('a')) {
+        const intersects = initEventCanvas(event);
+        if (intersects.length > 0) {
+            const selectedObject = intersects[0].object.parent;
+            if (selectedObject.type === "Group") {
+                selectedObject.callback()
+            }
         }
     }
 }
@@ -30,7 +32,7 @@ export function onDocumentMouseDown(event) {
 /*
 Evenement hover canvas
 */
-let hoveredObject = null; 
+let hoveredObject = null;
 
 export function onDocumentMouseMove(event) {
     const intersects = initEventCanvas(event);
@@ -40,7 +42,7 @@ export function onDocumentMouseMove(event) {
                 child.scale.set(1, 1, 1);
             }
         });
-        document.body.style.cursor = 'auto'; 
+        document.body.style.cursor = 'auto';
         hoveredObject = null;
     }
 
@@ -49,14 +51,14 @@ export function onDocumentMouseMove(event) {
         if (object.parent.type === "Group") {
             object.parent.children.forEach(child => {
                 if (child.type === "Mesh") {
-                    child.scale.set(1.1, 1.1, 1.1); 
+                    child.scale.set(1.1, 1.1, 1.1);
                 }
             });
-            document.body.style.cursor = 'pointer'; 
+            document.body.style.cursor = 'pointer';
             hoveredObject = object.parent;
         }
     } else {
-        document.body.style.cursor = 'auto'; 
+        document.body.style.cursor = 'auto';
     }
 }
 
