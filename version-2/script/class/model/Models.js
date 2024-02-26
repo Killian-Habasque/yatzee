@@ -6,44 +6,9 @@ import { gameData } from '../../main.js';
 export default class Models {
     constructor() {
         this.loadingManagment = new THREE.LoadingManager();
-        this.loader = new GLTFLoader( this.loadingManagment );
-       
-        this.showProgressBar = false;
-        this.valueProgressBar = 0;
-        this.totalModels = 3;
-        this.modelsLoaded = 0;
+        this.loader = new GLTFLoader(this.loadingManagment);
         this.createOrUpdateRectangle();
         this.loadModels();
-        const loadingContainer = document.querySelector(".loading__container")
-        const progress = document.querySelector(".progress-bar span")
-        this.loadingManagment.onProgress = function(url, loaded, total){
-            let value = (loaded / total) * 100;
-            progress.style.width = value + "%";
-            if(value === 100) {
-                setTimeout(() => {
-                    loadingContainer.style.top = "-100%";
-                }, 500);
-                setTimeout(() => {
-                    loadingContainer.style.display = "none";
-                }, 10000);
-            }
-        }
-    }
-
-    updateProgressBar(xhr) {
-        if (xhr.lengthComputable) {
-            let percentComplete = (xhr.loaded / xhr.total) * 100;
-            this.valueProgressBar += percentComplete / this.totalModels;
-            console.log(this.valueProgressBar)
-            this.showProgressBar = true;
-        }
-    }
-
-    onModelLoad() {
-        this.modelsLoaded++;
-        if (this.modelsLoaded === this.totalModels) {
-            this.showProgressBar = false;
-        }
     }
 
     loadModel(url, onLoadCallback) {
@@ -51,10 +16,6 @@ export default class Models {
             url,
             (gltf) => {
                 onLoadCallback.call(this, gltf);
-                this.onModelLoad();
-            },
-            (xhr) => {
-                this.updateProgressBar(xhr);
             },
             (error) => {
                 console.log(error);
@@ -63,6 +24,21 @@ export default class Models {
     }
 
     loadModels() {
+        const loadingContainer = document.querySelector(".loading__container")
+        const progress = document.querySelector(".progress-bar span")
+        this.loadingManagment.onProgress = function (url, loaded, total) {
+            let value = (loaded / total) * 100;
+            progress.style.width = value + "%";
+            if (value === 100) {
+                TweenMax.to(loadingContainer, 0.8, {
+                    top: "-100%",
+                    delay: 0.8,
+                    onComplete: () => {
+                        loadingContainer.style.display = "none";
+                    }
+                });
+            }
+        }
         this.loadModel('/version-2/assets/models/tray.glb', this.handleTrayModelLoad);
         this.loadModel('/version-2/assets/models/pen.glb', this.handlePenModelLoad);
         this.loadModel('/version-2/assets/models/cup.glb', this.handleCupModelLoad);
