@@ -15,16 +15,18 @@ export default class Models {
         this.createOrUpdateRectangle();
         this.loadModels();
         const progressBarcontainer = document.querySelector(".progress-bar__container")
-        const progressBar = document.getElementById("progress-bar")
+        const progress = document.querySelector(".progress span")
         this.loadingManagment.onProgress = function(url, loaded, total){
-            progressBar.value = (loaded / total) * 100;
-            if(progressBar.value === 100) {
+            let value = (loaded / total) * 100;
+            progress.style.width = value + "%";
+            if(value === 100) {
+                setTimeout(() => {
+                    progressBarcontainer.style.opacity = "0";
+                }, 500);
                 setTimeout(() => {
                     progressBarcontainer.style.display = "none";
-                }, 500);
-               
+                }, 1000);
             }
-            console.log(progressBar)
         }
     }
 

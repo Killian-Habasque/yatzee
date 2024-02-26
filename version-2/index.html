@@ -9,9 +9,11 @@
 
 <body>
 	<main class="game__main">
-		<div class="progress-bar__container">
-			<label for="progress-bar">Loading...</label>
-			<progress id="progress-bar" value="0" max="100"></progress>
+		<div class="progress-bar__container bg__patern">
+			<label class="txt__label">Loading...</label>
+			<div class="progress">
+				<span></span>
+			</div>
 		</div>
 		<header>
 			<div class="header-right">
@@ -208,12 +210,26 @@
 		justify-content: center;
 		align-items: center;
 		z-index: 100;
-		background: black;
+		background: #9d301d;
+		transition: all 1s;
 	}
 	#progress-bar {
 		width: 300px;
 		margin-top: 0.5%;
 		height: 2%;
+	}
+	.progress {
+		width: 300px;
+		height: 2%;
+		margin-top: 0.5%;
+		background: white;
+	}
+	.progress span {
+		display: flex;
+		width: 0;
+		height: 100%;
+		background: gray;
+		transition: all 0.1s;
 	}
 	label {
 		color: white;

@@ -1,0 +1,49 @@
+.bg__patern {
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../assets/images/line.png");
+        background-repeat: repeat-x;
+        background-position: -100px 0;
+        animation: animateBackground2 10s infinite alternate;
+        z-index: -1;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../assets/images/line.png");
+        background-repeat: repeat-x;
+        background-position: calc(-160px - 100px) 50%;
+        animation: animateBackground 10s ease-in-out infinite alternate;
+        z-index: -1;
+    }
+
+    @keyframes animateBackground {
+        from {
+            background-position-y: 0;
+        }
+    
+        to {
+            background-position-y: 25%;
+        }
+    }
+    
+    @keyframes animateBackground2 {
+        from {
+            background-position-y: 65%;
+        }
+    
+        to {
+            background-position-y: 45%;
+        }
+    }
+}
