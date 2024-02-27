@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { gameData } from '../../main.js';
+import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 
 export default class Models {
     constructor() {
@@ -63,9 +64,9 @@ export default class Models {
     }
 
     loadModels() {
-        this.loadModel('/version-2/assets/models/tray.glb', this.handleTrayModelLoad);
-        this.loadModel('/version-2/assets/models/pen.glb', this.handlePenModelLoad);
-        this.loadModel('/version-2/assets/models/cup.glb', this.handleCupModelLoad);
+        this.loadModel('/assets/models/tray.glb', this.handleTrayModelLoad);
+        this.loadModel('/assets/models/pen.glb', this.handlePenModelLoad);
+        this.loadModel('/assets/models/cup.glb', this.handleCupModelLoad);
     }
 
     handleTrayModelLoad(gltf) {
@@ -149,6 +150,46 @@ export default class Models {
             quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(0, 1, 0), rotationY)
         });
         gameData.physicsWorld.addBody(rectangleBody);
+    }
+
+    animeCup(afterFirstAnimationCallback) {
+        let startPosition = { x: 17, y: 4, z: -6.5 };
+        let endPosition = { x: 6.5, y: 0, z: 8.5 };
+        let startRotation = { rotationY: 0 };
+
+        let forwardTween = new TWEEN.Tween({ t: 0 })
+        .to({ t: 1 }, 1000)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onUpdate((obj) => {
+            gameData.cup.rotation.y = startRotation.rotationY + obj.t * (Math.PI * (-5 / 6) - startRotation.rotationY);
+            gameData.cup.position.set(
+                startPosition.x + obj.t * (endPosition.x - startPosition.x),
+                startPosition.y + obj.t * (endPosition.y - startPosition.y),
+                startPosition.z + obj.t * (endPosition.z - startPosition.z)
+            );
+        }).onComplete(() => {
+            afterFirstAnimationCallback()
+        });
+
+        let backwardTween = new TWEEN.Tween({ t: 0 })
+        .to({ t: 1 }, 1000)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onUpdate((obj) => {
+            gameData.cup.rotation.y = startRotation.rotationY + (1 - obj.t) * (Math.PI * (-5 / 6) - startRotation.rotationY);
+            gameData.cup.position.set(
+                startPosition.x + (1 - obj.t) * (endPosition.x - startPosition.x),
+                startPosition.y + (1 - obj.t) * (endPosition.y - startPosition.y),
+                startPosition.z + (1 - obj.t) * (endPosition.z - startPosition.z)
+            );
+        })
+        .delay(200)
+        .onComplete(() => {
+            gameData.cup.rotation.y = 0;
+            gameData.cup.position.set(startPosition.x, startPosition.y, startPosition.z);
+        });
+
+        forwardTween.chain(backwardTween);
+        forwardTween.start();
     }
 }
 

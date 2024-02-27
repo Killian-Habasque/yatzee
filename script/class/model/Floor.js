@@ -37,17 +37,17 @@ export default class Floor {
     Création du plane
     */
     createFloor() {
-        var groundTexture = new THREE.TextureLoader().load('/version-2/assets/images/textures/wood_floor_worn_diff_2k.png');
+        var groundTexture = new THREE.TextureLoader().load('/assets/images/textures/wood_floor_worn_diff_2k.png');
         groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
         groundTexture.repeat.set(20, 20);
         groundTexture.anisotropy = 16;
 
-        var groundTexture2 = new THREE.TextureLoader().load('/version-2/assets/images/textures/wood_floor_worn_nor_gl_2k.jpg');
+        var groundTexture2 = new THREE.TextureLoader().load('/assets/images/textures/wood_floor_worn_nor_gl_2k.jpg');
         groundTexture2.wrapS = groundTexture2.wrapT = THREE.RepeatWrapping;
         groundTexture2.repeat.set(20, 20);
 
 
-        var groundTexture3 = new THREE.TextureLoader().load('/version-2/assets/images/textures/wood_floor_worn_arm_1k.png');
+        var groundTexture3 = new THREE.TextureLoader().load('/assets/images/textures/wood_floor_worn_arm_1k.png');
         groundTexture3.wrapS = groundTexture3.wrapT = THREE.RepeatWrapping;
         groundTexture3.repeat.set(20, 20);
         groundTexture3.anisotropy = 16;
