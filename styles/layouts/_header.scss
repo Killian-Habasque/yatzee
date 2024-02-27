@@ -22,6 +22,7 @@ header {
             flex-direction: column;
             gap: $spacer-md;
             opacity: 0;
+            display: none;
             &>* {
                 border-radius: $spacer-sm;
                 padding: $spacer-lg $spacer-md;
