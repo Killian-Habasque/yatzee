@@ -23,6 +23,28 @@ export default class Models {
             if(value === 100) {
                 setTimeout(() => {
                     loadingContainer.style.top = "-100%";
+                    const targetPosition = { x: 1.3, y: 11, z: 0 };
+
+                    new TWEEN.Tween(gameData.camera.position)
+                    .to({
+                        x: targetPosition.x,
+                        y: targetPosition.y,
+                        z: targetPosition.z
+                    }, 3000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .delay(500)
+                    .start();
+                
+                    new TWEEN.Tween(gameData.camera.rotation)
+                    .to({
+                        x: -Math.PI * 0.5,
+                        y: 0,
+                        z: 0,
+                    }, 3000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .delay(500)
+                    .start();
+                
                 }, 500);
                 setTimeout(() => {
                     loadingContainer.style.display = "none";

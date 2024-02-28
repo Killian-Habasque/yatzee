@@ -1,7 +1,7 @@
 import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
 import * as THREE from 'three';
 import Label from './class/hud/Label.js';
-
+import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 import { gameData } from './main.js';
 
 import { render } from './render.js';
@@ -60,10 +60,10 @@ export function initScene() {
     gameData.scene = new THREE.Scene();
 
     gameData.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 300)
-    gameData.camera.position.set(1.3, 11, 0);
-    gameData.camera.rotation.x += -Math.PI/2
-    // console.log(gameData.camera)
-    // gameData.camera.rotateX(-0.60);
+    gameData.camera.position.set(15, 15, 25);
+    gameData.camera.rotation.set(-Math.PI * 0.25, Math.PI * 0.1, Math.PI * 0.1);
+
+
 }
 
 
