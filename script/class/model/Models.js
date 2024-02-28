@@ -7,66 +7,9 @@ import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
 export default class Models {
     constructor() {
         this.loadingManagment = new THREE.LoadingManager();
-        this.loader = new GLTFLoader( this.loadingManagment );
-       
-        this.showProgressBar = false;
-        this.valueProgressBar = 0;
-        this.totalModels = 3;
-        this.modelsLoaded = 0;
+        this.loader = new GLTFLoader(this.loadingManagment);
         this.createOrUpdateRectangle();
         this.loadModels();
-        const loadingContainer = document.querySelector(".loading__container")
-        const progress = document.querySelector(".progress-bar span")
-        this.loadingManagment.onProgress = function(url, loaded, total){
-            let value = (loaded / total) * 100;
-            progress.style.width = value + "%";
-            if(value === 100) {
-                setTimeout(() => {
-                    loadingContainer.style.top = "-100%";
-                    const targetPosition = { x: 1.3, y: 11, z: 0 };
-
-                    new TWEEN.Tween(gameData.camera.position)
-                    .to({
-                        x: targetPosition.x,
-                        y: targetPosition.y,
-                        z: targetPosition.z
-                    }, 3000)
-                    .easing(TWEEN.Easing.Quadratic.Out)
-                    .delay(500)
-                    .start();
-                
-                    new TWEEN.Tween(gameData.camera.rotation)
-                    .to({
-                        x: -Math.PI * 0.5,
-                        y: 0,
-                        z: 0,
-                    }, 3000)
-                    .easing(TWEEN.Easing.Quadratic.Out)
-                    .delay(500)
-                    .start();
-                
-                }, 500);
-                setTimeout(() => {
-                    loadingContainer.style.display = "none";
-                }, 10000);
-            }
-        }
-    }
-
-    updateProgressBar(xhr) {
-        if (xhr.lengthComputable) {
-            let percentComplete = (xhr.loaded / xhr.total) * 100;
-            this.valueProgressBar += percentComplete / this.totalModels;
-            console.log(this.valueProgressBar)
-            this.showProgressBar = true;
-        }
-    }
-
-    onModelLoad() {
-        this.modelsLoaded++;
-        if (this.modelsLoaded === this.totalModels) {
-            this.showProgressBar = false;
-        }
     }
 
     loadModel(url, onLoadCallback) {
@@ -74,10 +17,6 @@ export default class Models {
             url,
             (gltf) => {
                 onLoadCallback.call(this, gltf);
-                this.onModelLoad();
-            },
-            (xhr) => {
-                this.updateProgressBar(xhr);
             },
             (error) => {
                 console.log(error);
@@ -86,6 +25,40 @@ export default class Models {
     }
 
     loadModels() {
+        const loadingContainer = document.querySelector(".loading__container")
+        const progress = document.querySelector(".progress-bar span")
+        this.loadingManagment.onProgress = function (url, loaded, total) {
+            let value = (loaded / total) * 100;
+            progress.style.width = value + "%";
+            if (value === 100) {
+                TweenMax.to(loadingContainer, 0.8, {
+                    top: "-100%",
+                    delay: 0.8,
+                    onComplete: () => {
+                        loadingContainer.style.display = "none";
+                        const targetPosition = { x: 1.3, y: 11, z: 0 };
+
+                        new TWEEN.Tween(gameData.camera.position)
+                            .to({
+                                x: targetPosition.x,
+                                y: targetPosition.y,
+                                z: targetPosition.z
+                            }, 3000)
+                            .easing(TWEEN.Easing.Quadratic.Out)
+                            .start();
+
+                        new TWEEN.Tween(gameData.camera.rotation)
+                            .to({
+                                x: -Math.PI * 0.5,
+                                y: 0,
+                                z: 0,
+                            }, 3000)
+                            .easing(TWEEN.Easing.Quadratic.Out)
+                            .start();
+                    }
+                });
+            }
+        }
         this.loadModel('/assets/models/tray.glb', this.handleTrayModelLoad);
         this.loadModel('/assets/models/pen.glb', this.handlePenModelLoad);
         this.loadModel('/assets/models/cup.glb', this.handleCupModelLoad);
@@ -172,46 +145,6 @@ export default class Models {
             quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(0, 1, 0), rotationY)
         });
         gameData.physicsWorld.addBody(rectangleBody);
-    }
-
-    animeCup(afterFirstAnimationCallback) {
-        let startPosition = { x: 17, y: 4, z: -6.5 };
-        let endPosition = { x: 6.5, y: 0, z: 8.5 };
-        let startRotation = { rotationY: 0 };
-
-        let forwardTween = new TWEEN.Tween({ t: 0 })
-        .to({ t: 1 }, 1000)
-        .easing(TWEEN.Easing.Quadratic.InOut)
-        .onUpdate((obj) => {
-            gameData.cup.rotation.y = startRotation.rotationY + obj.t * (Math.PI * (-5 / 6) - startRotation.rotationY);
-            gameData.cup.position.set(
-                startPosition.x + obj.t * (endPosition.x - startPosition.x),
-                startPosition.y + obj.t * (endPosition.y - startPosition.y),
-                startPosition.z + obj.t * (endPosition.z - startPosition.z)
-            );
-        }).onComplete(() => {
-            afterFirstAnimationCallback()
-        });
-
-        let backwardTween = new TWEEN.Tween({ t: 0 })
-        .to({ t: 1 }, 1000)
-        .easing(TWEEN.Easing.Quadratic.InOut)
-        .onUpdate((obj) => {
-            gameData.cup.rotation.y = startRotation.rotationY + (1 - obj.t) * (Math.PI * (-5 / 6) - startRotation.rotationY);
-            gameData.cup.position.set(
-                startPosition.x + (1 - obj.t) * (endPosition.x - startPosition.x),
-                startPosition.y + (1 - obj.t) * (endPosition.y - startPosition.y),
-                startPosition.z + (1 - obj.t) * (endPosition.z - startPosition.z)
-            );
-        })
-        .delay(200)
-        .onComplete(() => {
-            gameData.cup.rotation.y = 0;
-            gameData.cup.position.set(startPosition.x, startPosition.y, startPosition.z);
-        });
-
-        forwardTween.chain(backwardTween);
-        forwardTween.start();
     }
 }
 

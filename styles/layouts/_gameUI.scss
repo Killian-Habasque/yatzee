@@ -35,10 +35,8 @@
     align-items: center;
     z-index: 100;
     background: $color-primary;
-    transition: all 1s;
     gap: $spacer-sm;
     top: 0;
-    right: 0;
 
     .txt__label {
         font-family: $font-number--label;
