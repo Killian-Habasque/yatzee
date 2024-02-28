@@ -60,8 +60,10 @@ export function initScene() {
     gameData.scene = new THREE.Scene();
 
     gameData.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 300)
-    gameData.camera.position.set(0, 7, 10);
-    gameData.camera.rotation.set(18, 0, 0);
+    gameData.camera.position.set(1.3, 11, 0);
+    gameData.camera.rotation.x += -Math.PI/2
+    // console.log(gameData.camera)
+    // gameData.camera.rotateX(-0.60);
 }
 
 

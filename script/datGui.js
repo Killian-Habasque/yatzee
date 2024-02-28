@@ -7,19 +7,19 @@ Controle via HUD
 */
 export function initDatGui() {
 
-    const controls = new OrbitControls(gameData.camera, gameData.renderer.domElement)
-    controls.enableDamping = true
-    controls.target.y = 0.5
+    // const controls = new OrbitControls(gameData.camera, gameData.renderer.domElement)
+    // controls.enableDamping = true
+    // controls.target.y = 0.5
 
-    // const gui = new dat.GUI();
-    // const perspectiveCameraFolder = gui.addFolder('Camera');
-    // perspectiveCameraFolder.add(gameData.camera.position, 'x', -20, 20, 0.05);
-    // perspectiveCameraFolder.add(gameData.camera.position, 'y', -20, 20, 0.05);
-    // perspectiveCameraFolder.add(gameData.camera.position, 'z', -20, 20, 0.05);
+    const gui = new dat.GUI();
+    const perspectiveCameraFolder = gui.addFolder('Camera');
+    perspectiveCameraFolder.add(gameData.camera.position, 'x', -20, 20, 0.05);
+    perspectiveCameraFolder.add(gameData.camera.position, 'y', -20, 20, 0.05);
+    perspectiveCameraFolder.add(gameData.camera.position, 'z', -20, 20, 0.05);
     // perspectiveCameraFolder.add(gameData.camera.rotation, 'x', -20, 20, 0.05);
     // perspectiveCameraFolder.add(gameData.camera.rotation, 'y', -20, 20, 0.05);
     // perspectiveCameraFolder.add(gameData.camera.rotation, 'z', -20, 20, 0.05);
-    // perspectiveCameraFolder.open()
+    perspectiveCameraFolder.open()
 
     // const rectangleFolder = gui.addFolder('Rectangle');
     // rectangleFolder.add(gameData.params.rectangle, 'width', 1, 5).onChange(() => gameData.tray.updateRectangle());
