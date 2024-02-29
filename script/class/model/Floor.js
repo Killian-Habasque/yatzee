@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
+import * as CANNON from 'cannon';
 import { gameData } from '../../main.js';
 
 

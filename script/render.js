@@ -1,4 +1,4 @@
-import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
+import * as TWEEN from 'tween';
 
 import { gameData } from './main.js';
 

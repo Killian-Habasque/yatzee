@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
+import * as CANNON from 'cannon';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { gameData } from '../../main.js';
-import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
+import * as TWEEN from 'tween';
 
 export default class Models {
     constructor() {

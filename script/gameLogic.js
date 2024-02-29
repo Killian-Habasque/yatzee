@@ -1,7 +1,6 @@
-import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
+
 import * as THREE from 'three';
-import Label from './class/hud/Label.js';
-import * as TWEEN from 'https://cdn.skypack.dev/@tweenjs/tween.js';
+import * as CANNON from 'cannon';
 import { gameData } from './main.js';
 
 import { render } from './render.js';
