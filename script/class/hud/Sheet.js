@@ -200,8 +200,6 @@ export default class Sheet {
         }
         this.score = sum
         this.displayScore()
-        // console.log("----score")
-        // console.log(this.score)
     }
     displayScore() {
         const cellScore = document.getElementById('total__score');

@@ -25,20 +25,16 @@ export default class Models {
     }
 
     loadModels() {
-        const loadingContainer = document.querySelector(".loading__container")
-        const progress = document.querySelector(".progress-bar span")
+        // const loadingContainer = document.querySelector(".loading__container")
+        // const progress = document.querySelector(".progress-bar span")
         this.loadingManagment.onProgress = (url, loaded, total) => {
             let value = (loaded / total) * 100;
-            progress.style.width = value + "%";
+            gameData.landing.updateProgressBar(value)
             if (value === 100) {
-                TweenMax.to(loadingContainer, 0.8, {
-                    top: "-100%",
-                    delay: 0.8,
-                    onComplete: () => {
-                        loadingContainer.style.display = "none";
-                        this.animeCamera();
-                    }
-                });
+                gameData.landing.removeLanding(() => { 
+                    this.animeCamera();
+                    gameData.landing.removeProgressBar() 
+                })
             }
         };        
         this.loadModel('/assets/models/tray.glb', this.handleTrayModelLoad);
@@ -135,7 +131,7 @@ export default class Models {
         let startRotation = { rotationY: 0 };
     
         let forwardFirstTween = new TWEEN.Tween({ t: 0 })
-            .to({ t: 1 }, 500)
+            .to({ t: 1 }, 200)
             .easing(TWEEN.Easing.Quadratic.InOut)
             .onUpdate((obj) => {
                 gameData.cup.position.z = startPosition.z + obj.t * (0 - startPosition.z);

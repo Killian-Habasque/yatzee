@@ -7,9 +7,9 @@ Controle via HUD
 */
 export function initDatGui() {
 
-    const controls = new OrbitControls(gameData.camera, gameData.renderer.domElement)
-    controls.enableDamping = true
-    controls.target.y = 0.5
+    // const controls = new OrbitControls(gameData.camera, gameData.renderer.domElement)
+    // controls.enableDamping = true
+    // controls.target.y = 0.5
 
     // const gui = new dat.GUI();
     // const perspectiveCameraFolder = gui.addFolder('Camera');

@@ -9,12 +9,13 @@ import { onDocumentMouseDown, onDocumentMouseMove } from './eventHandling.js';
 
 const canvasEl = document.querySelector('#canvas');
 
-import Models from './class/model/Models.js';
-import Floor from './class/model/Floor.js';
-import Dice from './class/model/Dice.js';
+import Models from './class/models/Models.js';
+import Floor from './class/models/Floor.js';
+import Dice from './class/models/Dice.js';
 import Sheet from './class/hud/Sheet.js';
 import Button from './class/hud/Button.js';
 import Dashboard from './class/hud/Dashboard.js';
+import Landing from './class/hud/Landing.js';
 
 /*
 Création du jeu
@@ -70,6 +71,7 @@ export function initScene() {
 Initialisation des models et du hud
 */
 export function initGame() {
+    gameData.landing = new Landing();
     gameData.button = new Button("btn-throw__primary", 'Lancer <svg class="dice one" width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D" stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /><circle cx="9" cy="20.9355" r="3" fill="#9D301D" /><circle cx="21" cy="8.93555" r="3" fill="#9D301D" /></svg ><svg class="dice two" width="31" height="31" viewBox="0 0 31 31" fill="none"xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D"stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /></svg>', () => { gameData.dice.throwDice(); })
     gameData.sheet = new Sheet(() => { gameData.dice.reloadDice(); })
     gameData.models = new Models();

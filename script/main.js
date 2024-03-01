@@ -28,6 +28,7 @@ export let gameData = {
     dice: null,
     models: null,
     cup: null,
+    landing: null,
 };
 
 GameInstance();
