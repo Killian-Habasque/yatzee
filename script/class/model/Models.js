@@ -133,8 +133,15 @@ export default class Models {
         let startPosition = { x: 17, y: 4, z: -6.5 };
         let endPosition = { x: 6.5, y: 0, z: 8.5 };
         let startRotation = { rotationY: 0 };
-
-        let forwardTween = new TWEEN.Tween({ t: 0 })
+    
+        let forwardFirstTween = new TWEEN.Tween({ t: 0 })
+            .to({ t: 1 }, 500)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onUpdate((obj) => {
+                gameData.cup.position.z = startPosition.z + obj.t * (0 - startPosition.z);
+            });
+    
+        let forwardSecondTween = new TWEEN.Tween({ t: 0 })
             .to({ t: 1 }, 1000)
             .easing(TWEEN.Easing.Quadratic.InOut)
             .onUpdate((obj) => {
@@ -142,12 +149,14 @@ export default class Models {
                 gameData.cup.position.set(
                     startPosition.x + obj.t * (endPosition.x - startPosition.x),
                     startPosition.y + obj.t * (endPosition.y - startPosition.y),
-                    startPosition.z + obj.t * (endPosition.z - startPosition.z)
+                    0 + obj.t * (endPosition.z - 0)
                 );
-            }).onComplete(() => {
-                afterFirstAnimationCallback()
+            })
+            .onComplete(() => {
+                afterFirstAnimationCallback();
+                backwardTween.start();
             });
-
+    
         let backwardTween = new TWEEN.Tween({ t: 0 })
             .to({ t: 1 }, 1000)
             .easing(TWEEN.Easing.Quadratic.InOut)
@@ -164,13 +173,15 @@ export default class Models {
                 gameData.cup.rotation.y = 0;
                 gameData.cup.position.set(startPosition.x, startPosition.y, startPosition.z);
             });
-
-        forwardTween.chain(backwardTween);
-        forwardTween.start();
+    
+        forwardFirstTween.chain(forwardSecondTween);
+        forwardFirstTween.start();
     }
+    
+    
 
     animeCamera() {
-        const targetPosition = { x: 1.3, y: 11, z: 0 };
+        const targetPosition = { x: 1.3, y: 12, z: 0 };
 
         new TWEEN.Tween(gameData.camera.position)
             .to({
