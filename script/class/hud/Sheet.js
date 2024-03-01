@@ -113,11 +113,11 @@ export default class Sheet {
         if (!item.checked) {
             if (straight) {
                 item.value = score;
-                if(slug == "lg-straight") {
+                if (slug == "lg-straight") {
                     new Label("txt__alert", title, 2000);
                     return true;
                 }
-                if(!lgStraightExist) {
+                if (!lgStraightExist) {
                     new Label("txt__alert", title, 2000);
                 }
             } else {
@@ -205,6 +205,16 @@ export default class Sheet {
         const cellScore = document.getElementById('total__score');
         cellScore.textContent = this.score;
     }
+    checkRemainingCells() {
+        const remainingCells = this.sheet.filter(cell => !cell.checked).length;
+        if (!remainingCells) {
+            gameData.landing.showLanding(() => {
+                gameData.landing.displayFinalScore(this.score)
+            })
+            return false
+        }
+        return true
+    }
 
     updateSheet() {
         const table = document.getElementById('sheet');
@@ -214,26 +224,26 @@ export default class Sheet {
             const key = cell.dataset.key;
             if (key) {
                 cell.textContent = this.sheet[key].value !== null ? this.sheet[key].value : '0';
-                if(this.sheet[key].checked) {
+                if (this.sheet[key].checked) {
                     cell.classList.add('selected');
                 }
-        
-
                 if (!this.sheet[key].checked) {
                     cell.onclick = () => {
                         this.sheet[key].checked = true;
                         cell.classList.add('selected');
-                        const allCells = document.querySelectorAll('.cell:last-child');
-                        allCells.forEach(cell => {
-                            const key = cell.dataset.key;
-                            if (key && !this.sheet[key].checked) {
-                                cell.textContent = '0';
-                            }
-                            cell.onclick = () => { return; };
-                        });
                         this.updateBonus();
                         this.updateScore();
-                        this.callback();
+                        if (this.checkRemainingCells()) {
+                            const allCells = document.querySelectorAll('.cell:last-child');
+                            allCells.forEach(cell => {
+                                const key = cell.dataset.key;
+                                if (key && !this.sheet[key].checked) {
+                                    cell.textContent = '0';
+                                }
+                                cell.onclick = () => { return; };
+                            });
+                            this.callback();
+                        }
                     };
                 }
             }

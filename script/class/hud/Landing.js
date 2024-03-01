@@ -49,7 +49,8 @@ export default class Landing {
     displayFinalScore(score) {
         const container = document.querySelector(".final")
         container.style.display = "flex";
-        score.innerHTML = score
+        const scoreResult = document.querySelector(".final span")
+        scoreResult.innerHTML = score
         this.showLanding()
     }
 
