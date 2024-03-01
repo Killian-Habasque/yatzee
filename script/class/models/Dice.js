@@ -416,12 +416,13 @@ export default class Dice {
                 d.body.quaternion.copy(d.mesh.quaternion);
 
             });
+            if (gameData.turn != 1 || gameData.attempts != 0) {
+                gameData.sheet.pendingSheet();
+            }
             gameData.models.animeCup(
                 () => {
                     if (gameData.attempts <= gameData.maxAttempts) {
-                        if (gameData.turn != 1 || gameData.attempts != 0) {
-                            gameData.sheet.pendingSheet();
-                        }
+
                         gameData.dashboard.clearScore()
                         gameData.scoreGlobal = [];
 
