@@ -16,6 +16,7 @@ import Sheet from './class/hud/Sheet.js';
 import Button from './class/hud/Button.js';
 import Dashboard from './class/hud/Dashboard.js';
 import Landing from './class/hud/Landing.js';
+import Sound from './class/hud/Sound.js';
 
 /*
 Création du jeu
@@ -76,6 +77,7 @@ export function initGame() {
     gameData.sheet = new Sheet(() => { gameData.dice.reloadDice(); })
     gameData.models = new Models();
     new Floor();
+    new Sound();
     gameData.dice = new Dice();
     gameData.dashboard = new Dashboard();
     gameData.button.addButton();
