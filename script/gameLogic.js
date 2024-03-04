@@ -17,7 +17,6 @@ import Button from './class/hud/Button.js';
 import Dashboard from './class/hud/Dashboard.js';
 import Landing from './class/hud/Landing.js';
 import Sound from './class/hud/Sound.js';
-import Label from './class/hud/Label.js';
 
 /*
 Création du jeu
@@ -79,8 +78,6 @@ export function initGame() {
     gameData.models = new Models();
     new Floor();
     new Sound();
-    new Label("txt__alert", "test");
-
     gameData.dice = new Dice();
     gameData.dashboard = new Dashboard();
     gameData.button.addButton();
