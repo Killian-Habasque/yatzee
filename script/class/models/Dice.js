@@ -401,7 +401,7 @@ export default class Dice {
                 gameData.button.removeButton();
             }
         }
-
+        Label.remove()
         if (gameData.cup) {
             gameData.diceArray.forEach((d, dIdx) => {
 
@@ -555,7 +555,7 @@ export default class Dice {
             if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
                 console.log("_____CHARGEMENT DES");
                 console.log("_____Attemps :" + gameData.attempts)
-                new Label("txt__alert", "Dés cassés !", 2000);
+                new Label("txt__alert", "Dés cassés !");
                 gameData.attempts = gameData.attempts - 1;
                 canRoll = true;
                 gameData.button.addButton();
