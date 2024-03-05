@@ -8,12 +8,12 @@ export let gameData = {
 
     diceArray: [],
     diceArraySelected: [],
-    dicePositionSelected : {
-        0 : null,
-        1 : null,
-        2 : null,
-        3 : null,
-        4 : null,
+    dicePositionSelected: {
+        0: null,
+        1: null,
+        2: null,
+        3: null,
+        4: null,
     },
     scoreSelected: [],
     scoreGlobal: [],
@@ -30,5 +30,7 @@ export let gameData = {
     cup: null,
     landing: null,
 };
-
+export function begin() {
+    GameInstance();
+}
 GameInstance();

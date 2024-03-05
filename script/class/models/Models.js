@@ -46,8 +46,8 @@ export default class Models {
         gltf.scene.traverse((child) => {
             if (child.type === 'Mesh') {
                 let m = child;
-                m.receiveShadow = false;
-                m.castShadow = true;
+                m.receiveShadow = true;
+                // m.castShadow = true;
                 m.scale.set(8, 8, 8);
                 m.position.set(2, -7.1, 0);
 

@@ -61,7 +61,7 @@ export function initScene() {
     gameData.scene = new THREE.Scene();
 
     gameData.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 300)
-    gameData.camera.position.set(15, 15, 25);
+    gameData.camera.position.set(15, 25, 35);
     gameData.camera.rotation.set(-Math.PI * 0.25, Math.PI * 0.1, Math.PI * 0.1);
 
 
@@ -90,12 +90,15 @@ export function initLight() {
     const ambientLight = new THREE.AmbientLight(0xffffff, .5);
     gameData.scene.add(ambientLight);
     const topLight = new THREE.PointLight(0xffffff, .5);
-    topLight.position.set(10, 15, 0);
+    topLight.position.set(1, 20, 1);
     topLight.castShadow = true;
+    console.log(topLight)
     topLight.shadow.mapSize.width = 2048;
     topLight.shadow.mapSize.height = 2048;
-    topLight.shadow.camera.near = 5;
+    topLight.shadow.radius = 5;
+    topLight.shadow.camera.near = 0.1;
     topLight.shadow.camera.far = 400;
+    topLight.shadow.bias= -0.002;
     gameData.scene.add(topLight);
 }
 
