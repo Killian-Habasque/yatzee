@@ -90,7 +90,7 @@ export function initLight() {
     let lightIntensity = 0.5; 
     let shadowIntensity = 0.2; 
     const ambientLight = new THREE.AmbientLight(0xffffff, lightIntensity);
-    gameData.scene.add(ambientLight);
+
     const topLight = new THREE.PointLight(0xffffff, lightIntensity);
     topLight.position.set(1, 20, 1);
     topLight.shadow.mapSize.width = 2048;
@@ -104,7 +104,8 @@ export function initLight() {
     topLightShadow.castShadow = false;
     topLight.intensity = shadowIntensity;
     topLightShadow.intensity = lightIntensity - shadowIntensity;
-
+    
+    gameData.scene.add(ambientLight);
     gameData.scene.add(topLight);
     gameData.scene.add(topLightShadow);
 }
