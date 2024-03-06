@@ -68,7 +68,7 @@ export default class Floor {
                 normalMap: groundTexture2,
                 aoMap: groundTexture3,
                 color: '#FFFFFF',
-                metalness: 0.075,
+                metalness: 0.025,
                 roughness: 1,
                 roughnessMap: groundTexture4,
                 side: THREE.DoubleSide,

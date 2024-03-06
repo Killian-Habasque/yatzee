@@ -87,28 +87,26 @@ export function initGame() {
 Lights
 */
 export function initLight() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, .5);
+    let lightIntensity = 0.5; 
+    let shadowIntensity = 0.2; 
+    const ambientLight = new THREE.AmbientLight(0xffffff, lightIntensity);
     gameData.scene.add(ambientLight);
-    const topLight = new THREE.PointLight(0xffffff, .75);
+    const topLight = new THREE.PointLight(0xffffff, lightIntensity);
     topLight.position.set(1, 20, 1);
-    topLight.castShadow = true;
-    console.log(topLight)
     topLight.shadow.mapSize.width = 2048;
     topLight.shadow.mapSize.height = 2048;
     topLight.shadow.radius = 5;
     topLight.shadow.camera.near = 0.1;
     topLight.shadow.camera.far = 400;
-
-    var shadowIntensity = 0.2; // between 0 and 1
-
-    var light2 = topLight.clone();
     topLight.castShadow = true;
-    light2.castShadow = false;
+
+    const topLightShadow = topLight.clone();
+    topLightShadow.castShadow = false;
     topLight.intensity = shadowIntensity;
-    light2.intensity = 0.5 - shadowIntensity;
+    topLightShadow.intensity = lightIntensity - shadowIntensity;
 
     gameData.scene.add(topLight);
-    gameData.scene.add(light2);
+    gameData.scene.add(topLightShadow);
 }
 
 /*
