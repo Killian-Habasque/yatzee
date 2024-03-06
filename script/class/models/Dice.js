@@ -425,7 +425,6 @@ export default class Dice {
                 () => {
                     if (gameData.attempts <= gameData.maxAttempts) {
 
-                        gameData.dashboard.clearScore()
                         gameData.scoreGlobal = [];
 
                         gameData.diceArray.forEach((d, dIdx) => {

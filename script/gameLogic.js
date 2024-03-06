@@ -89,9 +89,10 @@ Lights
 export function initLight() {
     let lightIntensity = 0.5; 
     let shadowIntensity = 0.2; 
+
     const ambientLight = new THREE.AmbientLight(0xffffff, lightIntensity);
 
-    const topLight = new THREE.PointLight(0xffffff, lightIntensity);
+    const topLight = new THREE.PointLight(0xffffff, shadowIntensity);
     topLight.position.set(1, 20, 1);
     topLight.shadow.mapSize.width = 2048;
     topLight.shadow.mapSize.height = 2048;
@@ -102,9 +103,8 @@ export function initLight() {
 
     const topLightShadow = topLight.clone();
     topLightShadow.castShadow = false;
-    topLight.intensity = shadowIntensity;
     topLightShadow.intensity = lightIntensity - shadowIntensity;
-    
+
     gameData.scene.add(ambientLight);
     gameData.scene.add(topLight);
     gameData.scene.add(topLightShadow);
@@ -138,5 +138,4 @@ export function showRollResults(score) {
     } else {
         gameData.dice.diceBrake()
     }
-    gameData.dashboard.addScore(score)
 }
