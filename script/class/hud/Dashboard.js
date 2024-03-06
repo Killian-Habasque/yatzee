@@ -1,12 +1,12 @@
-import { gameData } from "../../main";
+import { gameData } from '../../main.js';
 
 export default class Dashboard {
     constructor() {
-        this.attemps = document.querySelector('#nb-attempts')
-        this.attemps.innerHTML = gameData.maxAttemps
+        this.attempts = document.querySelector('#nb-attempts')
+        this.attempts.innerHTML = gameData.maxAttempts
     }
-    changeAttemps(attemps) {
-        this.attemps.innerHTML = gameData.maxAttemps - attemps;
+    changeAttemps(attempts) {
+        this.attempts.innerHTML = gameData.maxAttempts - attempts;
     }
 
 }
