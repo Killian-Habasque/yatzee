@@ -6,9 +6,9 @@ import * as TWEEN from 'tween';
 
 export default class Models {
     constructor() {
+        this.createOrUpdateRectangle();
         this.loadingManagment = new THREE.LoadingManager();
         this.loader = new GLTFLoader(this.loadingManagment);
-        this.createOrUpdateRectangle();
         this.loadModels();
     }
 

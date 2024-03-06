@@ -29,6 +29,8 @@ export default class Dice {
     initDice() {
         for (let i = 0; i < params.numberOfDice; i++) {
             const dice = this.createDice();
+            dice.body.position = new CANNON.Vec3(0, i * 1, 0);
+            dice.mesh.position.copy(dice.body.position);
             gameData.diceArray.push(dice);
             // this.addDiceEvents(gameData.diceArray[i]);
         }
