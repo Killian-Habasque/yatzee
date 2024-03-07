@@ -127,8 +127,6 @@ export function showRollResults(score) {
 
     clearTimeout(gameData.brake);
 
-    gameData.dashboard.changeAttemps(gameData.attempts)
-
     if (gameData.scoreGlobal.length == gameData.diceArray.length) {
         if (gameData.attempts < gameData.maxAttempts) {
             gameData.button.addButton();

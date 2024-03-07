@@ -177,7 +177,7 @@ export default class Models {
     
 
     animeCamera() {
-        const targetPosition = { x: 1.3, y: 12, z: 0 };
+        const targetPosition = { x: 1.3, y: 13, z: 0 };
 
         new TWEEN.Tween(gameData.camera.position)
             .to({
