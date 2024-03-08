@@ -43,18 +43,18 @@ export default class Floor {
         const textureRough = this.loadTexture('/assets/images/textures/wood_floor_worn_rough_1k.png');
     
         const floorGeometry = new THREE.PlaneGeometry(1000, 1000, 100, 100);
-        floorGeometry.addAttribute('uv2', new THREE.BufferAttribute(floorGeometry.attributes.uv.array, 2));
+        floorGeometry.setAttribute('uv2', new THREE.BufferAttribute(floorGeometry.attributes.uv.array, 2));
     
         const floorMaterial = new THREE.MeshStandardMaterial({
             map: textureDiff,
             normalMap: textureNor,
             aoMap: textureArm,
             color: '#FFFFFF',
-            metalness: 0.05,
-            roughness: 1,
+            metalness: 0.1,
+            roughness: 1.5,
             roughnessMap: textureRough,
             side: THREE.DoubleSide,
-            ambient: new THREE.Color(0x808080)
+            // ambient: new THREE.Color(0x808080)
         });
     
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
