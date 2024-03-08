@@ -77,7 +77,7 @@ export function initGame() {
     gameData.sheet = new Sheet(() => { gameData.dice.reloadDice(); })
     gameData.models = new Models();
     new Floor();
-    new Sound();
+    // new Sound();
     gameData.dice = new Dice();
     gameData.dashboard = new Dashboard();
     gameData.button.addButton();

@@ -19,7 +19,9 @@ const params = {
 }
 let canSelect = true
 let canRoll = true
-
+let audio = new Audio('../../../assets/songs/dice1.mp3');
+let audioRoll = new Audio('../../../assets/songs/dice4.mp3');
+let collisionCooldown = false;
 
 export default class Dice {
     constructor() {
@@ -33,8 +35,24 @@ export default class Dice {
             dice.mesh.position.copy(dice.body.position);
             gameData.diceArray.push(dice);
             // this.addDiceEvents(gameData.diceArray[i]);
+            this.addCollisionListener(dice.body);
         }
     }
+
+    addCollisionListener(body) {
+        body.addEventListener('collide', (e) => {
+            // if (!collisionCooldown) {
+            //     console.log('Collision détectée:', e);
+
+            //     audio.play();
+            //     collisionCooldown = true;
+            //     setTimeout(() => {
+            //         collisionCooldown = false; 
+            //     }, 20);
+            // }
+        });
+    }
+
     /*
     Création des dés
     */
@@ -422,6 +440,9 @@ export default class Dice {
                 gameData.sheet.pendingSheet();
                 gameData.dashboard.changeAttemps(gameData.attempts)
             }
+           
+                audioRoll.play();
+          
             gameData.models.animeCup(
                 () => {
                     if (gameData.attempts <= gameData.maxAttempts) {
