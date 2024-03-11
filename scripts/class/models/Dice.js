@@ -19,8 +19,8 @@ const params = {
 }
 let canSelect = true
 let canRoll = true
-let audio = new Audio('../../../assets/songs/dice1.mp3');
-let audioRoll = new Audio('../../../assets/songs/dice4.mp3');
+
+let audioRoll = new Audio('../../../assets/songs/roll.mp3');
 let collisionCooldown = false;
 
 export default class Dice {
