@@ -8,6 +8,7 @@ import { gameData } from '../../main.js';
 import { showRollResults } from '../../gameLogic.js';
 import { onDocumentMouseMove } from '../../eventHandling.js';
 import Label from '../hud/Label.js';
+import Sound from '../hud/Sound.js';
 
 let diceMesh = null;
 const params = {
@@ -19,9 +20,6 @@ const params = {
 }
 let canSelect = true
 let canRoll = true
-
-let audioRoll = new Audio('../../../assets/songs/roll.mp3');
-let collisionCooldown = false;
 
 export default class Dice {
     constructor() {
@@ -35,12 +33,12 @@ export default class Dice {
             dice.mesh.position.copy(dice.body.position);
             gameData.diceArray.push(dice);
             // this.addDiceEvents(gameData.diceArray[i]);
-            this.addCollisionListener(dice.body);
+            // this.addCollisionListener(dice.body);
         }
     }
 
-    addCollisionListener(body) {
-        body.addEventListener('collide', (e) => {
+    // addCollisionListener(body) {
+    //     body.addEventListener('collide', (e) => {
             // if (!collisionCooldown) {
             //     console.log('Collision détectée:', e);
 
@@ -50,8 +48,8 @@ export default class Dice {
             //         collisionCooldown = false; 
             //     }, 20);
             // }
-        });
-    }
+    //     });
+    // }
 
     /*
     Création des dés
@@ -440,8 +438,8 @@ export default class Dice {
                 gameData.sheet.pendingSheet();
                 gameData.dashboard.changeAttemps(gameData.attempts)
             }
-           
-                audioRoll.play();
+                let rollAudio = Sound.createSound('roll.mp3', 1)
+                Sound.playSound(rollAudio)
           
             gameData.models.animeCup(
                 () => {

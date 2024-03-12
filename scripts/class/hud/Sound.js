@@ -1,37 +1,45 @@
+const src = "./assets/songs/"
+
 export default class Sound {
     constructor() {
-        window.addEventListener("DOMContentLoaded", this.createMusic(this));
-
         this.toggleBtnSoundMenu()
         this.soundEnabled = localStorage.getItem("soundEnabled") === "true";
+
+        this.music = Sound.createSound("music.mp3", 0.05, true)
+        // Sound.playSound(this.music)
     }
 
     toggleBtnSoundMenu() {
         let element = document.getElementById("btn-audio");
         element.addEventListener('click', (e) => {
-
-            element.classList.toggle("active");
-            this.soundEnabled = !this.soundEnabled;
-            console.log(this.soundEnabled)
-            localStorage.setItem("soundEnabled", this.soundEnabled);
-            if (this.soundEnabled) {
-                this.audioElement.play();
-            } else {
-                this.audioElement.pause();
+            if (!this.soundEnabled) {
+                element.classList.add("active");
+                this.soundEnabled = !this.soundEnabled;
+                localStorage.setItem("soundEnabled", this.soundEnabled);
+                Sound.playSound(this.music)
+            } else {     
+                element.classList.remove("active");
+                this.soundEnabled = !this.soundEnabled;
+                localStorage.setItem("soundEnabled", this.soundEnabled);
+                Sound.pauseSound(this.music)
             }
+            
         })
     }
-    createMusic() {
-        this.audioElement = document.createElement("audio");
-        this.audioElement.setAttribute("src", "./assets/songs/music.mp3");
-        this.audioElement.setAttribute("preload", "auto");
-        this.audioElement.setAttribute("loop", "");
+    static createSound(filename, volume, loop) {
+        let audio = new Audio(src + filename);
+        volume ? audio.volume = volume : '';
+        loop ? audio.loop = loop : '';
+        return audio
+    }
 
-        if (this.soundEnabled) {
-            this.audioElement.play();
-        }
-
-        let container = document.querySelector("header");
-        container.appendChild(this.audioElement);
+    static playSound(audio) {
+        let soundEnabled = localStorage.getItem("soundEnabled") === "true";
+        console.log(soundEnabled)
+        soundEnabled ? audio.play() : '';
+    }
+    static pauseSound(audio) {
+        let soundEnabled = localStorage.getItem("soundEnabled") === "true";
+        !soundEnabled ? audio.pause() : '';
     }
 }
