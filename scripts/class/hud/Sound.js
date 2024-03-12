@@ -9,31 +9,29 @@ export default class Sound {
         volume ? this.audio.volume = volume : '';
         loop ? this.audio.loop = loop : '';
 
-        this.audio.addEventListener('playing', () => {
-           
-            setTimeout(() => {
-                if (!this.audio.loop) { 
-                    console.log('"____before')
-                    console.log(Sound.soundList)
-                    this.removeFromList();
-                    console.log('"____after')
-                    console.log(Sound.soundList)
-                }
-            }, this.audio.duration * 1000);
+        this.audio.addEventListener('ended', () => {
+            this.removeFromList();
         });
         Sound.soundList.push(this);
     }
     playSound() {
         let soundEnabled = localStorage.getItem("soundEnabled") === "true";
-        console.log(soundEnabled)
+        this.audio.play()
+        this.audio.muted = true;
+
         if (soundEnabled) {
-            this.audio.play()
+            this.audio.muted = false;
         }
     }
     pauseSound() {
-        this.audio.pause()
+        if(this.audio.loop) {
+            this.audio.pause()
+        } else {
+            console.log("mute")
+            this.audio.muted = true;
+        }
     }
-    removeFromList() {
+    removeFromList() { 
         const index = Sound.soundList.indexOf(this);
         if (index !== -1) {
             Sound.soundList.splice(index, 1);
@@ -48,7 +46,13 @@ export default class Sound {
     static playAllSound() {
         console.log(Sound.soundList)
         Sound.soundList.forEach(sound => {
-            sound.playSound();
+     
+            if(sound.audio.loop) {
+                sound.audio.play()
+            } else {
+                console.log("mute")
+                sound.audio.muted = false;
+            }
         });
     }
 }
