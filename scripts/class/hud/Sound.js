@@ -1,45 +1,54 @@
 const src = "./assets/songs/"
 
+
 export default class Sound {
-    constructor() {
-        this.toggleBtnSoundMenu()
-        this.soundEnabled = localStorage.getItem("soundEnabled") === "true";
+    static soundList = [];
 
-        this.music = Sound.createSound("music.mp3", 0.05, true)
-        // Sound.playSound(this.music)
-    }
+    constructor(filename, volume, loop) {
+        this.audio = new Audio(src + filename);
+        volume ? this.audio.volume = volume : '';
+        loop ? this.audio.loop = loop : '';
 
-    toggleBtnSoundMenu() {
-        let element = document.getElementById("btn-audio");
-        element.addEventListener('click', (e) => {
-            if (!this.soundEnabled) {
-                element.classList.add("active");
-                this.soundEnabled = !this.soundEnabled;
-                localStorage.setItem("soundEnabled", this.soundEnabled);
-                Sound.playSound(this.music)
-            } else {     
-                element.classList.remove("active");
-                this.soundEnabled = !this.soundEnabled;
-                localStorage.setItem("soundEnabled", this.soundEnabled);
-                Sound.pauseSound(this.music)
-            }
-            
-        })
+        this.audio.addEventListener('playing', () => {
+           
+            setTimeout(() => {
+                if (!this.audio.loop) { 
+                    console.log('"____before')
+                    console.log(Sound.soundList)
+                    this.removeFromList();
+                    console.log('"____after')
+                    console.log(Sound.soundList)
+                }
+            }, this.audio.duration * 1000);
+        });
+        Sound.soundList.push(this);
     }
-    static createSound(filename, volume, loop) {
-        let audio = new Audio(src + filename);
-        volume ? audio.volume = volume : '';
-        loop ? audio.loop = loop : '';
-        return audio
-    }
-
-    static playSound(audio) {
+    playSound() {
         let soundEnabled = localStorage.getItem("soundEnabled") === "true";
         console.log(soundEnabled)
-        soundEnabled ? audio.play() : '';
+        if (soundEnabled) {
+            this.audio.play()
+        }
     }
-    static pauseSound(audio) {
-        let soundEnabled = localStorage.getItem("soundEnabled") === "true";
-        !soundEnabled ? audio.pause() : '';
+    pauseSound() {
+        this.audio.pause()
+    }
+    removeFromList() {
+        const index = Sound.soundList.indexOf(this);
+        if (index !== -1) {
+            Sound.soundList.splice(index, 1);
+        }
+    }
+    static pauseAllSound() {
+        console.log(Sound.soundList)
+        Sound.soundList.forEach(sound => {
+            sound.pauseSound();
+        });
+    }
+    static playAllSound() {
+        console.log(Sound.soundList)
+        Sound.soundList.forEach(sound => {
+            sound.playSound();
+        });
     }
 }

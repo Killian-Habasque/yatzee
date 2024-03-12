@@ -29,6 +29,7 @@ export let gameData = {
     models: null,
     cup: null,
     landing: null,
+    music: null,
 };
 export function begin() {
     GameInstance();

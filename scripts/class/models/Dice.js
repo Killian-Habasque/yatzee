@@ -438,8 +438,8 @@ export default class Dice {
                 gameData.sheet.pendingSheet();
                 gameData.dashboard.changeAttemps(gameData.attempts)
             }
-                let rollAudio = Sound.createSound('roll.mp3', 1)
-                Sound.playSound(rollAudio)
+                let audioRoll = new Sound('roll.mp3', 1)
+                audioRoll.playSound()
           
             gameData.models.animeCup(
                 () => {
