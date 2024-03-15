@@ -41,17 +41,17 @@ function init() {
     TweenMax.to(diceTwo, 1, {
         opacity: 1, delay: 0.2
     });
-    TweenMax.from(bandThree, 1.5, { transform: "translateX(27px) translateY(-7px)", delay: 0.2, repeat: -1, yoyo: true });
+    TweenMax.from(bandThree, 1.5, {  x: 27, y: -7,  delay: 0.2, repeat: -1, yoyo: true });
     TweenMax.to(bandThree, 0.5, {
-        opacity: 1, delay: 0.2
+        opacity: 1, delay: 0.2,
     });
 
-    TweenMax.from(bandTwo, 1.5, { transform: "translateX(54px) translateY(-14px)", delay: 0.4, repeat: -1, yoyo: true });
+    TweenMax.from(bandTwo, 1.5, { x: 54, y: -14, delay: 0.4, repeat: -1, yoyo: true });
     TweenMax.to(bandTwo, 1, {
         opacity: 1, delay: 0.2
     });
 
-    TweenMax.from(bandOne, 1.5, { transform: "translateX(81px) translateY(-21px)", delay: 0.6, repeat: -1, yoyo: true });
+    TweenMax.from(bandOne, 1.5, { x: 81, y: -21, delay: 0.6, repeat: -1, yoyo: true });
     TweenMax.to(bandOne, 1, {
         opacity: 1, delay: 0.2
     });
