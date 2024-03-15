@@ -32,6 +32,9 @@ export let gameData = {
     music: null,
 };
 export function begin() {
+
+    const content = document.querySelector(".content"); 
+    content.style.display = "none";
     GameInstance();
 }
-GameInstance();
+// GameInstance();
