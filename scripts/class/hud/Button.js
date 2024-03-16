@@ -8,7 +8,7 @@ export default class Button {
         this.button.addEventListener('click', callback);
     }
     existButton() {
-        const button = document.querySelector("." + this.button.className);
+        const button = document.querySelector("#" + this.button.id);
         return button ? true : false
     }
     addButton() {

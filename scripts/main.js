@@ -31,10 +31,14 @@ export let gameData = {
     landing: null,
     music: null,
 };
-export function begin() {
 
+
+const startButton = document.getElementById('startButton');
+
+startButton.addEventListener('click', () => {
     const content = document.querySelector(".content"); 
     content.style.display = "none";
     GameInstance();
-}
+});
+
 // GameInstance();
