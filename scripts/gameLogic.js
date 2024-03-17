@@ -29,8 +29,7 @@ export function GameInstance() {
     initGame();
     initDatGui();
     updateSceneSize();
-    let soundEnabled = localStorage.getItem("soundEnabled") === "true";
-    initSound(soundEnabled)
+    initSound()
 
     window.addEventListener('click', onDocumentMouseDown, false);
     window.addEventListener('resize', updateSceneSize);

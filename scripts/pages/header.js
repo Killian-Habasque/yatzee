@@ -19,7 +19,7 @@ btnMenu.addEventListener("click", () => {
         TweenMax.from(menu, 0.5, { opacity: 0 });
         TweenMax.from(menuLinks, 0.5, { y: 200, rotation: 10 });
         TweenMax.from(menuRules, 0.5, { y: 300, rotation: -10 });
-        TweenMax.from(menuBlog, 0.5, { y: 400, rotation: -10 });
+        TweenMax.from(menuBlog, 0.5, { y: 400, rotation: 10 });
 
         TweenMax.to(menu, 0.5, { opacity: 1});
         TweenMax.to(menuLinks, 0.5, { y: 0, rotation: 0 });
@@ -32,7 +32,7 @@ btnMenu.addEventListener("click", () => {
         TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 10 });
         TweenMax.to(menuRules, 0.5, { y: 300, rotation: -10 });
         TweenMax.to(menuBlog, 0.5, {
-            y: 400, rotation: -10, onComplete: () => {
+            y: 400, rotation: 10, onComplete: () => {
                 menu.style.display = "none";
                 isMenuOpen = false;
             }
@@ -50,8 +50,8 @@ function toggleHeaderMenu() {
     localStorage.setItem("soundEnabled", !soundEnabled);
     initSound(!soundEnabled)
 }
-export function initSound(soundEnabled) {
-    console.log(soundEnabled)
+export function initSound() {
+    let soundEnabled = localStorage.getItem("soundEnabled") === "true";
     if (soundEnabled) {
         element.classList.add("active");
         console.log(gameData.music)

@@ -37,10 +37,10 @@ export default class Floor {
     Création du plane
     */
     createFloor() {
-        const textureDiff = this.loadTexture('/assets/images/textures/wood_floor_worn_diff_2k.png');
+        const textureDiff = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_diff_1k.png');
         const textureNor = this.loadTexture('/assets/images/textures/wood_floor_worn_nor_gl_2k.jpg');
-        const textureArm = this.loadTexture('/assets/images/textures/wood_floor_worn_arm_1k.png');
-        const textureRough = this.loadTexture('/assets/images/textures/wood_floor_worn_rough_1k.png');
+        const textureArm = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_arm_1k.png');
+        const textureRough = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_rough_1k.png');
     
         const floorGeometry = new THREE.PlaneGeometry(1000, 1000, 100, 100);
         floorGeometry.setAttribute('uv2', new THREE.BufferAttribute(floorGeometry.attributes.uv.array, 2));
@@ -49,14 +49,12 @@ export default class Floor {
             map: textureDiff,
             normalMap: textureNor,
             aoMap: textureArm,
-            color: '#FFFFFF',
-            metalness: 0.1,
-            roughness: 1.5,
+            metalness: 0,
+            roughness: 0.8,
             roughnessMap: textureRough,
             side: THREE.DoubleSide,
-            // ambient: new THREE.Color(0x808080)
         });
-    
+        console.log(floorMaterial)
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.receiveShadow = true;
         floor.position.y = -7.1;

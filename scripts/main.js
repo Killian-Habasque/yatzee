@@ -40,5 +40,6 @@ startButton.addEventListener('click', () => {
     content.style.display = "none";
     GameInstance();
 });
-
+// const content = document.querySelector(".content"); 
+// content.style.display = "none";
 // GameInstance();
