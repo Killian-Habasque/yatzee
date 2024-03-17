@@ -4,6 +4,7 @@ import * as CANNON from 'cannon';
 import { gameData } from './main.js';
 
 import { render } from './render.js';
+import { initSound } from './pages/header.js';
 import { initDatGui } from './datGui.js';
 import { onDocumentMouseDown, onDocumentMouseMove } from './eventHandling.js';
 
@@ -28,6 +29,8 @@ export function GameInstance() {
     initGame();
     initDatGui();
     updateSceneSize();
+    let soundEnabled = localStorage.getItem("soundEnabled") === "true";
+    initSound(soundEnabled)
 
     window.addEventListener('click', onDocumentMouseDown, false);
     window.addEventListener('resize', updateSceneSize);

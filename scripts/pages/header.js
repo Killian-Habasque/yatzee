@@ -19,20 +19,20 @@ btnMenu.addEventListener("click", () => {
         TweenMax.from(menu, 0.5, { opacity: 0 });
         TweenMax.from(menuLinks, 0.5, { y: 200, rotation: 10 });
         TweenMax.from(menuRules, 0.5, { y: 300, rotation: -10 });
-        TweenMax.from(menuBlog, 0.5, { y: 200, rotation: -10 });
+        TweenMax.from(menuBlog, 0.5, { y: 400, rotation: -10 });
 
-        TweenMax.to(menu, 0.5, { opacity: 1, delay: 0.2 });
-        TweenMax.to(menuLinks, 0.5, { y: 0, rotation: 0, delay: 0.2 });
-        TweenMax.to(menuRules, 0.5, { y: 0, rotation: 0, delay: 0.2 });
-        TweenMax.to(menuBlog, 0.5, { y: 0, rotation: 0, delay: 0.3 });
+        TweenMax.to(menu, 0.5, { opacity: 1});
+        TweenMax.to(menuLinks, 0.5, { y: 0, rotation: 0 });
+        TweenMax.to(menuRules, 0.5, { y: 0, rotation: 0 });
+        TweenMax.to(menuBlog, 0.5, { y: 0, rotation: 0});
         isMenuOpen = true;
     } else {
         // Animations à effectuer lorsque le menu est fermé
-        TweenMax.to(menu, 0.5, { opacity: 0, delay: 0.2 });
-        TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 10, delay: 0.3 });
-        TweenMax.to(menuRules, 0.5, { y: 300, rotation: -10, delay: 0.3 });
+        TweenMax.to(menu, 0.5, { opacity: 0});
+        TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 10 });
+        TweenMax.to(menuRules, 0.5, { y: 300, rotation: -10 });
         TweenMax.to(menuBlog, 0.5, {
-            y: 200, rotation: -10, delay: 0.2, onComplete: () => {
+            y: 400, rotation: -10, onComplete: () => {
                 menu.style.display = "none";
                 isMenuOpen = false;
             }
@@ -43,19 +43,25 @@ btnMenu.addEventListener("click", () => {
 
 let element = document.getElementById("btn-audio");
 
-element.addEventListener('click', (e) => {
-    let soundEnabled = localStorage.getItem("soundEnabled") === "true";
+element.addEventListener('click', toggleHeaderMenu)
 
-    if (!soundEnabled) {
+function toggleHeaderMenu() {
+    let soundEnabled = localStorage.getItem("soundEnabled") === "true";
+    localStorage.setItem("soundEnabled", !soundEnabled);
+    initSound(!soundEnabled)
+}
+export function initSound(soundEnabled) {
+    console.log(soundEnabled)
+    if (soundEnabled) {
         element.classList.add("active");
-        localStorage.setItem("soundEnabled", !soundEnabled);
+        console.log(gameData.music)
         gameData.music.playSound()
         Sound.playAllSound()
     } else {
         element.classList.remove("active");
-        localStorage.setItem("soundEnabled", !soundEnabled);
-        // gameData.music.pauseSound()
         Sound.pauseAllSound()
     }
-
-})
+    if(localStorage.getItem("soundEnabled") === null) {
+        toggleHeaderMenu()
+    }
+}
