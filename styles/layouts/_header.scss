@@ -6,6 +6,13 @@ header {
     padding: $spacer-md;
     z-index: 20;
     
+    #btn-audio, &.in-game #btn-score {
+        display: none;
+    }
+    #btn-score, &.in-game #btn-audio {
+        display: flex;
+    }
+
     .header-right {
         position: relative;
         .header-nav {

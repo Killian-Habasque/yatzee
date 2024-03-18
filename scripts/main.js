@@ -38,6 +38,10 @@ const startButton = document.getElementById('startButton');
 startButton.addEventListener('click', () => {
     const content = document.querySelector(".content"); 
     content.style.display = "none";
+
+    const header = document.querySelector(".header"); 
+    header.classList.toggle('in-game')
+
     GameInstance();
 });
 // const content = document.querySelector(".content"); 

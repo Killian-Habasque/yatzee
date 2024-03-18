@@ -318,13 +318,19 @@
 }
 
 
-.btn-audio {
+.btn-audio, .btn-score {
+    display: none;
 	height: 50px;
 	width: 50px;
 	padding: 4px;
-	border: 4px solid white;
+	border: 4px solid $color-white;
 	border-radius: 50px;
+    justify-content: center;
+    align-items: center;
 
+    svg {
+        stroke: $color-white;
+    }
 	.wave {
 		width: 100%;
 		height: 100%;
@@ -334,7 +340,7 @@
 		.stroke {
 			display: block;
 			position: relative;
-			background: white;
+			background: $color-white;
 			height: 10%;
 			width: 10%;
 			border-radius: 50px;
