@@ -12,7 +12,12 @@ const menuBlog = document.querySelector(".header-menu__blog");
 
 let isMenuOpen = false;
 
-btnMenu.addEventListener("click", () => {
+btnMenu.addEventListener("click", toggleMenu);
+
+function toggleMenu() {
+    if(scoreMenuOpen) {
+        toggleScoreMenu()
+    }
     if (!isMenuOpen) {
         // Animations à effectuer lorsque le menu est ouvert
         menu.style.display = "flex";
@@ -21,14 +26,14 @@ btnMenu.addEventListener("click", () => {
         TweenMax.from(menuRules, 0.5, { y: 300, rotation: -10 });
         TweenMax.from(menuBlog, 0.5, { y: 400, rotation: 10 });
 
-        TweenMax.to(menu, 0.5, { opacity: 1});
+        TweenMax.to(menu, 0.5, { opacity: 1 });
         TweenMax.to(menuLinks, 0.5, { y: 0, rotation: 0 });
         TweenMax.to(menuRules, 0.5, { y: 0, rotation: 0 });
-        TweenMax.to(menuBlog, 0.5, { y: 0, rotation: 0});
+        TweenMax.to(menuBlog, 0.5, { y: 0, rotation: 0 });
         isMenuOpen = true;
     } else {
         // Animations à effectuer lorsque le menu est fermé
-        TweenMax.to(menu, 0.5, { opacity: 0});
+        TweenMax.to(menu, 0.5, { opacity: 0 });
         TweenMax.to(menuLinks, 0.5, { y: 200, rotation: 10 });
         TweenMax.to(menuRules, 0.5, { y: 300, rotation: -10 });
         TweenMax.to(menuBlog, 0.5, {
@@ -37,15 +42,14 @@ btnMenu.addEventListener("click", () => {
                 isMenuOpen = false;
             }
         });
-
     }
-});
+}
 
-let element = document.getElementById("btn-audio");
+let btnAudio = document.getElementById("btn-audio");
 
-element.addEventListener('click', toggleHeaderMenu)
+btnAudio.addEventListener('click', toggleAudioMenu)
 
-function toggleHeaderMenu() {
+function toggleAudioMenu() {
     let soundEnabled = localStorage.getItem("soundEnabled") === "true";
     localStorage.setItem("soundEnabled", !soundEnabled);
     initSound(!soundEnabled)
@@ -53,15 +57,40 @@ function toggleHeaderMenu() {
 export function initSound() {
     let soundEnabled = localStorage.getItem("soundEnabled") === "true";
     if (soundEnabled) {
-        element.classList.add("active");
-        console.log(gameData.music)
+        btnAudio.classList.add("active");
         gameData.music.playSound()
         Sound.playAllSound()
     } else {
-        element.classList.remove("active");
+        btnAudio.classList.remove("active");
         Sound.pauseAllSound()
     }
-    if(localStorage.getItem("soundEnabled") === null) {
+    if (localStorage.getItem("soundEnabled") === null) {
         toggleHeaderMenu()
     }
 }
+
+const scoreMenu = document.querySelector(".header-score");
+const scoreBtn = document.getElementById("btn-score");
+let scoreMenuOpen = false;
+
+scoreBtn.addEventListener("click", toggleScoreMenu);
+
+function toggleScoreMenu() {
+    if(isMenuOpen) {
+        toggleMenu()
+    }
+    if (!scoreMenuOpen) {
+        scoreMenu.style.display = "flex";
+        TweenMax.from(scoreMenu, 0.5, { y: 600, rotation: -10, opacity: 0 });
+        TweenMax.to(scoreMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
+        scoreMenuOpen = true;
+    } else {
+        TweenMax.to(scoreMenu, 0.5, {
+            opacity: 0, y: 600, rotation: -10, onComplete: () => {
+                scoreMenu.style.display = "none";
+                scoreMenuOpen = false;
+            }
+        });
+    }
+}
+
