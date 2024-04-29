@@ -263,4 +263,18 @@ export default class Sheet {
 
         });
     }
+    clearSheet() {
+        this.sheet.forEach(item => {
+            item.value = null;
+            item.checked = false;
+        });
+        const selectedCells = document.querySelectorAll('.cell.selected');
+        selectedCells.forEach(cell => {
+            cell.classList.remove('selected');
+        });
+        this.updateTurn();
+        this.updateBonus();
+        this.updateScore();
+        this.updateSheet();
+    }
 }

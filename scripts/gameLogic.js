@@ -87,8 +87,8 @@ export function initGame() {
 Lights
 */
 export function initLight() {
-    let lightIntensity = 0.5; 
-    let shadowIntensity = 0.2; 
+    let lightIntensity = 0.5;
+    let shadowIntensity = 0.2;
 
     const ambientLight = new THREE.AmbientLight(0xffffff, lightIntensity);
 

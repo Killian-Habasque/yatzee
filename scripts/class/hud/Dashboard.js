@@ -8,5 +8,4 @@ export default class Dashboard {
     changeAttemps(attempts) {
         this.attempts.innerHTML = gameData.maxAttempts - attempts;
     }
-
 }

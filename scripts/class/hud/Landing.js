@@ -24,7 +24,23 @@ export default class Landing {
             top: 0,
             delay: 0.8,
             onStart: () => {
-                loadingContainer.style.display = "flex";
+                loadingContainer.style.display = "block";
+                callback()
+            }
+        });
+    }
+
+    reshowLanding(callback) {
+        const loadingContainer = document.querySelector(".loading__container")
+        TweenMax.to(loadingContainer, 0.8, {
+            top: 0,
+            delay: 0.8,
+            onStart: () => {
+                const content = document.querySelector(".content");
+                content.style.display = "flex";
+                loadingContainer.style.display = "block";
+            },
+            onComplete: () => {
                 callback()
             }
         });
