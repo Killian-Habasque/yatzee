@@ -15,10 +15,14 @@ let isMenuOpen = false;
 btnMenu.addEventListener("click", toggleMenu);
 
 function toggleMenu() {
-    if(scoreMenuOpen) {
-        toggleScoreMenu()
-    }
+
     if (!isMenuOpen) {
+        if(scoreMenuOpen) {
+            toggleScoreMenu()
+        }
+        if(userMenuOpen) {
+            toggleUserMenu()
+        }
         // Animations à effectuer lorsque le menu est ouvert
         menu.style.display = "flex";
         TweenMax.from(menu, 0.5, { opacity: 0 });
@@ -76,10 +80,14 @@ let scoreMenuOpen = false;
 scoreBtn.addEventListener("click", toggleScoreMenu);
 
 function toggleScoreMenu() {
-    if(isMenuOpen) {
-        toggleMenu()
-    }
+
     if (!scoreMenuOpen) {
+        if(isMenuOpen) {
+            toggleMenu()
+        }
+        if(userMenuOpen) {
+            toggleUserMenu()
+        }
         scoreMenu.style.display = "flex";
         TweenMax.from(scoreMenu, 0.5, { y: 600, rotation: -10, opacity: 0 });
         TweenMax.to(scoreMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
@@ -101,21 +109,22 @@ let userMenuOpen = false;
 userBtn.addEventListener("click", toggleUserMenu);
 
 function toggleUserMenu() {
-    if(isMenuOpen) {
-        toggleMenu()
-    }
-    if(scoreMenuOpen) {
-        toggleScoreMenu()
-    }
 
     if (!userMenuOpen) {
+        if(isMenuOpen) {
+            toggleMenu()
+        }
+        if(scoreMenuOpen) {
+            toggleScoreMenu()
+        }
+    
         usereMenu.style.display = "flex";
-        TweenMax.from(usereMenu, 0.5, { y: 600, rotation: -10, opacity: 0 });
+        TweenMax.from(usereMenu, 0.5, { y: 600, rotation: 5, opacity: 0 });
         TweenMax.to(usereMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
         userMenuOpen = true;
     } else {
         TweenMax.to(usereMenu, 0.5, {
-            opacity: 0, y: 600, rotation: -10, onComplete: () => {
+            opacity: 0, y: 600, rotation: 10, onComplete: () => {
                 usereMenu.style.display = "none";
                 userMenuOpen = false;
             }

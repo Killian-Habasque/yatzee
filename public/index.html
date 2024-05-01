@@ -116,7 +116,7 @@
                             <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
                         </svg>
                     </button>
-                    <button id="btn-user" class="btn-score">
+                    <button id="btn-user" class="btn-user">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path
                                 d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1,1,0,0,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1A10,10,0,0,0,15.71,12.71ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z" />
@@ -141,12 +141,36 @@
                 </div>
 
                 <div class="header-user">
-                    <form action="">
-                        <input type="text">
-                    </form>
+                    <p id="userError"></p>
+                    <fieldset>
+                        <h2>Sign</h2>
+                        <form id="register-form">
+                            <input type="text" id="text" placeholder="Email" required>
+                            <input type="password" id="password" placeholder="Password" required>
+                            <button type="submit">Register</button>
+                        </form>
+                    </fieldset>
+                    <fieldset>
+                        <h2>Login</h2>
+                        <form id="login-form">
+                            <input type="text" id="login-text" placeholder="Email" required>
+                            <input type="password" id="login-password" placeholder="Password" required>
+                            <button type="submit">Login</button>
+                        </form>
+                    </fieldset>
+
+                    <fieldset>
+                        User data
+                        <ul id="data-user"></ul>
+                    </fieldset>
+                    <fieldset>
+                        <button id="logout">Logout</button>
+                    </fieldset>
+
                 </div>
 
                 <div class="header-score">
+                    <ul id="data-score"></ul>
                     <table>
                         <thead>
                             <tr>
@@ -314,6 +338,8 @@
 			}
 		  }
 		</script>
+
+    <script type="module" src="./scripts/data/index.js"></script>
     <script type="module" src="./scripts/main.js"></script>
     <script type="module" src="./scripts/pages/header.js"></script>
     <script type="text/javascript" src="./scripts/pages/home.js"></script>

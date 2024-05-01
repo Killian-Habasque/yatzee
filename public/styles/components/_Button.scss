@@ -318,7 +318,7 @@
 }
 
 
-.btn-audio, .btn-score {
+.btn-audio, .btn-score, .btn-user {
     display: none;
 	height: 50px;
 	width: 50px;
@@ -376,4 +376,16 @@
 	100% {
 		height: 60%;
 	}
+}
+
+
+.btn-user {
+    display: flex;
+    background: $color-white;
+
+    svg {
+        width: 24px;
+        fill: $color-dark;
+        stroke: $color-dark;
+    }
 }
