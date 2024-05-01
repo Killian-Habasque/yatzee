@@ -124,8 +124,8 @@ async function initUser() {
     const data = await user.auth.getUser();
     if (data) {
       profil.innerHTML = `
-                  <li class="position">${data.pseudo}</li>
-                  <li class="username">${data.bestscore}</li>
+                  <li class="position"><span class="txt__label">Pseudo:</span> <span class="txt__number">${data.pseudo}</span></li>
+                  <li class="username"><span class="txt__label">Meilleur score:</span>  <span class="txt__number">${data.bestscore}</span></li>
               `;
       showUserProfile()
     }

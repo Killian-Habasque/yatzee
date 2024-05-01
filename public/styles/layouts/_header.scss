@@ -104,17 +104,21 @@ header {
         }
 
         .header-user {
-           
+
             .menu--item {
                 display: none;
+
                 &.active {
-                    display: block;
+                    display: flex;
                 }
             }
+
             .header--userForm {
                 background: $color-light;
+
                 .form-bar {
                     display: flex;
+                    padding: 0 20px;
 
                     button {
                         font-family: "Mali-Regular";
@@ -129,10 +133,6 @@ header {
                         &:hover {
                             color: $color-secondary;
                             border-bottom: 2px solid $color-secondary;
-                        }
-
-                        &.active {
-                            opacity: 0.5;
                         }
                     }
                 }
@@ -159,6 +159,7 @@ header {
                             display: flex;
                         }
                     }
+
                     .txt__label {
                         color: $color-primary;
                         text-align: center;
@@ -170,6 +171,34 @@ header {
 
             .header--userProfile {
                 background: $color-light;
+                padding: 40px;
+
+                .profil-data {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 40px;
+                    padding: 20px;
+                    padding-top: 0;
+                }
+
+                .txt__title {
+                    font-weight: 800;
+                    color: $color-primary;
+                }
+
+                .txt__label {
+                    color: $color-dark;
+                }
+
+                .txt__number {
+                    font-weight: 800;
+                }
+
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                }
             }
         }
     }

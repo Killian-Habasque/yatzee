@@ -151,8 +151,9 @@
                             <div class="form-item login active">
                                 <h2 class="txt__title">Se connecter</h2>
                                 <form id="login-form">
-                                    <input type="text" id="login-text" class="field__primary" placeholder="Pseudo" >
-                                    <input type="password" id="login-password" class="field__primary" placeholder="Mot de passe" >
+                                    <input type="text" id="login-text" class="field__primary" placeholder="Pseudo">
+                                    <input type="password" id="login-password" class="field__primary"
+                                        placeholder="Mot de passe">
                                     <button type="submit" class="btn__secondary">Envoyer</button>
                                 </form>
                                 <p id="userLoginError" class="txt__label"></p>
@@ -161,7 +162,8 @@
                                 <h2 class="txt__title">S'inscrire</h2>
                                 <form id="register-form">
                                     <input type="text" id="text" class="field__primary" placeholder="Pseudo" required>
-                                    <input type="password" id="password" class="field__primary" placeholder="Mot de passe" required>
+                                    <input type="password" id="password" class="field__primary"
+                                        placeholder="Mot de passe" required>
                                     <button type="submit" class="btn__secondary">Envoyer</button>
                                 </form>
                                 <p id="userRegisterError" class="txt__label"></p>
@@ -170,9 +172,11 @@
                     </div>
 
                     <div class="menu--item header--userProfile">
-                        User data
-                        <ul id="data-user"></ul>
-                        <button id="logout">Logout</button>
+                        <h2 class="txt__title">Profil</h2>
+                        <div class="profil-data">
+                            <ul id="data-user"></ul>
+                            <button id="logout" class="btn__secondary">Se déconnecter</button>
+                        </div>
                     </div>
                 </div>
 
