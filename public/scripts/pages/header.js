@@ -132,3 +132,29 @@ function toggleUserMenu() {
     }
 }
 
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const loginButton = document.querySelector('.form-bar button:nth-child(1)');
+    const registerButton = document.querySelector('.form-bar button:nth-child(2)');
+    const loginForm = document.querySelector('.form-item.login');
+    const registerForm = document.querySelector('.form-item.register');
+
+    loginButton.addEventListener('click', function() {
+        if (!loginButton.classList.contains('active')) {
+            loginButton.classList.add('active');
+            registerButton.classList.remove('active');
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+        }
+    });
+
+    registerButton.addEventListener('click', function() {
+        if (!registerButton.classList.contains('active')) {
+            registerButton.classList.add('active');
+            loginButton.classList.remove('active');
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+        }
+    });
+});

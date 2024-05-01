@@ -41,7 +41,7 @@ header {
             opacity: 0;
             display: none;
 
-            &>* {
+            .menu--item {
                 border-radius: $spacer-sm;
                 padding: $spacer-lg $spacer-md;
                 display: flex;
@@ -88,12 +88,13 @@ header {
                     align-items: center;
                     border-bottom: 1px solid #80808024;
                     padding: $spacer-sm;
-                    
+
                     .txt__number {
                         font-weight: 600;
                         letter-spacing: .05em;
                         color: $color-primary--light;
                     }
+
                     .txt__label {
                         color: $color-dark;
                     }
@@ -101,8 +102,75 @@ header {
 
             }
         }
+
         .header-user {
-            background: $color-light;
+           
+            .menu--item {
+                display: none;
+                &.active {
+                    display: block;
+                }
+            }
+            .header--userForm {
+                background: $color-light;
+                .form-bar {
+                    display: flex;
+
+                    button {
+                        font-family: "Mali-Regular";
+                        font-size: 15px;
+                        color: $color-primary;
+                        width: 100%;
+                        border-bottom: 2px solid $color-primary;
+                        padding: 10px 0;
+                        font-weight: 600;
+
+                        &.active,
+                        &:hover {
+                            color: $color-secondary;
+                            border-bottom: 2px solid $color-secondary;
+                        }
+
+                        &.active {
+                            opacity: 0.5;
+                        }
+                    }
+                }
+
+                .form-switch {
+                    h2 {
+                        font-weight: 600;
+                        color: $color-primary;
+                        text-align: center;
+                    }
+
+                    .form-item,
+                    form {
+                        display: flex;
+                        padding: 20px;
+                        gap: 20px;
+                        flex-direction: column;
+                    }
+
+                    .form-item {
+                        display: none;
+
+                        &.active {
+                            display: flex;
+                        }
+                    }
+                    .txt__label {
+                        color: $color-primary;
+                        text-align: center;
+                        min-height: 15px;
+                    }
+                }
+
+            }
+
+            .header--userProfile {
+                background: $color-light;
+            }
         }
     }
 }

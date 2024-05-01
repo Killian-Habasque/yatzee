@@ -2,11 +2,14 @@
 import { user } from "./user.js";
 import { score } from "./score.js";
 
-function displayUserError(errorMessage) {
-  const errorSection = document.getElementById('userError');
+function displayRegisterUserError(errorMessage) {
+  const errorSection = document.getElementById('userRegisterError');
   errorSection.textContent = errorMessage;
 }
-
+function displayLoginUserError(errorMessage) {
+  const errorSection = document.getElementById('userLoginError');
+  errorSection.textContent = errorMessage;
+}
 
 const registerForm = document.getElementById("register-form");
 
@@ -17,20 +20,20 @@ registerForm.addEventListener("submit", async (event) => {
   const passwordInput = document.getElementById("password");
 
   if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '') {
-    displayUserError("Veuillez remplir tous les champs.");
+    displayRegisterUserError("Veuillez remplir tous les champs.");
     return;
   }
-  
+
   try {
     const response = await user.auth.register(pseudoInput.value, passwordInput.value);
     if (response.error) {
-      displayUserError(response.error); // Affichez l'erreur renvoyée par le backend
+      displayRegisterUserError(response.error); // Affichez l'erreur renvoyée par le backend
     } else {
       console.log("Inscription réussie:", response);
     }
   } catch (error) {
     console.error("Registration error:", error);
-    displayUserError(error.message);
+    displayRegisterUserError(error.message);
   }
 });
 
@@ -41,7 +44,7 @@ loginForm.addEventListener("submit", async (event) => {
   const passwordInput = document.getElementById("login-password");
 
   if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '') {
-    displayUserError("Veuillez remplir tous les champs.");
+    displayLoginUserError("Veuillez remplir tous les champs.");
     return;
   }
 
@@ -49,7 +52,7 @@ loginForm.addEventListener("submit", async (event) => {
     const data = await user.auth.login(pseudoInput.value, passwordInput.value);
     if (data.error) {
       console.error('Login error:', data.error);
-      displayUserError('Échec de la connexion: ' + data.error);
+      displayLoginUserError('Échec de la connexion: ' + data.error);
     } else {
       console.log('Connexion réussie');
       console.log('Utilisateur connecté:', data);
@@ -57,7 +60,7 @@ loginForm.addEventListener("submit", async (event) => {
     }
   } catch (error) {
     console.error('Erreur lors de la connexion utilisateur', error);
-    displayUserError('Échec de la connexion: ' + error.message); 
+    displayLoginUserError('Échec de la connexion: ' + error.message);
   }
 });
 
@@ -90,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     board.innerHTML = '';
 
     data.forEach((user, index) => {
-      const listItem = document.createElement('li');
+      const listItem = document.createElement('tr');
       listItem.classList.add('score-item');
 
       let emoji = '';
@@ -103,9 +106,8 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       }
 
       listItem.innerHTML = `
-                <span class="position">${emoji}${index + 1}</span>
-                <span class="username">${user.pseudo}</span>
-                <span class="score">${user.bestscore}</span>
+                <td class="txt__label">${emoji}${index + 1} - ${user.pseudo}</td>
+                <td class="txt__number">${user.bestscore}</td>
             `;
       board.appendChild(listItem);
     });
@@ -125,12 +127,34 @@ async function initUser() {
                   <li class="position">${data.pseudo}</li>
                   <li class="username">${data.bestscore}</li>
               `;
+      showUserProfile()
     }
   } catch (error) {
     profil.innerHTML = '';
+    showUserForm()
   }
 }
 initUser()
+
+
+
+
+function showUserForm() {
+  const userForm = document.querySelector('.header--userForm');
+  const userProfile = document.querySelector('.header--userProfile');
+  if (!userForm.classList.contains('active')) {
+      userForm.classList.add('active');
+      userProfile.classList.remove('active');
+  }
+}
+function showUserProfile() {
+  const userForm = document.querySelector('.header--userForm');
+  const userProfile = document.querySelector('.header--userProfile');
+  if (!userProfile.classList.contains('active')) {
+      userProfile.classList.add('active');
+      userForm.classList.remove('active');
+  }
+}
 
 
 export async function setScore(newScore) {
