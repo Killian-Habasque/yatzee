@@ -15,10 +15,14 @@ let isMenuOpen = false;
 btnMenu.addEventListener("click", toggleMenu);
 
 function toggleMenu() {
-    if(scoreMenuOpen) {
-        toggleScoreMenu()
-    }
+
     if (!isMenuOpen) {
+        if(scoreMenuOpen) {
+            toggleScoreMenu()
+        }
+        if(userMenuOpen) {
+            toggleUserMenu()
+        }
         // Animations à effectuer lorsque le menu est ouvert
         menu.style.display = "flex";
         TweenMax.from(menu, 0.5, { opacity: 0 });
@@ -64,9 +68,9 @@ export function initSound() {
         btnAudio.classList.remove("active");
         Sound.pauseAllSound()
     }
-    if (localStorage.getItem("soundEnabled") === null) {
-        toggleHeaderMenu()
-    }
+    // if (localStorage.getItem("soundEnabled") === null) {
+    //     toggleMenu()
+    // }
 }
 
 const scoreMenu = document.querySelector(".header-score");
@@ -76,10 +80,14 @@ let scoreMenuOpen = false;
 scoreBtn.addEventListener("click", toggleScoreMenu);
 
 function toggleScoreMenu() {
-    if(isMenuOpen) {
-        toggleMenu()
-    }
+
     if (!scoreMenuOpen) {
+        if(isMenuOpen) {
+            toggleMenu()
+        }
+        if(userMenuOpen) {
+            toggleUserMenu()
+        }
         scoreMenu.style.display = "flex";
         TweenMax.from(scoreMenu, 0.5, { y: 600, rotation: -10, opacity: 0 });
         TweenMax.to(scoreMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
@@ -94,3 +102,59 @@ function toggleScoreMenu() {
     }
 }
 
+const usereMenu = document.querySelector(".header-user");
+const userBtn = document.getElementById("btn-user");
+let userMenuOpen = false;
+
+userBtn.addEventListener("click", toggleUserMenu);
+
+function toggleUserMenu() {
+
+    if (!userMenuOpen) {
+        if(isMenuOpen) {
+            toggleMenu()
+        }
+        if(scoreMenuOpen) {
+            toggleScoreMenu()
+        }
+    
+        usereMenu.style.display = "flex";
+        TweenMax.from(usereMenu, 0.5, { y: 600, rotation: 5, opacity: 0 });
+        TweenMax.to(usereMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
+        userMenuOpen = true;
+    } else {
+        TweenMax.to(usereMenu, 0.5, {
+            opacity: 0, y: 600, rotation: 10, onComplete: () => {
+                usereMenu.style.display = "none";
+                userMenuOpen = false;
+            }
+        });
+    }
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const loginButton = document.querySelector('.form-bar button:nth-child(1)');
+    const registerButton = document.querySelector('.form-bar button:nth-child(2)');
+    const loginForm = document.querySelector('.form-item.login');
+    const registerForm = document.querySelector('.form-item.register');
+
+    loginButton.addEventListener('click', function() {
+        if (!loginButton.classList.contains('active')) {
+            loginButton.classList.add('active');
+            registerButton.classList.remove('active');
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+        }
+    });
+
+    registerButton.addEventListener('click', function() {
+        if (!registerButton.classList.contains('active')) {
+            registerButton.classList.add('active');
+            loginButton.classList.remove('active');
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+        }
+    });
+});

@@ -116,48 +116,79 @@
                             <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
                         </svg>
                     </button>
-                    <a class="btn__secondary" href="">Règlages</a>
+                    <button id="btn-user" class="btn-user">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1,1,0,0,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1A10,10,0,0,0,15.71,12.71ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z" />
+                        </svg>
+                    </button>
+                    <a class="btn__secondary" href="#">Règlages</a>
                     <button id="menu" class="btn__light" href="">Menu</button>
                 </nav>
 
                 <div class="header-menu">
-                    <nav class="header-menu__links">
+                    <nav class="menu--item header-menu__links">
                         <a href="/" class="txt__title">Home</a>
                         <a href="" class="txt__title">About us</a>
                     </nav>
-                    <div class="header-menu__rules">
+                    <div class="menu--item header-menu__rules">
                         <h2 class="txt__title">Règles</h2>
                     </div>
-                    <div class="header-menu__blog">
+                    <div class="menu--item header-menu__blog">
                         <a href="" class="txt__title">Blog</a>
                         <button id="quitButton" href="">Quit</button>
                     </div>
                 </div>
+
+                <div class="header-user">
+
+                    <div class="menu--item header--userForm">
+                        <nav class="form-bar">
+                            <button class="txt__title active">Se connecter</button>
+                            <button class="txt__title">S'inscrire</button>
+                        </nav>
+                        <div class="form-switch">
+                            <div class="form-item login active">
+                                <h2 class="txt__title">Se connecter</h2>
+                                <form id="login-form">
+                                    <input type="text" id="login-text" class="field__primary" placeholder="Pseudo">
+                                    <input type="password" id="login-password" class="field__primary"
+                                        placeholder="Mot de passe">
+                                    <button type="submit" class="btn__secondary">Envoyer</button>
+                                </form>
+                                <p id="userLoginError" class="txt__label"></p>
+                            </div>
+                            <div class="form-item register">
+                                <h2 class="txt__title">S'inscrire</h2>
+                                <form id="register-form">
+                                    <input type="text" id="text" class="field__primary" placeholder="Pseudo" required>
+                                    <input type="password" id="password" class="field__primary"
+                                        placeholder="Mot de passe" required>
+                                    <button type="submit" class="btn__secondary">Envoyer</button>
+                                </form>
+                                <p id="userRegisterError" class="txt__label"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu--item header--userProfile">
+                        <h2 class="txt__title">Profil</h2>
+                        <div class="profil-data">
+                            <ul id="data-user"></ul>
+                            <button id="logout" class="btn__secondary">Se déconnecter</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="header-score">
-                    <table>
+                    <table class="menu--item">
                         <thead>
                             <tr>
                                 <td class="txt__label">Classement</td>
                                 <td class="txt__label">Score</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="txt__label">🥇 killian</td>
-                                <td class="txt__number">301</td>
-                            </tr>
-                            <tr>
-                                <td class="txt__label">🥈 Player 2</td>
-                                <td class="txt__number">286</td>
-                            </tr>
-                            <tr>
-                                <td class="txt__label">🥉 Player 3</td>
-                                <td class="txt__number">278</td>
-                            </tr>
-                            <tr>
-                                <td class="txt__label">Player 4</td>
-                                <td class="txt__number">275</td>
-                            </tr>
+                        <tbody id="data-score">
                         </tbody>
                     </table>
                 </div>
@@ -301,6 +332,8 @@
 			}
 		  }
 		</script>
+
+    <script type="module" src="./scripts/data/index.js"></script>
     <script type="module" src="./scripts/main.js"></script>
     <script type="module" src="./scripts/pages/header.js"></script>
     <script type="text/javascript" src="./scripts/pages/home.js"></script>
