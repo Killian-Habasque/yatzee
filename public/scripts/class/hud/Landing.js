@@ -1,5 +1,5 @@
-import * as TWEEN from 'tween';
-import { gameData } from '../../main.js';
+
+import { setScore  } from '../../data/index.js';
 
 export default class Landing {
     constructor() {
@@ -67,7 +67,7 @@ export default class Landing {
         container.style.display = "flex";
         const scoreResult = document.querySelector(".final span")
         scoreResult.innerHTML = score
-        this.showLanding()
+        this.reshowLanding(setScore(score))
     }
 
     removeFinalScore() {

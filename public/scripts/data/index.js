@@ -132,6 +132,21 @@ async function initUser() {
 }
 initUser()
 
+
+export async function setScore(newScore) {
+  try {
+    const data = await score.board.setScore(newScore);
+    if (data.error) {
+      console.error('Update score error:', data.error);
+    } else {
+      console.log('Score modifié:', data);
+      initUser()
+    }
+  } catch (error) {
+    console.error('Échec de la modification du score', error);
+  }
+}
+
 // const addScore = document.getElementById("add-score");
 // addScore.addEventListener("submit", async (event) => {
 //   event.preventDefault();
