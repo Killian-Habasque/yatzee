@@ -16,6 +16,10 @@ header {
         display: flex;
     }
 
+    #btn-user {
+        display: flex;
+    }
+
     .header-right {
         position: relative;
 
@@ -25,7 +29,8 @@ header {
         }
 
         .header-menu,
-        .header-score {
+        .header-score,
+        .header-user {
             margin-top: $spacer-md;
             position: absolute;
             height: calc(100vh - 50px - 2*$spacer-md - $spacer-md);
@@ -95,6 +100,9 @@ header {
                 }
 
             }
+        }
+        .header-user {
+            background: $color-light;
         }
     }
 }

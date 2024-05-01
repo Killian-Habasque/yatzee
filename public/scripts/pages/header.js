@@ -64,9 +64,9 @@ export function initSound() {
         btnAudio.classList.remove("active");
         Sound.pauseAllSound()
     }
-    if (localStorage.getItem("soundEnabled") === null) {
-        toggleHeaderMenu()
-    }
+    // if (localStorage.getItem("soundEnabled") === null) {
+    //     toggleMenu()
+    // }
 }
 
 const scoreMenu = document.querySelector(".header-score");
@@ -89,6 +89,35 @@ function toggleScoreMenu() {
             opacity: 0, y: 600, rotation: -10, onComplete: () => {
                 scoreMenu.style.display = "none";
                 scoreMenuOpen = false;
+            }
+        });
+    }
+}
+
+const usereMenu = document.querySelector(".header-user");
+const userBtn = document.getElementById("btn-user");
+let userMenuOpen = false;
+
+userBtn.addEventListener("click", toggleUserMenu);
+
+function toggleUserMenu() {
+    if(isMenuOpen) {
+        toggleMenu()
+    }
+    if(scoreMenuOpen) {
+        toggleScoreMenu()
+    }
+
+    if (!userMenuOpen) {
+        usereMenu.style.display = "flex";
+        TweenMax.from(usereMenu, 0.5, { y: 600, rotation: -10, opacity: 0 });
+        TweenMax.to(usereMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
+        userMenuOpen = true;
+    } else {
+        TweenMax.to(usereMenu, 0.5, {
+            opacity: 0, y: 600, rotation: -10, onComplete: () => {
+                usereMenu.style.display = "none";
+                userMenuOpen = false;
             }
         });
     }
