@@ -160,6 +160,11 @@ header {
                         }
                     }
 
+                    .form-message {
+                        display: flex;
+                        justify-content: center;
+                        min-height: 24px;
+                    }
                     .txt__label {
                         color: $color-primary;
                         text-align: center;
@@ -208,9 +213,8 @@ header {
     to   { transform: rotate(360deg); }
   }
 #loading-indicator {
-    visibility: hidden;
-    color: $color-dark;
     display: flex;
+    color: $color-dark;
     gap: 10px;
     justify-content: center;
     align-items: center;
@@ -220,5 +224,4 @@ header {
         height: 24px;
         animation: 0.5s linear infinite rotate;
     }
-
 }
