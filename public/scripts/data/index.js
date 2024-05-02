@@ -23,13 +23,17 @@ registerForm.addEventListener("submit", async (event) => {
     displayRegisterUserError("Veuillez remplir tous les champs.");
     return;
   }
+  const loadingIndicator = document.getElementById("loading-indicator");
+  loadingIndicator.style.display = "block";
 
   try {
     const response = await user.auth.register(pseudoInput.value, passwordInput.value);
     if (response.error) {
-      displayRegisterUserError(response.error); // Affichez l'erreur renvoyée par le backend
+      displayRegisterUserError(response.error); 
     } else {
       console.log("Inscription réussie:", response);
+      initUser()
+      loadingIndicator.style.display = "none";
     }
   } catch (error) {
     console.error("Registration error:", error);
