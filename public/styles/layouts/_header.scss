@@ -203,7 +203,22 @@ header {
         }
     }
 }
-
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
 #loading-indicator {
-    display: none;
+    visibility: hidden;
+    color: $color-dark;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    svg {
+        fill: $color-dark;
+        width: 24px;
+        height: 24px;
+        animation: 0.5s linear infinite rotate;
+    }
+
 }

@@ -23,21 +23,23 @@ registerForm.addEventListener("submit", async (event) => {
     displayRegisterUserError("Veuillez remplir tous les champs.");
     return;
   }
-  const loadingIndicator = document.getElementById("loading-indicator");
-  loadingIndicator.style.display = "block";
-
+  const loadingIndicator = document.querySelector(".register #loading-indicator");
+  loadingIndicator.style.visibility = "visible";
+  displayLoginUserError()
   try {
     const response = await user.auth.register(pseudoInput.value, passwordInput.value);
     if (response.error) {
-      displayRegisterUserError(response.error); 
+      displayRegisterUserError(response.error);
+      loadingIndicator.style.visibility = "hidden";
     } else {
       console.log("Inscription réussie:", response);
       initUser()
-      loadingIndicator.style.display = "none";
+      loadingIndicator.style.visibility = "hidden";
     }
   } catch (error) {
     console.error("Registration error:", error);
     displayRegisterUserError(error.message);
+    loadingIndicator.style.visibility = "hidden";
   }
 });
 
@@ -51,20 +53,25 @@ loginForm.addEventListener("submit", async (event) => {
     displayLoginUserError("Veuillez remplir tous les champs.");
     return;
   }
-
+  const loadingIndicator = document.querySelector(".login #loading-indicator");
+  loadingIndicator.style.visibility = "visible";
+  displayLoginUserError()
   try {
     const data = await user.auth.login(pseudoInput.value, passwordInput.value);
     if (data.error) {
       console.error('Login error:', data.error);
       displayLoginUserError('Échec de la connexion: ' + data.error);
+      loadingIndicator.style.visibility = "hidden";
     } else {
       console.log('Connexion réussie');
       console.log('Utilisateur connecté:', data);
       initUser()
+      loadingIndicator.style.visibility = "hidden";
     }
   } catch (error) {
     console.error('Erreur lors de la connexion utilisateur', error);
     displayLoginUserError('Échec de la connexion: ' + error.message);
+    loadingIndicator.style.visibility = "hidden";
   }
 });
 
