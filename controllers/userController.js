@@ -50,9 +50,10 @@ const register = async (req, res) => {
             pseudo: pseudo,
             bestscore: score ?? 0
         };
-        const newUserRef = await addDoc(collection(db, 'users'), userData);
+        await addDoc(collection(db, 'users'), userData);
+        await login(req, res);
 
-        res.status(200).json({ uid: user.uid, email: userData.pseudo });
+        // res.status(200).json({ uid: user.uid, email: userData.pseudo });
     } catch (error) {
         console.error('Erreur lors de l\'inscription utilisateur', error);
         res.status(400).json({ error: 'Erreur lors de l\'inscription', details: error.message });

@@ -160,6 +160,11 @@ header {
                         }
                     }
 
+                    .form-message {
+                        display: flex;
+                        justify-content: center;
+                        min-height: 24px;
+                    }
                     .txt__label {
                         color: $color-primary;
                         text-align: center;
@@ -201,5 +206,22 @@ header {
                 }
             }
         }
+    }
+}
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+#loading-indicator {
+    display: flex;
+    color: $color-dark;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    svg {
+        fill: $color-dark;
+        width: 24px;
+        height: 24px;
+        animation: 0.5s linear infinite rotate;
     }
 }
