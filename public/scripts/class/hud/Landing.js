@@ -67,7 +67,7 @@ export default class Landing {
         container.style.display = "flex";
         const scoreResult = document.querySelector(".final span")
         scoreResult.innerHTML = score
-        this.reshowLanding(setScore(score))
+        setScore(score)
     }
 
     removeFinalScore() {
