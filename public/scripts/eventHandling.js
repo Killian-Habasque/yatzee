@@ -18,16 +18,15 @@ function initEventCanvas(event) {
 Evenement clic canvas
 */
 export function onDocumentMouseDown(event) {
-    if (!event.target.closest('a')) {
-        const intersects = initEventCanvas(event);
-        if (intersects.length > 0) {
-            const selectedObject = intersects[0].object.parent;
-            if (selectedObject.type === "Group") {
-                selectedObject.callback()
-            }
+    const intersects = initEventCanvas(event);
+    if (intersects.length > 0) {
+        const selectedObject = intersects[0].object.parent;
+        if (selectedObject.type === "Group") {
+            selectedObject.callback()
         }
     }
 }
+
 
 /*
 Evenement hover canvas

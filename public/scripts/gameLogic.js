@@ -30,8 +30,8 @@ export function GameInstance() {
     initDatGui();
     updateSceneSize();
     initSound()
-
-    window.addEventListener('click', onDocumentMouseDown, false);
+    const canvas = document.querySelector('canvas');
+    canvas.addEventListener('click', onDocumentMouseDown, false);
     window.addEventListener('resize', updateSceneSize);
     render();
 }

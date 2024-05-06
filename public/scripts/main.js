@@ -55,13 +55,13 @@ function initGame() {
 // content.style.display = "none";
 // GameInstance();
 
-const quitButton = document.getElementById('quitButton');
+const quitButtons = document.querySelectorAll('#quitButton');
 
-quitButton.addEventListener('click', () => {
-
-    gameData.landing.reshowLanding(removeGame)
-    // removeGame()
-
+quitButtons.forEach(quitButton => {
+    quitButton.addEventListener('click', () => {
+        gameData.landing.reshowLanding(removeGame);
+        // removeGame();
+    });
 });
 function removeGame() {
 
@@ -121,12 +121,13 @@ function removeGame() {
 
 }
 
-const retryButton = document.getElementById('retryButton');
 
-retryButton.addEventListener('click', () => {
+const retryButtons = document.querySelectorAll('#retryButton');
 
-    removeGame()
-    gameData.landing.removeFinalScore()
-    initGame()
-
+retryButtons.forEach(retryButton => {
+    retryButton.addEventListener('click', () => {
+        removeGame()
+        gameData.landing.removeFinalScore()
+        initGame()
+    });
 });

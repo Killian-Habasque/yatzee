@@ -7,12 +7,16 @@ header {
     z-index: 20;
 
     #btn-audio,
+    #quitButton,
+    #retryButton,
     &.in-game #btn-score {
         display: none;
     }
 
     #btn-score,
-    &.in-game #btn-audio {
+    &.in-game #btn-audio,
+    &.in-game #quitButton,
+    &.in-game #retryButton {
         display: flex;
     }
 
@@ -66,7 +70,7 @@ header {
             }
 
             .header-menu__blog {
-                background: $color-primary--light;
+                background: $color-primary;
                 // border-bottom:  4px solid $color-secondary;
             }
         }
