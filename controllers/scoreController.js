@@ -13,7 +13,7 @@ const getScores = async (req, res) => {
         data = data.slice(0, 20);
         res.json(data);
     } catch (error) {
-        console.error('Erreur lors de la récupération des données', error);
+        // console.error('Erreur lors de la récupération des données', error);
         res.status(500).send('Erreur serveur');
     }
 };
@@ -33,7 +33,7 @@ const setScore = async (req, res) => {
         });
 
         if (!userDoc) {
-            console.error('Utilisateur non trouvé.');
+            // console.error('Utilisateur non trouvé.');
             return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
 
@@ -42,11 +42,12 @@ const setScore = async (req, res) => {
         if (bestscore > userDoc.data().bestscore) {
             await updateDoc(userDoc.ref, { bestscore });
             res.status(200).json({ message: 'Nouveau meilleur score mis à jour avec succès' });
-        } else {
-            res.status(200).json({ message: 'Le score reçu n\'est pas supérieur au meilleur score actuel. Aucune mise à jour effectuée.' });
-        }
+        } 
+        // else {
+        //     res.status(200).json({ message: 'Le score reçu n\'est pas supérieur au meilleur score actuel. Aucune mise à jour effectuée.' });
+        // }
     } catch (error) {
-        console.error('Erreur lors de la récupération des données', error);
+        // console.error('Erreur lors de la récupération des données', error);
         res.status(500).send('Erreur serveur');
     }
 };

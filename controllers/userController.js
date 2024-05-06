@@ -25,7 +25,7 @@ const login = async (req, res) => {
 
         res.status(200).json({ uid: user.uid, email: user.email, token });
     } catch (error) {
-        console.error('Erreur lors de la connexion utilisateur', error);
+        // console.error('Erreur lors de la connexion utilisateur', error);
         res.status(401).json({ error: 'Identifiants invalides', details: error.message });
     }
 };
@@ -55,7 +55,7 @@ const register = async (req, res) => {
 
         // res.status(200).json({ uid: user.uid, email: userData.pseudo });
     } catch (error) {
-        console.error('Erreur lors de l\'inscription utilisateur', error);
+        // console.error('Erreur lors de l\'inscription utilisateur', error);
         res.status(400).json({ error: 'Erreur lors de l\'inscription', details: error.message });
     }
 };
@@ -65,7 +65,7 @@ const logout = async (req, res) => {
         res.clearCookie('token');
         res.status(200).json({ message: 'Déconnexion réussie' });
     } catch (error) {
-        console.error('Erreur lors de la déconnexion utilisateur', error);
+        // console.error('Erreur lors de la déconnexion utilisateur', error);
         res.status(500).json({ error: 'Erreur serveur lors de la déconnexion' });
     }
 };
@@ -83,7 +83,7 @@ const getUser = async (req, res) => {
             }
         });
         if (!userDoc) {
-            console.error('Utilisateur non trouvé.');
+            // console.error('Utilisateur non trouvé.');
             return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
 
@@ -95,7 +95,7 @@ const getUser = async (req, res) => {
             bestscore: userData.bestscore,
         });
     } catch (error) {
-        console.error('Erreur lors de la récupération des données', error);
+        // console.error('Erreur lors de la récupération des données', error);
         res.status(500).send('Erreur serveur');
     }
 };
