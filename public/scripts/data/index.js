@@ -132,12 +132,6 @@ document.addEventListener("DOMContentLoaded", async (event) => {
 async function initUser() {
   const profil = document.getElementById("data-user");
 
-  const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  if (!token) {
-    profil.innerHTML = '';
-    showUserForm()
-    return
-  }
   try {
     const data = await user.auth.getUser();
     if (data) {
