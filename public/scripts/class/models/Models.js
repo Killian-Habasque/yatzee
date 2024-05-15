@@ -19,7 +19,7 @@ export default class Models {
                 onLoadCallback.call(this, gltf);
             },
             (error) => {
-                console.log(error);
+                // console.log(error);
             }
         );
     }
@@ -68,7 +68,7 @@ export default class Models {
                 m.receiveShadow = false;
                 m.castShadow = true;
                 m.scale.set(50, 50, 50);
-                console.log(m);
+                // console.log(m);
                 m.position.set(-1100, -670, -2);
                 m.rotateY(Math.PI / 1.2);
             }

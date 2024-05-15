@@ -54,7 +54,7 @@ export default class Floor {
             roughnessMap: textureRough,
             side: THREE.DoubleSide,
         });
-        console.log(floorMaterial)
+        // console.log(floorMaterial)
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.receiveShadow = true;
         floor.position.y = -7.1;

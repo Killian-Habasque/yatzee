@@ -28,7 +28,6 @@ export default class Sheet {
     compare(dice) {
         dice.sort((a, b) => a - b);
         const counts = this.countDiceValues(dice);
-        let result = "";
         // Yam's
         this.updateYamsScore(counts);
         // Carré
@@ -36,7 +35,7 @@ export default class Sheet {
         // Full
         this.updateFullScore(counts);
         // Grande suite
-        let straight = this.updateStraightScore(dice, "lg-straight");
+        const straight = this.updateStraightScore(dice, "lg-straight");
         // Petite suite
         this.updateStraightScore(dice, "sm-straight", straight);
         // Chance
@@ -265,7 +264,7 @@ export default class Sheet {
     }
     clearSheet() {
         this.sheet.forEach(item => {
-            item.value = null;
+            item.value = "-";
             item.checked = false;
         });
         const selectedCells = document.querySelectorAll('.cell.selected');

@@ -27,7 +27,7 @@ export default class Sound {
         if(this.audio.loop) {
             this.audio.pause()
         } else {
-            console.log("mute")
+            // console.log("mute")
             this.audio.muted = true;
         }
     }
@@ -38,19 +38,19 @@ export default class Sound {
         }
     }
     static pauseAllSound() {
-        console.log(Sound.soundList)
+        // console.log(Sound.soundList)
         Sound.soundList.forEach(sound => {
             sound.pauseSound();
         });
     }
     static playAllSound() {
-        console.log(Sound.soundList)
+        // console.log(Sound.soundList)
         Sound.soundList.forEach(sound => {
      
             if(sound.audio.loop) {
                 sound.audio.play()
             } else {
-                console.log("mute")
+                // console.log("mute")
                 sound.audio.muted = false;
             }
         });

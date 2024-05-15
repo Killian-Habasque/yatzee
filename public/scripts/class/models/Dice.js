@@ -225,30 +225,40 @@ export default class Dice {
                 if (isZero(euler.x)) {
                     showRollResults(1);
                     dice.mesh.callback = () => {
-                        console.log(1);
+                        // console.log(1);
                         dice.value = 1;
                         this.selectedDice(dice);
                     }
 
                 } else if (isHalfPi(euler.x)) {
                     showRollResults(4);
-                    dice.mesh.callback = () => { console.log(4); dice.value = 4; this.selectedDice(dice); }
+                    dice.mesh.callback = () => { 
+                        // console.log(4); 
+                        dice.value = 4; this.selectedDice(dice); }
                 } else if (isMinusHalfPi(euler.x)) {
                     showRollResults(3);
-                    dice.mesh.callback = () => { console.log(3); dice.value = 3; this.selectedDice(dice); }
+                    dice.mesh.callback = () => { 
+                        // console.log(3); 
+                        dice.value = 3; this.selectedDice(dice); }
                 } else if (isPiOrMinusPi(euler.x)) {
                     showRollResults(6);
-                    dice.mesh.callback = () => { console.log(6); dice.value = 6; this.selectedDice(dice); }
+                    dice.mesh.callback = () => { 
+                        // console.log(6); 
+                        dice.value = 6; this.selectedDice(dice); }
                 } else {
                     // landed on edge => wait to fall on side and fire the event again
                     dice.body.allowSleep = true;
                 }
             } else if (isHalfPi(euler.z)) {
                 showRollResults(2);
-                dice.mesh.callback = () => { console.log(2); dice.value = 2; this.selectedDice(dice); }
+                dice.mesh.callback = () => { 
+                    // console.log(2); 
+                    dice.value = 2; this.selectedDice(dice); }
             } else if (isMinusHalfPi(euler.z)) {
                 showRollResults(5);
-                dice.mesh.callback = () => { console.log(5); dice.value = 5; this.selectedDice(dice); }
+                dice.mesh.callback = () => { 
+                    // console.log(5); 
+                    dice.value = 5; this.selectedDice(dice); }
             } else {
                 // landed on edge => wait to fall on side and fire the event again
                 dice.body.allowSleep = true;
@@ -286,15 +296,15 @@ export default class Dice {
     Sélection/ desélection d'un dé
     */
     selectedDice(dice) {
-        console.log(dice);
+        // console.log(dice);
 
         if (!canSelect) {
             return;
         }
         canSelect = false;
         // canRoll = false;
-        console.log("___________")
-        console.log(gameData.dicePositionSelected)
+        // console.log("___________")
+        // console.log(gameData.dicePositionSelected)
         let target = this.findFirstNullIndex(gameData.dicePositionSelected);
 
         const targetPosition = new CANNON.Vec3(-2 + target * 2, -6.5, -5);
@@ -412,8 +422,8 @@ export default class Dice {
         canSelect = false;
         gameData.attempts++;
         if (gameData.turn != 1 || gameData.attempts != 0) {
-            console.log("BUTTTTTON")
-            console.log(gameData.turn)
+
+            // console.log(gameData.turn)
             if (gameData.button.existButton()) {
 
                 gameData.button.removeButton();
@@ -536,7 +546,7 @@ export default class Dice {
     reloadDice() {
         gameData.attempts = 0;
         gameData.turn++;
-        console.log(gameData.turn)
+        // console.log(gameData.turn)
         gameData.sheet.updateTurn(gameData.turn + "/12");
 
         gameData.diceArraySelected.forEach((dice, index) => {
@@ -574,8 +584,7 @@ export default class Dice {
     diceBrake() {
         gameData.brake = setTimeout(() => {
             if (!gameData.button.existButton() && gameData.scoreGlobal.length !== gameData.diceArray.length) {
-                console.log("_____CHARGEMENT DES");
-                console.log("_____Attemps :" + gameData.attempts)
+                // console.log("_____Attemps :" + gameData.attempts)
                 new Label("txt__alert", "Dés cassés !");
                 gameData.attempts = gameData.attempts - 1;
                 canRoll = true;
