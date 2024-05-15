@@ -119,8 +119,15 @@ function removeGame() {
     // gameData.landing = null;
     gameData.music = null;
 
-}
+    // const main = document.querySelector('main')
+    // const canvas = document.getElementById('canvas');
+    // canvas.parentNode.removeChild(canvas);
 
+    // // Créer un nouveau canvas
+    // const newCanvas = document.createElement('canvas');
+    // newCanvas.id = 'canvas';
+    // main.appendChild(newCanvas);
+}
 
 const retryButtons = document.querySelectorAll('#retryButton');
 

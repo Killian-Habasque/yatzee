@@ -66,7 +66,6 @@ loginForm.addEventListener("submit", async (event) => {
       console.error('Login error:', data.error);
       displayUserError('Échec de la connexion: ' + data.error, errorCLass);
     } else {
-      console.log('Connexion réussie');
       console.log('Utilisateur connecté:', data);
       initUser()
       removeAll(errorCLass)
@@ -85,7 +84,6 @@ logout.addEventListener("click", async (event) => {
     if (data.error) {
       console.error('Logout error:', data.error);
     } else {
-      console.log('Déconnexion réussie');
       console.log('Utilisateur déconnecté:', data);
       initUser()
     }
@@ -133,6 +131,13 @@ document.addEventListener("DOMContentLoaded", async (event) => {
 
 async function initUser() {
   const profil = document.getElementById("data-user");
+
+  const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!token) {
+    profil.innerHTML = '';
+    showUserForm()
+    return
+  }
   try {
     const data = await user.auth.getUser();
     if (data) {
@@ -184,20 +189,3 @@ export async function setScore(newScore) {
   }
 }
 
-// const addScore = document.getElementById("add-score");
-// addScore.addEventListener("submit", async (event) => {
-//   event.preventDefault();
-//   try {
-//     const scoreValue = document.getElementById("value-score");
-//     console.log(scoreValue.value)
-//     const data = await score.board.setScore(scoreValue.value);
-//     if (data.error) {
-//       console.error('Update score error:', data.error);
-//     } else {
-//       console.log('Score modifié:', data);
-//       initUser()
-//     }
-//   } catch (error) {
-//     console.error('Échec de la modification du score', error);
-//   }
-// });
