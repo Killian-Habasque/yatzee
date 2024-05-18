@@ -4,7 +4,7 @@ import * as CANNON from 'cannon';
 import { gameData } from './main.js';
 
 import { render } from './render.js';
-import { initSound } from './pages/header.js';
+import { initSound } from './views/header.js';
 import { initDatGui } from './datGui.js';
 import { onDocumentMouseDown, onDocumentMouseMove } from './eventHandling.js';
 
