@@ -565,7 +565,7 @@ export default class Dice {
     Alignement de tous les dés (sélectionnés/ non-selectionnés)
     */
     autoSelected() {
-        document.removeEventListener('mousemove', onDocumentMouseMove, false);
+        document.removeEventListener('mouseover', onDocumentMouseMove, false);
         this.canSelect = false;
         gameData.diceArraySelected.forEach((dice, index) => {
             const targetPosition = new CANNON.Vec3(-2 + gameData.diceArray.length * 2, 0, 0);
