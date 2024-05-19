@@ -28,16 +28,17 @@
             flex-direction: column;
             border: $border-style;
             border-bottom: none;
-            overflow: hidden;
         }
 
         thead {
             border-radius: $sheet-radius--in $sheet-radius--in 0 0;
+            overflow: hidden;
         }
 
         tfoot {
             border-radius: 0 0 $sheet-radius--in $sheet-radius--in;
             border-bottom: 2px solid $color-primary;
+            overflow: hidden;
         }
 
         .row {
@@ -85,9 +86,47 @@
     }
 }
 
-#choice__score {
-   cursor: pointer;
+#choice__score.unselected {
+    cursor: pointer;
+    position: relative;
+
+    &:after {
+        content: '';
+        display: none;
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        width: calc(100% + 8px);
+        height: calc(100% + 8px);
+        background:
+            linear-gradient(to right, $color-secondary--light 8px, transparent 8px) 0 0,
+            linear-gradient(to right, $color-secondary--light 8px, transparent 8px) 0 100%,
+            linear-gradient(to left, $color-secondary--light 8px, transparent 8px) 100% 0,
+            linear-gradient(to left, $color-secondary--light 8px, transparent 8px) 100% 100%,
+            linear-gradient(to bottom, $color-secondary--light 8px, transparent 8px) 0 0,
+            linear-gradient(to bottom, $color-secondary--light 8px, transparent 8px) 100% 0,
+            linear-gradient(to top, $color-secondary--light 8px, transparent 8px) 0 100%,
+            linear-gradient(to top, $color-secondary--light 8px, transparent 8px) 100% 100%;
+
+        background-repeat: no-repeat;
+        background-size: 26px 14px;
+        animation: 0.4s ease-in infinite reverse scale;
+    }
+    @keyframes scale {
+        from {
+          transform: scale(1);
+        }
+        to {
+         transform: scale(1.05);
+        }
+      }
+    &:hover {
+        &:after {
+            display: block;
+        }
+    }
 }
+
 .bg__primary {
     background: $color-primary;
     color: $color-light;

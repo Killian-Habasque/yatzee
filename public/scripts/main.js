@@ -2,6 +2,7 @@ import { GameInstance } from './gameLogic.js';
 
 import * as THREE from 'three';
 import Label from './class/hud/Label.js';
+import * as TWEEN from 'tween';
 
 export let gameData = {
     renderer: null,
@@ -67,13 +68,15 @@ export function initGame() {
 
 
 function removeGame() {
-
     const header = document.querySelector(".header");
-    header.classList.toggle('in-game')
+    header.classList.remove('in-game')
 
-    gameData.button.removeButton()
-    cancelAnimationFrame(gameData.animationFrameID);
+    clearTimeout()
 
+    // Stop all TWEEN animations
+    TWEEN.removeAll();
+
+    // Dispose and remove all objects from the scene
     while (gameData.scene.children.length > 0) {
         const obj = gameData.scene.children[0];
         gameData.scene.remove(obj);
@@ -88,11 +91,12 @@ function removeGame() {
         }
     }
 
+    // Remove all physics bodies
     gameData.physicsWorld.bodies.forEach(body => {
         gameData.physicsWorld.removeBody(body);
     });
 
- 
+    // Reset game data
     gameData.diceArray = [];
     gameData.diceArraySelected = [];
     gameData.dicePositionSelected = {
@@ -108,24 +112,16 @@ function removeGame() {
     gameData.attempts = 0;
     gameData.turn = 1;
     gameData.brake = null;
-    Label.remove()
-
+    Label.remove();
+    gameData.button.removeButton()
     gameData.dashboard = null;
-    gameData.sheet.clearSheet();
-    gameData.button = null;
+    if (gameData.sheet) gameData.sheet.clearSheet();
+
     gameData.dice = null;
     gameData.models = null;
     gameData.cup = null;
-    // gameData.landing = null;
     gameData.music = null;
 
-    // const main = document.querySelector('main')
-    // const canvas = document.getElementById('canvas');
-    // canvas.parentNode.removeChild(canvas);
 
-    // // Créer un nouveau canvas
-    // const newCanvas = document.createElement('canvas');
-    // newCanvas.id = 'canvas';
-    // main.appendChild(newCanvas);
 }
 

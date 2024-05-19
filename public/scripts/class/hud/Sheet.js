@@ -216,6 +216,10 @@ export default class Sheet {
     }
 
     updateSheet() {
+        const sheet = document.querySelector(".sheet__score");
+        TweenMax.to(sheet, 1, {
+            x: 0
+        });
         const table = document.getElementById('sheet');
         const allCells = table.querySelectorAll('.cell');
 
@@ -227,8 +231,10 @@ export default class Sheet {
                     cell.classList.add('selected');
                 }
                 if (!this.sheet[key].checked) {
+                    cell.classList.add('unselected');
                     cell.onclick = () => {
                         this.sheet[key].checked = true;
+                        cell.classList.remove('unselected');
                         cell.classList.add('selected');
                         this.updateBonus();
                         this.updateScore();
@@ -250,6 +256,11 @@ export default class Sheet {
     }
 
     pendingSheet() {
+        const sheet = document.querySelector(".sheet__score");
+        TweenMax.to(sheet, 1, {
+            x: -200
+        });
+    
         const table = document.getElementById('sheet');
         const allCells = table.querySelectorAll('.cell');
 
@@ -257,6 +268,7 @@ export default class Sheet {
             const key = cell.dataset.key;
             if (key && !this.sheet[key].checked) {
                 cell.textContent = '-';
+                cell.classList.remove('unselected');
                 cell.onclick = () => { return; };
             }
 

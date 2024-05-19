@@ -454,7 +454,7 @@ export default class Dice {
             gameData.models.animeCup(
                 () => {
                     if (gameData.attempts <= gameData.maxAttempts) {
-                        gameData.dashboard.changeAttemps(gameData.attempts)
+                        // gameData.dashboard.changeAttemps(gameData.attempts)
                         gameData.scoreGlobal = [];
 
                         gameData.diceArray.forEach((d, dIdx) => {
