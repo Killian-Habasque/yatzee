@@ -1,11 +1,13 @@
-header {
+#header {
     position: fixed;
     width: 100%;
     display: flex;
     justify-content: flex-end;
     padding: $spacer-md;
     z-index: 20;
+}
 
+header {
     #btn-audio,
     #quitButton,
     #retryButton,

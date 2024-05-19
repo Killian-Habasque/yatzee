@@ -5,22 +5,34 @@
     overflow: hidden;
     display: grid;
 
+    #sheet {
+        display: grid;
+    }
+
     .sheet__score {
         margin-left: $spacer-md;
     }
-    .ui-controls {
+
+    #ui-controls {
         position: absolute;
         align-self: end;
         justify-self: center;
         margin-bottom: $spacer-xl;
     }
-    .ui-labels {
+
+    #ui-labels {
         z-index: 1;
         position: absolute;
         align-self: center;
         justify-self: end;
         margin-right: $spacer-md;
     }
+}
+
+#landing {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .loading__container {
@@ -33,7 +45,8 @@
     color: $color-light;
     font-size: 20px;
 
-    .begin, .final {
+    .begin,
+    .final {
         width: 100%;
         height: 100%;
         display: flex;
@@ -42,9 +55,12 @@
         align-items: center;
         gap: $spacer-sm;
     }
-    .final, .begin {
+
+    .final,
+    .begin {
         display: none;
-    } 
+    }
+
     .progress-bar {
         width: 30%;
         height: 4%;

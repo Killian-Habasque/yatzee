@@ -20,10 +20,14 @@ export default class Sheet {
         this.callback = callback;
         this.bonus = 0;
         this.score = 0;
+
+        const sheet = document.querySelector(".sheet__score");
+        sheet.addEventListener('mouseenter', () => this.open(sheet));
+        sheet.addEventListener('mouseleave', () => this.remove(sheet));
     }
 
     /*
-    Comparer les valeurs du tableau de score à partir des dés
+    Comparer les valeurs   du tableau de score à partir des dés
     */
     compare(dice) {
         dice.sort((a, b) => a - b);
@@ -216,6 +220,9 @@ export default class Sheet {
     }
 
     updateSheet() {
+        const sheet = document.querySelector(".sheet__score");
+        sheet.classList.add('open');
+        this.open(sheet)
         const table = document.getElementById('sheet');
         const allCells = table.querySelectorAll('.cell');
 
@@ -227,8 +234,11 @@ export default class Sheet {
                     cell.classList.add('selected');
                 }
                 if (!this.sheet[key].checked) {
+                    cell.classList.add('unselected');
                     cell.onclick = () => {
+                        sheet.classList.remove('open');
                         this.sheet[key].checked = true;
+                        cell.classList.remove('unselected');
                         cell.classList.add('selected');
                         this.updateBonus();
                         this.updateScore();
@@ -250,6 +260,9 @@ export default class Sheet {
     }
 
     pendingSheet() {
+        const sheet = document.querySelector(".sheet__score");
+        
+
         const table = document.getElementById('sheet');
         const allCells = table.querySelectorAll('.cell');
 
@@ -257,23 +270,54 @@ export default class Sheet {
             const key = cell.dataset.key;
             if (key && !this.sheet[key].checked) {
                 cell.textContent = '-';
+                cell.classList.remove('unselected');
                 cell.onclick = () => { return; };
             }
 
         });
     }
     clearSheet() {
+
+        // const selectedCells = document.querySelectorAll('.cell.selected');
+        // selectedCells.forEach(cell => {
+        //     cell.classList.remove('selected');
+        // });
+        const allCells = document.querySelectorAll('.cell');
+        allCells.forEach(cell => {
+            const key = cell.dataset.key;
+            if (key) {
+                cell.value = "-";
+                cell.textContent = '-';
+                if (this.sheet[key].checked) {
+                    cell.classList.remove('selected');
+                    cell.checked = false;
+                }
+                if (!this.sheet[key].checked) {
+                    cell.classList.remove('unselected');
+                    cell.onclick = () => { return; };
+                }
+            }
+        });
         this.sheet.forEach(item => {
             item.value = "-";
             item.checked = false;
         });
-        const selectedCells = document.querySelectorAll('.cell.selected');
-        selectedCells.forEach(cell => {
-            cell.classList.remove('selected');
-        });
-        this.updateTurn();
+        this.updateTurn("0/12");
         this.updateBonus();
         this.updateScore();
-        this.updateSheet();
+        const sheet = document.querySelector(".sheet__score");
+        TweenMax.to(sheet, 1, {
+            x: 0
+        });
+        // this.updateSheet();
+    }
+    open(sheet) {
+        TweenMax.to(sheet, 1, { x: 0 });
+    }
+    remove(sheet) {
+        if (!sheet.classList.contains('open')) {
+            TweenMax.to(sheet, 1, { x: -200 });
+        }
+
     }
 }

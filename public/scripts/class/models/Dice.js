@@ -18,13 +18,13 @@ const params = {
     notchRadius: .12,
     notchDepth: .1,
 }
-let canSelect = true
-let canRoll = true
 
 export default class Dice {
     constructor() {
         diceMesh = this.createDiceMesh();
         this.initDice()
+        this.canRoll = true
+        this.canSelect = true
     }
     initDice() {
         for (let i = 0; i < params.numberOfDice; i++) {
@@ -298,11 +298,11 @@ export default class Dice {
     selectedDice(dice) {
         // console.log(dice);
 
-        if (!canSelect) {
+        if (!this.canSelect) {
             return;
         }
-        canSelect = false;
-        // canRoll = false;
+        this.canSelect = false;
+        // this.canRoll = false;
         // console.log("___________")
         // console.log(gameData.dicePositionSelected)
         let target = this.findFirstNullIndex(gameData.dicePositionSelected);
@@ -317,17 +317,17 @@ export default class Dice {
         this.moveAndRotateDice(selectedDiceIndex, dice, targetPosition, 0, 500, 0, () => {
             this.realignDice();
             gameData.scoreSelected.push(dice.value);
-            canSelect = true;
+            this.canSelect = true;
         })
 
         dice.mesh.callback = () => { this.unselectedDice(dice); }
     }
     unselectedDice(dice) {
-        if (!canSelect) {
+        if (!this.canSelect) {
             return;
         }
-        canSelect = false;
-        // canRoll = false;
+        this.canSelect = false;
+        // this.canRoll = false;
         const targetPosition = new CANNON.Vec3(-2 + (gameData.diceArray.length) * 2, 0, 0);
         const selectedDiceIndex = gameData.diceArraySelected.indexOf(dice);
         gameData.diceArraySelected.splice(selectedDiceIndex, 1);
@@ -339,7 +339,7 @@ export default class Dice {
             let indexToDelete = gameData.scoreSelected.indexOf(dice.value);
             if (indexToDelete !== -1) {
                 gameData.scoreSelected.splice(indexToDelete, 1);
-                canSelect = true;
+                this.canSelect = true;
             }
         })
 
@@ -356,9 +356,9 @@ export default class Dice {
 
     //     let completedDice = 0;
     //     const totalDice = gameData.diceArraySelected.length;
-    //     canRoll = false;
+    //     this.canRoll = false;
     //     if (totalDice == 0) {
-    //         canRoll = true;
+    //         this.canRoll = true;
     //     } else {
     //         gameData.diceArraySelected.forEach((dice, index) => {
     //             const targetPosition = new CANNON.Vec3(-2 + index * 2, -6.5, -5);
@@ -367,7 +367,7 @@ export default class Dice {
     //                 () => {
     //                     completedDice++;
     //                     if (completedDice === totalDice) {
-    //                         canRoll = true;
+    //                         this.canRoll = true;
     //                     }
     //                 })
     //         });
@@ -381,10 +381,10 @@ export default class Dice {
         let completedDice = 0;
         const totalDice = gameData.diceArray.length;
 
-        canRoll = false;
+        this.canRoll = false;
 
         if (totalDice == 0) {
-            canRoll = true;
+            this.canRoll = true;
         } else {
             gameData.diceArray.forEach((dice, index) => {
                 const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
@@ -392,7 +392,7 @@ export default class Dice {
                     () => {
                         completedDice++;
                         if (completedDice === totalDice) {
-                            canRoll = true;
+                            this.canRoll = true;
                         }
                     })
             });
@@ -402,8 +402,8 @@ export default class Dice {
     /*
     Lancer dés 
     */
-    throwDice() {
-        if (!canRoll) {
+    throwDice() {  
+        if (!this.canRoll) {
             return;
         }
         if (gameData.diceArraySelected.length == 5) {
@@ -418,8 +418,8 @@ export default class Dice {
             }
             gameData.sheet.updateTurn(gameData.turn + "/12");
         }
-        canRoll = false;
-        canSelect = false;
+        this.canRoll = false;
+        this.canSelect = false;
         gameData.attempts++;
         if (gameData.turn != 1 || gameData.attempts != 0) {
 
@@ -454,7 +454,7 @@ export default class Dice {
             gameData.models.animeCup(
                 () => {
                     if (gameData.attempts <= gameData.maxAttempts) {
-                        gameData.dashboard.changeAttemps(gameData.attempts)
+                        // gameData.dashboard.changeAttemps(gameData.attempts)
                         gameData.scoreGlobal = [];
 
                         gameData.diceArray.forEach((d, dIdx) => {
@@ -483,17 +483,17 @@ export default class Dice {
         const delayBetweenDice = 0.2 * 1000;
         let completedDice = 0;
         const totalDice = gameData.diceArray.length;
-        canRoll = false;
+        this.canRoll = false;
         gameData.diceArray.forEach((dice, index) => {
             const targetPosition = new CANNON.Vec3(-2 + index * 2, 0, 0);
             this.moveAndRotateDice(index, dice, targetPosition, 0, alignmentDuration, delayBetweenDice, () => {
-                canSelect = true;
+                this.canSelect = true;
                 if (gameData.attempts == gameData.maxAttempts) {
                     this.autoSelected()
                 }
                 completedDice++;
                 if (completedDice === totalDice) {
-                    canRoll = true;
+                    this.canRoll = true;
 
                     gameData.sheet.compare([...gameData.scoreSelected, ...gameData.scoreGlobal]);
                     gameData.sheet.updateSheet();
@@ -557,7 +557,7 @@ export default class Dice {
         gameData.scoreSelected = [];
         this.setToNull(gameData.dicePositionSelected)
 
-        canRoll = true;
+        this.canRoll = true;
         this.throwDice();
     }
 
@@ -565,8 +565,8 @@ export default class Dice {
     Alignement de tous les dés (sélectionnés/ non-selectionnés)
     */
     autoSelected() {
-        document.removeEventListener('mousemove', onDocumentMouseMove, false);
-        canSelect = false;
+        document.removeEventListener('mouseover', onDocumentMouseMove, false);
+        this.canSelect = false;
         gameData.diceArraySelected.forEach((dice, index) => {
             const targetPosition = new CANNON.Vec3(-2 + gameData.diceArray.length * 2, 0, 0);
             gameData.diceArray.push(dice);
@@ -587,7 +587,7 @@ export default class Dice {
                 // console.log("_____Attemps :" + gameData.attempts)
                 new Label("txt__alert", "Dés cassés !");
                 gameData.attempts = gameData.attempts - 1;
-                canRoll = true;
+                this.canRoll = true;
                 gameData.button.addButton();
             }
         }, 3000);

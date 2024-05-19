@@ -1,4 +1,6 @@
-function init() {
+import { initGame } from '../main.js';
+
+export function loadHome() {
     const cup = document.querySelector(".logo__cup");
     const bandOne = document.querySelector(".band.one");
     const bandTwo = document.querySelector(".band.two");
@@ -41,7 +43,7 @@ function init() {
     TweenMax.to(diceTwo, 1, {
         opacity: 1, delay: 0.2
     });
-    TweenMax.from(bandThree, 1.5, {  x: 27, y: -7,  delay: 0.2, repeat: -1, yoyo: true });
+    TweenMax.from(bandThree, 1.5, { x: 27, y: -7, delay: 0.2, repeat: -1, yoyo: true });
     TweenMax.to(bandThree, 0.5, {
         opacity: 1, delay: 0.2,
     });
@@ -56,4 +58,10 @@ function init() {
         opacity: 1, delay: 0.2
     });
 
+
+    const startButton = document.getElementById('startButton');
+
+    startButton.addEventListener('click', () => {
+        initGame()
+    });
 }

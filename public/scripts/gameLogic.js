@@ -4,7 +4,7 @@ import * as CANNON from 'cannon';
 import { gameData } from './main.js';
 
 import { render } from './render.js';
-import { initSound } from './pages/header.js';
+import { initSound } from './views/header.js';
 import { initDatGui } from './datGui.js';
 import { onDocumentMouseDown, onDocumentMouseMove } from './eventHandling.js';
 
@@ -73,12 +73,12 @@ Initialisation des models et du hud
 */
 export function initGame() {
     gameData.landing = new Landing();
-    gameData.button = new Button("btn-throw__primary", 'Lancer <svg class="dice one" width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D" stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /><circle cx="9" cy="20.9355" r="3" fill="#9D301D" /><circle cx="21" cy="8.93555" r="3" fill="#9D301D" /></svg ><svg class="dice two" width="31" height="31" viewBox="0 0 31 31" fill="none"xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D"stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /></svg>', () => { gameData.dice.throwDice(); })
-    gameData.sheet = new Sheet(() => { gameData.dice.reloadDice(); })
     gameData.models = new Models();
     new Floor();
     gameData.music = new Sound("music.mp3", 0.05, true);
     gameData.dice = new Dice();
+    gameData.sheet = new Sheet(() => { gameData.dice.reloadDice(); })
+    gameData.button = new Button("btn-throw__primary", 'Lancer <svg class="dice one" width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D" stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /><circle cx="9" cy="20.9355" r="3" fill="#9D301D" /><circle cx="21" cy="8.93555" r="3" fill="#9D301D" /></svg ><svg class="dice two" width="31" height="31" viewBox="0 0 31 31" fill="none"xmlns="http://www.w3.org/2000/svg"><rect x="1.45172" y="0.935488" width="28.0645" height="29" rx="5.6129" fill="white" stroke="#9D301D"stroke-width="1.87097" /><circle cx="15" cy="14.9355" r="3" fill="#9D301D" /></svg>', () => { gameData.dice.throwDice(); })
     gameData.dashboard = new Dashboard();
     gameData.button.addButton();
 }

@@ -15,84 +15,89 @@ function removeAll(className) {
   errorSection.innerHTML = '';
 }
 
-const registerForm = document.getElementById("register-form");
+export function loadData() {
+  const registerForm = document.getElementById("register-form");
 
-registerForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  const pseudoInput = document.getElementById("text");
-  const passwordInput = document.getElementById("password");
+    const pseudoInput = document.getElementById("text");
+    const passwordInput = document.getElementById("password");
 
-  const errorCLass = '.register .form-message';
+    const errorCLass = '.register .form-message';
 
-  if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '') {
-    displayUserError("Veuillez remplir tous les champs.", errorCLass);
-    return;
-  }
-  displayLoading(errorCLass)
-
-  try {
-    const response = await user.auth.register(pseudoInput.value, passwordInput.value);
-    if (response.error) {
-      displayUserError("Échec de l'inscription: " + response.error, errorCLass);
-    } else {
-      console.log("Inscription réussie:", response);
-      initUser()
-      removeAll(errorCLass)
+    if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '') {
+      displayUserError("Veuillez remplir tous les champs.", errorCLass);
+      return;
     }
-  } catch (error) {
-    console.error("Registration error:", error);
-    displayUserError("Échec de l'inscription: " + error.message, errorCLass);
-  }
-});
+    displayLoading(errorCLass)
 
-const loginForm = document.getElementById("login-form");
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const pseudoInput = document.getElementById("login-text");
-  const passwordInput = document.getElementById("login-password");
-
-  const errorCLass = '.login .form-message';
-
-  if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '') {
-    displayUserError("Veuillez remplir tous les champs.", errorCLass);
-    return;
-  }
-
-  displayLoading(errorCLass)
-  try {
-    const data = await user.auth.login(pseudoInput.value, passwordInput.value);
-    if (data.error) {
-      console.error('Login error:', data.error);
-      displayUserError('Échec de la connexion: ' + data.error, errorCLass);
-    } else {
-      console.log('Utilisateur connecté:', data);
-      initUser()
-      removeAll(errorCLass)
+    try {
+      const response = await user.auth.register(pseudoInput.value, passwordInput.value);
+      if (response.error) {
+        displayUserError("Échec de l'inscription: " + response.error, errorCLass);
+      } else {
+        console.log("Inscription réussie:", response);
+        initUser()
+        removeAll(errorCLass)
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      displayUserError("Échec de l'inscription: " + error.message, errorCLass);
     }
-  } catch (error) {
-    console.error('Erreur lors de la connexion utilisateur', error);
-    displayUserError('Échec de la connexion: ' + error.message, errorCLass);
-  }
-});
+  });
 
-const logout = document.getElementById("logout");
-logout.addEventListener("click", async (event) => {
-  event.preventDefault();
-  try {
-    const data = await user.auth.logout();
-    if (data.error) {
-      console.error('Logout error:', data.error);
-    } else {
-      console.log('Utilisateur déconnecté:', data);
-      initUser()
+  const loginForm = document.getElementById("login-form");
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const pseudoInput = document.getElementById("login-text");
+    const passwordInput = document.getElementById("login-password");
+
+    const errorCLass = '.login .form-message';
+
+    if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '') {
+      displayUserError("Veuillez remplir tous les champs.", errorCLass);
+      return;
     }
-  } catch (error) {
-    console.error('Erreur lors de la déconnexion utilisateur', error);
-  }
-});
 
-document.addEventListener("DOMContentLoaded", async (event) => {
+    displayLoading(errorCLass)
+    try {
+      const data = await user.auth.login(pseudoInput.value, passwordInput.value);
+      if (data.error) {
+        console.error('Login error:', data.error);
+        displayUserError('Échec de la connexion: ' + data.error, errorCLass);
+      } else {
+        console.log('Utilisateur connecté:', data);
+        initUser()
+        removeAll(errorCLass)
+      }
+    } catch (error) {
+      console.error('Erreur lors de la connexion utilisateur', error);
+      displayUserError('Échec de la connexion: ' + error.message, errorCLass);
+    }
+  });
+
+  const logout = document.getElementById("logout");
+  logout.addEventListener("click", async (event) => {
+    event.preventDefault();
+    try {
+      const data = await user.auth.logout();
+      if (data.error) {
+        console.error('Logout error:', data.error);
+      } else {
+        console.log('Utilisateur déconnecté:', data);
+        initUser()
+      }
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion utilisateur', error);
+    }
+  });
+
+  initScore()
+  initUser()
+}
+
+async function initScore() {
   const board = document.getElementById("data-score");
   try {
     const data = await score.board.getScores();
@@ -127,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   } catch (error) {
     console.error('Erreur lors de la récupération des scores', error);
   }
-});
+}
 
 async function initUser() {
   const profil = document.getElementById("data-user");
@@ -146,7 +151,6 @@ async function initUser() {
     showUserForm()
   }
 }
-initUser()
 
 
 
@@ -155,16 +159,16 @@ function showUserForm() {
   const userForm = document.querySelector('.header--userForm');
   const userProfile = document.querySelector('.header--userProfile');
   if (!userForm.classList.contains('active')) {
-      userForm.classList.add('active');
-      userProfile.classList.remove('active');
+    userForm.classList.add('active');
+    userProfile.classList.remove('active');
   }
 }
 function showUserProfile() {
   const userForm = document.querySelector('.header--userForm');
   const userProfile = document.querySelector('.header--userProfile');
   if (!userProfile.classList.contains('active')) {
-      userProfile.classList.add('active');
-      userForm.classList.remove('active');
+    userProfile.classList.add('active');
+    userForm.classList.remove('active');
   }
 }
 
