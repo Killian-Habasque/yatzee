@@ -283,7 +283,7 @@ export default class Sheet {
         selectedCells.forEach(cell => {
             cell.classList.remove('selected');
         });
-        this.updateTurn();
+        this.updateTurn("0/12");
         this.updateBonus();
         this.updateScore();
         this.updateSheet();

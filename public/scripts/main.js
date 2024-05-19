@@ -2,6 +2,7 @@ import { GameInstance } from './gameLogic.js';
 
 import * as THREE from 'three';
 import Label from './class/hud/Label.js';
+import Button from './class/hud/Button.js';
 import * as TWEEN from 'tween';
 
 export let gameData = {
@@ -73,10 +74,8 @@ function removeGame() {
 
     clearTimeout()
 
-    // Stop all TWEEN animations
     TWEEN.removeAll();
 
-    // Dispose and remove all objects from the scene
     while (gameData.scene.children.length > 0) {
         const obj = gameData.scene.children[0];
         gameData.scene.remove(obj);
@@ -91,12 +90,10 @@ function removeGame() {
         }
     }
 
-    // Remove all physics bodies
     gameData.physicsWorld.bodies.forEach(body => {
         gameData.physicsWorld.removeBody(body);
     });
 
-    // Reset game data
     gameData.diceArray = [];
     gameData.diceArraySelected = [];
     gameData.dicePositionSelected = {
@@ -113,11 +110,10 @@ function removeGame() {
     gameData.turn = 1;
     gameData.brake = null;
     Label.remove();
-    gameData.button.removeButton()
+    Button.removeInstance();
+    gameData.dice = null;
     gameData.dashboard = null;
     if (gameData.sheet) gameData.sheet.clearSheet();
-
-    gameData.dice = null;
     gameData.models = null;
     gameData.cup = null;
     gameData.music = null;
