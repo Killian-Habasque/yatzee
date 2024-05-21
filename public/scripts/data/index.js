@@ -23,17 +23,22 @@ export function loadData() {
 
     const pseudoInput = document.getElementById("text");
     const passwordInput = document.getElementById("password");
+    const verifPasswordInput = document.getElementById("verif-password");
 
     const errorCLass = '.register .form-message';
 
-    if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '') {
+    if (pseudoInput.value.trim() === '' || passwordInput.value.trim() === '' || verifPasswordInput.value.trim() === '') {
       displayUserError("Veuillez remplir tous les champs.", errorCLass);
+      return;
+    }
+    if (passwordInput.value.trim() !== verifPasswordInput.value.trim()) {
+      displayUserError("Les mots de passe ne sont pas similaires.", errorCLass);
       return;
     }
     displayLoading(errorCLass)
 
     try {
-      const response = await user.auth.register(pseudoInput.value, passwordInput.value);
+      const response = await user.auth.register(pseudoInput.value, passwordInput.value, verifPasswordInput.value);
       if (response.error) {
         displayUserError("Échec de l'inscription: " + response.error, errorCLass);
       } else {

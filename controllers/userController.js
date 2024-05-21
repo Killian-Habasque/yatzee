@@ -1,5 +1,5 @@
 const { collection, addDoc, query, where, getDocs } = require('firebase/firestore');
-const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } = require('firebase/auth');
+const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth');
 const db = require('../models/firebaseModel');
 
 
@@ -17,7 +17,7 @@ const login = async (req, res) => {
         const tokenDocRef = await addDoc(collection(db, 'tokens'), { uid: user.uid, token });
 
         res.cookie('token', token, {
-            httpOnly: true, 
+            httpOnly: true,
             secure: true,
             sameSite: 'strict',
             maxAge: 365 * 24 * 60 * 60 * 1000
@@ -31,7 +31,7 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-    const { pseudo, password, score } = req.body;
+    const { pseudo, password, verifPassword, score } = req.body;
 
     try {
         const q = query(collection(db, 'users'), where('pseudo', '==', pseudo));
@@ -39,6 +39,9 @@ const register = async (req, res) => {
 
         if (!userRef.empty) {
             return res.status(400).json({ error: 'Le pseudo est déjà pris. Veuillez en choisir un autre.' });
+        }
+        if (password.length === 0 || verifPassword.length === 0 || password !== verifPassword) {
+            return res.status(400).json({ error: 'Les mots de passe ne sont pas similaires.' });
         }
         const email = pseudo + '@' + process.env.DOMAIN_EMAIL_USER
         const auth = getAuth();
@@ -100,4 +103,4 @@ const getUser = async (req, res) => {
     }
 };
 
-module.exports = { getUser, login, register, logout};
+module.exports = { getUser, login, register, logout };

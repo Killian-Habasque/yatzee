@@ -1,7 +1,7 @@
 
 export const auth = {
-    register: (pseudo, password) => fetch("/api/register", {
-        method: "POST", body: JSON.stringify({ pseudo, password }), headers: {
+    register: (pseudo, password, verifPassword) => fetch("/api/register", {
+        method: "POST", body: JSON.stringify({ pseudo, password, verifPassword }), headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         }
