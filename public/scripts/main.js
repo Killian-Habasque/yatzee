@@ -1,4 +1,5 @@
 import { GameInstance } from './gameLogic.js';
+import { initScore } from './data/index.js';
 
 import * as THREE from 'three';
 import Label from './class/hud/Label.js';
@@ -49,20 +50,24 @@ export function initGame() {
 
     quitButtons.forEach(quitButton => {
         quitButton.addEventListener('click', () => {
-            gameData.landing.reshowLanding(removeGame);
-            // removeGame();
+            gameData.landing.reshowLanding(
+                () => {
+                    initScore()
+                    removeGame()
+                }
+            );
         });
     });
 
-    const retryButtons = document.querySelectorAll('#retryButton');
+    // const retryButtons = document.querySelectorAll('#retryButton');
 
-    retryButtons.forEach(retryButton => {
-        retryButton.addEventListener('click', () => {
-            removeGame()
-            gameData.landing.removeFinalScore()
-            initGame()
-        });
-    });
+    // retryButtons.forEach(retryButton => {
+    //     retryButton.addEventListener('click', () => {
+    //         removeGame()
+    //         gameData.landing.removeFinalScore()
+    //         initGame()
+    //     });
+    // });
 
     GameInstance();
 }

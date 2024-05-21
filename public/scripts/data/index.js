@@ -102,7 +102,7 @@ export function loadData() {
   initUser()
 }
 
-async function initScore() {
+export async function initScore() {
   const board = document.getElementById("data-score");
   try {
     const data = await score.board.getScores();
