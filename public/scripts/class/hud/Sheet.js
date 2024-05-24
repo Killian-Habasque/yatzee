@@ -261,7 +261,8 @@ export default class Sheet {
 
     pendingSheet() {
         const sheet = document.querySelector(".sheet__score");
-        
+        sheet.classList.remove('open');
+        this.remove(sheet)
 
         const table = document.getElementById('sheet');
         const allCells = table.querySelectorAll('.cell');

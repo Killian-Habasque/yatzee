@@ -78,36 +78,7 @@ header {
         }
 
 
-        .header-score {
-            table {
-                background: $color-light;
-                height: 100%;
 
-                tbody {
-                    overflow: auto;
-                }
-
-                tr {
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid #80808024;
-                    padding: $spacer-sm;
-
-                    .txt__number {
-                        font-weight: 600;
-                        letter-spacing: .05em;
-                        color: $color-primary--light;
-                    }
-
-                    .txt__label {
-                        color: $color-dark;
-                    }
-                }
-
-            }
-        }
 
         .header-user {
 
