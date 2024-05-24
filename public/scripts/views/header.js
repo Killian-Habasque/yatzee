@@ -21,9 +21,9 @@ export function loadHeader() {
     function toggleMenu() {
 
         if (!isMenuOpen) {
-            if (scoreMenuOpen) {
-                toggleScoreMenu()
-            }
+            // if (scoreMenuOpen) {
+            //     toggleScoreMenu()
+            // }
             if (userMenuOpen) {
                 toggleUserMenu()
             }
@@ -65,34 +65,34 @@ export function loadHeader() {
     }
 
 
-    const scoreMenu = document.querySelector(".header-score");
-    const scoreBtn = document.getElementById("btn-score");
-    let scoreMenuOpen = false;
+    // const scoreMenu = document.querySelector(".header-score");
+    // const scoreBtn = document.getElementById("btn-score");
+    // let scoreMenuOpen = false;
 
-    scoreBtn.addEventListener("click", toggleScoreMenu);
+    // scoreBtn.addEventListener("click", toggleScoreMenu);
 
-    function toggleScoreMenu() {
+    // function toggleScoreMenu() {
 
-        if (!scoreMenuOpen) {
-            if (isMenuOpen) {
-                toggleMenu()
-            }
-            if (userMenuOpen) {
-                toggleUserMenu()
-            }
-            scoreMenu.style.display = "flex";
-            TweenMax.from(scoreMenu, 0.5, { y: 600, rotation: -10, opacity: 0 });
-            TweenMax.to(scoreMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
-            scoreMenuOpen = true;
-        } else {
-            TweenMax.to(scoreMenu, 0.5, {
-                opacity: 0, y: 600, rotation: -10, onComplete: () => {
-                    scoreMenu.style.display = "none";
-                    scoreMenuOpen = false;
-                }
-            });
-        }
-    }
+    //     if (!scoreMenuOpen) {
+    //         if (isMenuOpen) {
+    //             toggleMenu()
+    //         }
+    //         if (userMenuOpen) {
+    //             toggleUserMenu()
+    //         }
+    //         scoreMenu.style.display = "flex";
+    //         TweenMax.from(scoreMenu, 0.5, { y: 600, rotation: -10, opacity: 0 });
+    //         TweenMax.to(scoreMenu, 0.5, { y: 0, rotation: 0, opacity: 1 });
+    //         scoreMenuOpen = true;
+    //     } else {
+    //         TweenMax.to(scoreMenu, 0.5, {
+    //             opacity: 0, y: 600, rotation: -10, onComplete: () => {
+    //                 scoreMenu.style.display = "none";
+    //                 scoreMenuOpen = false;
+    //             }
+    //         });
+    //     }
+    // }
 
     /*
     Toggle menu user
@@ -109,9 +109,9 @@ export function loadHeader() {
             if (isMenuOpen) {
                 toggleMenu()
             }
-            if (scoreMenuOpen) {
-                toggleScoreMenu()
-            }
+            // if (scoreMenuOpen) {
+            //     toggleScoreMenu()
+            // }
 
             usereMenu.style.display = "flex";
             TweenMax.from(usereMenu, 0.5, { y: 600, rotation: 5, opacity: 0 });

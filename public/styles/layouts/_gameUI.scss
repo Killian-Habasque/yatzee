@@ -80,3 +80,63 @@
     }
 
 }
+
+
+.ui-table__score {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-sm;
+    position: absolute;
+    left: $spacer-md;
+    width: 300px;
+    // border: 2px solid $color-light;
+    border-radius: $spacer-sm;
+    padding: $spacer-sm;
+    // background: rgba(255, 255, 255, 0.03);
+    // box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+
+    .txt__title {
+        display: flex;
+        gap: $spacer-sm;
+        align-items: center;
+        padding: $spacer-sm;
+        justify-content: center;
+
+        svg {
+            width: 20px;
+        }
+    }
+
+    table {
+        display: flex;
+        flex-direction: column;
+
+        tbody {
+            overflow: auto;
+            height: 350px;
+        }
+        thead {
+            border-bottom: 1px solid $color-light;
+        }
+        tr {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            padding: $spacer-sm;
+
+            .txt__number {
+                font-weight: 600;
+                letter-spacing: .05em;
+                color: $color-secondary--light;
+            }
+
+            .txt__label {
+                color: $color-light;
+            }
+        }
+
+    }
+}
