@@ -72,7 +72,7 @@ header {
             }
 
             .header-menu__blog {
-                background: $color-primary;
+                background: $color-primary--light;
                 // border-bottom:  4px solid $color-secondary;
             }
         }
@@ -200,5 +200,11 @@ header {
         width: 24px;
         height: 24px;
         animation: 0.5s linear infinite rotate;
+    }
+}
+
+@media #{$md} {
+    #header {
+        display: none;
     }
 }
