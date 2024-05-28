@@ -104,6 +104,8 @@ export function loadData() {
 
 export async function initScore() {
   const board = document.getElementById("data-score");
+  displayLoading("#data-score")
+  
   try {
     const data = await score.board.getScores();
 

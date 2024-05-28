@@ -107,7 +107,13 @@
             width: 20px;
         }
     }
-
+    #loading-indicator {
+        margin-top: $spacer-md;
+        color: $color-light;
+        svg {
+            fill: $color-light;
+        }
+    }
     table {
         display: flex;
         flex-direction: column;
