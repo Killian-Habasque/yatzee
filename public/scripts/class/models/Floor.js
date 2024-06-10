@@ -38,20 +38,20 @@ export default class Floor {
     */
     createFloor() {
         const textureDiff = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_diff_1k.png');
-        const textureNor = this.loadTexture('/assets/images/textures/wood_floor_worn_nor_gl_2k.jpg');
-        const textureArm = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_arm_1k.png');
-        const textureRough = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_rough_1k.png');
+        // const textureNor = this.loadTexture('/assets/images/textures/wood_floor_worn_nor_gl_2k.jpg');
+        // const textureArm = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_arm_1k.png');
+        // const textureRough = this.loadTexture('/assets/images/textures/compressed/wood_floor_worn_rough_1k.png');
     
         const floorGeometry = new THREE.PlaneGeometry(1000, 1000, 100, 100);
         floorGeometry.setAttribute('uv2', new THREE.BufferAttribute(floorGeometry.attributes.uv.array, 2));
     
         const floorMaterial = new THREE.MeshStandardMaterial({
             map: textureDiff,
-            normalMap: textureNor,
-            aoMap: textureArm,
+            // normalMap: textureNor,
+            // aoMap: textureArm,
             metalness: 0,
             roughness: 0.8,
-            roughnessMap: textureRough,
+            // roughnessMap: textureRough,
             side: THREE.DoubleSide,
         });
         // console.log(floorMaterial)
