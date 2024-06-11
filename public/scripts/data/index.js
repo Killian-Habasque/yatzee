@@ -1,6 +1,7 @@
 
 import { user } from "./user.js";
 import { score } from "./score.js";
+import { rule } from "./rule.js";
 
 function displayUserError(errorMessage, className) {
   const errorSection = document.querySelector(className);
@@ -98,14 +99,78 @@ export function loadData() {
     }
   });
 
+  initRule()
   initScore()
   initUser()
 }
 
+export async function initRule() {
+  const swiper = document.getElementById("data-rule");
+  displayLoading("#data-rule");
+
+  try {
+    const data = await rule.getRules();
+
+    if (data.error) {
+      console.error('Rules error:', data.error);
+    }
+
+    swiper.innerHTML = '';
+
+    const ruleElements = [];
+
+    data.forEach((rule) => {
+      const listItem = document.createElement('div');
+      listItem.classList.add('rule-item');
+      listItem.innerHTML = `
+        <p class="txt__number">${rule.name}</p>
+        <p class="txt__number">${rule.description}</p>
+      `;
+      ruleElements.push(listItem);
+    });
+
+    let currentIndex = 0;
+
+    const updateSwiper = (index) => {
+      swiper.innerHTML = '';
+      swiper.appendChild(ruleElements[index]);
+
+      const arrows = document.createElement('div');
+      arrows.classList.add('arrow-item');
+
+      arrows.innerHTML = `
+        <button id="before" ${index === 0 ? 'disabled' : ''}>before</button>
+        <button id="after" ${index === ruleElements.length - 1 ? 'disabled' : ''}>after</button>
+      `;
+      swiper.appendChild(arrows);
+
+      document.getElementById("before").addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateSwiper(currentIndex);
+        }
+      });
+
+      document.getElementById("after").addEventListener('click', () => {
+        if (currentIndex < ruleElements.length - 1) {
+          currentIndex++;
+          updateSwiper(currentIndex);
+        }
+      });
+    };
+
+    updateSwiper(currentIndex);
+
+  } catch (error) {
+    console.error('Erreur lors de la récupération des règles', error);
+  }
+}
+
+
 export async function initScore() {
   const board = document.getElementById("data-score");
   displayLoading("#data-score")
-  
+
   try {
     const data = await score.board.getScores();
 
