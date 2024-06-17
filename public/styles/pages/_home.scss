@@ -71,3 +71,8 @@
     }
 
 
+    @media #{$md} {
+        .content {
+            display: none;
+        }
+    }
