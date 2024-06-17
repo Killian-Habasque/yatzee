@@ -122,11 +122,32 @@ export async function initRule() {
     data.forEach((rule) => {
       const listItem = document.createElement('div');
       listItem.classList.add('rule-item');
+
+      let examplesHTML = '';
+
+      if (rule.exemple && (Array.isArray(rule.exemple) && rule.exemple.length > 0)) {
+        examplesHTML = '<div class="examples">';
+        rule.exemple.forEach(dice => {
+          examplesHTML += `<img src="assets/images/icons/${dice}.svg" alt="${dice}" />`;
+        });
+        examplesHTML += '</div>';
+      }
+
+      let pointsHTML = '';
+      if (rule.points && rule.points.length > 0) {
+        pointsHTML += `<p class="txt__label"><b>Points: </b>${rule.points}</p>`;
+      }
+
       listItem.innerHTML = `
-        <p class="txt__number">${rule.name}</p>
-        <p class="txt__number">${rule.description}</p>
+        ${examplesHTML}
+        <p class="txt__number">${rule.name ?? ''}</p>
+        <p class="txt__label">${rule.description ?? ''}</p>
+          ${pointsHTML}
       `;
-      ruleElements.push(listItem);
+
+      if (rule.name || rule.description) {
+        ruleElements.push(listItem);
+      }
     });
 
     let currentIndex = 0;
@@ -139,8 +160,16 @@ export async function initRule() {
       arrows.classList.add('arrow-item');
 
       arrows.innerHTML = `
-        <button id="before" ${index === 0 ? 'disabled' : ''}>before</button>
-        <button id="after" ${index === ruleElements.length - 1 ? 'disabled' : ''}>after</button>
+        <button id="before" class="" ${index === 0 ? 'disabled' : ''}>
+          <svg width="31" height="24" viewBox="0 0 31 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.04883 10.5C1.2204 10.5 0.548828 11.1716 0.548828 12C0.548828 12.8284 1.2204 13.5 2.04883 13.5V10.5ZM29.6371 13.0607C30.2229 12.4749 30.2229 11.5251 29.6371 10.9393L20.0912 1.3934C19.5054 0.807612 18.5556 0.807612 17.9699 1.3934C17.3841 1.97918 17.3841 2.92893 17.9699 3.51472L26.4551 12L17.9699 20.4853C17.3841 21.0711 17.3841 22.0208 17.9699 22.6066C18.5556 23.1924 19.5054 23.1924 20.0912 22.6066L29.6371 13.0607ZM2.04883 13.5H28.5765V10.5H2.04883V13.5Z" fill="black"/>
+          </svg>
+        </button>
+        <button id="after" class="" ${index === ruleElements.length - 1 ? 'disabled' : ''}>
+          <svg width="31" height="24" viewBox="0 0 31 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.04883 10.5C1.2204 10.5 0.548828 11.1716 0.548828 12C0.548828 12.8284 1.2204 13.5 2.04883 13.5V10.5ZM29.6371 13.0607C30.2229 12.4749 30.2229 11.5251 29.6371 10.9393L20.0912 1.3934C19.5054 0.807612 18.5556 0.807612 17.9699 1.3934C17.3841 1.97918 17.3841 2.92893 17.9699 3.51472L26.4551 12L17.9699 20.4853C17.3841 21.0711 17.3841 22.0208 17.9699 22.6066C18.5556 23.1924 19.5054 23.1924 20.0912 22.6066L29.6371 13.0607ZM2.04883 13.5H28.5765V10.5H2.04883V13.5Z" fill="black"/>
+          </svg>
+        </button>
       `;
       swiper.appendChild(arrows);
 

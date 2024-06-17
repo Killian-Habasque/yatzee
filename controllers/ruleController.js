@@ -1,11 +1,11 @@
 
-const { collection, getDocs, updateDoc } = require('firebase/firestore');
+const { collection, getDocs, updateDoc, query, orderBy } = require('firebase/firestore');
 const db = require('../models/firebaseModel');
 
 const getRules = async (req, res) => {
     try {
         const dataRef = collection(db, 'rules');
-        const snapshot = await getDocs(dataRef);
+        const snapshot = await getDocs(query(dataRef, orderBy('position')));
         let data = snapshot.docs.map(doc => doc.data());
         res.json(data);
     } catch (error) {

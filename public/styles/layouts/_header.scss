@@ -8,6 +8,7 @@
 }
 
 header {
+
     #btn-audio,
     #quitButton,
     #retryButton,
@@ -142,6 +143,7 @@ header {
                         justify-content: center;
                         min-height: 24px;
                     }
+
                     .txt__label {
                         color: $color-primary;
                         text-align: center;
@@ -183,18 +185,93 @@ header {
                 }
             }
         }
+
+        .header-menu__rules {
+
+            #data-rule {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .rule-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: $spacer-md;
+                    padding: 0 $spacer-md;
+
+                    .txt__number {
+                        color: $color-primary;
+                        font-size: 26px;
+                        text-align: center;
+                    }
+
+                    .txt__label {
+                        color: $color-dark;
+                    }
+
+                    .examples {
+                        padding: $spacer-lg $spacer-md;
+                        background: $color-secondary;
+                        border-radius: $spacer-md;
+                        display: flex;
+                        justify-content: center;
+                        gap: $spacer-sm;
+                        border: 2px solid $color-primary;
+                    }
+                }
+
+                .arrow-item {
+                    display: flex;
+                    justify-content: end;
+
+                    button {
+                        display: flex;
+                        width: 35px;
+                        svg {
+                            path {
+                                fill: $color-dark;
+  
+                            }
+                            &:hover {
+                                opacity: 0.75;
+                            }
+                        }
+                    }
+                    button:disabled,
+                    button[disabled]{
+                      svg {
+                        opacity: 0.5;
+                      }
+                    }
+                    button#before {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+
+
     }
 }
+
 @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 #loading-indicator {
     display: flex;
     color: $color-dark;
     gap: 10px;
     justify-content: center;
     align-items: center;
+
     svg {
         fill: $color-dark;
         width: 24px;
