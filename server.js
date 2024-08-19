@@ -1,13 +1,19 @@
 // app.js
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 const routes = require('./routes/routes');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-// app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+
+const corsOptions = {
+  origin: 'https://www.yatzee.fr',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
 app.use("/", express.static("./public"));
 app.use('/api', routes);
 
