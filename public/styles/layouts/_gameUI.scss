@@ -111,6 +111,9 @@
     // background: rgba(255, 255, 255, 0.03);
     // box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(3px);
+    border: 1px solid $color-light;
+    border-radius: calc($g-radius / 4);
+
 
     .txt__title {
         display: flex;
@@ -136,10 +139,13 @@
     table {
         display: flex;
         flex-direction: column;
+        border: 1px solid $color-light;
+        border-radius: 4px;
 
         tbody {
             overflow: auto;
             height: 350px;
+            padding-right: 4px;
         }
 
         thead {

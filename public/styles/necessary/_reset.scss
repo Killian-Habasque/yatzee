@@ -153,3 +153,26 @@ button {
   font-family: inherit;
   cursor: pointer;
 }
+
+
+::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #D86F1F;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #cf8145;
+}
