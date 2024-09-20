@@ -3,14 +3,15 @@
 
 ## ✏️ Contexte
 
-Ce projet a été réalisé lors de ma première année en mastère de développement web. L'objectif principal était de renforcer mes compétences en algorithmie JavaScript, tout en explorant la modélisation et l'animation 3D avec Three.js. En combinant la logique du jeu avec un rendu visuel immersif, ce projet m'a permis d'expérimenter des techniques avancées de développement et d'animation.
+Ce projet a été réalisé lors de ma première année en mastère de développement web. L'objectif principal était de renforcer mes compétences en algorithmie JavaScript, tout en explorant la modélisation et l'animation 3D avec Three.js. En combinant la logique du jeu du Yams (ou yatzee/ yathzee) avec un rendu visuel immersif, ce projet m'a permis d'expérimenter des techniques avancées de développement et d'animation.
 
 🚨 **Disclaimer** : Ce projet est loin d'être optimisé, notamment en termes de performance et d'architecture. L'utilisation de technologies plus modernes et adaptées comme React aurait été plus judicieuse pour structurer l'application et gérer l'état, surtout avec des composants interactifs et animés. Cependant, le but de cet exercice était de s'exercer sur du JavaScript natif, ce qui explique les choix technologiques retenus.
 
 ## 🏗️ Technologies utilisées
 
--   **JavaScript** : Gère toute la logique du jeu, incluant le système de dés et les règles de Yatzee.
+-   **JavaScript** : Gère toute la logique du jeu, incluant le système de dés, de combinaisons, de règles...
 -   **Three.js** : Utilisé pour la modélisation et l'animation 3D des éléments, y compris les dés.
+-   **Cannon** : Gestion de la gravité et des collisions des éléments 3D.
 -   **Tween.js / GSAP** : Appliqués pour animer les modèles 3D et certains éléments du DOM.
 -   **SCSS** : Pour le stylisme et la mise en page du projet.
 -   **Express** : Serveur backend permettant l’interaction avec les données utilisateur.
@@ -39,3 +40,6 @@ Le Yatzee est un jeu de dés où chaque joueur cherche à obtenir des combinaiso
 -   **Yatzee** : Cinq dés identiques (points : 50).
 
 
+## 🌐 Liens
+
+- url : [yatzee.fr](https://www.yatzee.fr/)
